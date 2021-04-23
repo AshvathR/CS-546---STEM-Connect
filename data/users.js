@@ -11,13 +11,15 @@ async function init(){
 
 let exportedMethods = {
 
-  async addUser(profilePictureUrl, email,address, firstName, lastName, phoneNumber, aboutMe, gender, accountId) {
+  async addUser(userName, password, profilePictureUrl, email,address, firstName, lastName, phoneNumber, aboutMe, gender, accountId) {
     const userCollection = await users();
 
     let newUser = {
+      userName : userName,
+      password : password,
       profilePictureUrl: profilePictureUrl,
       email:email,
-      address,
+      address:address,
       name:{firstName: firstName , lastName: lastName},
       phoneNumber: phoneNumber,
       aboutMe: aboutMe,
