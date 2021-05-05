@@ -18,13 +18,13 @@
   },
   "homepage": "https://github.com/deeprane1/Web-1-Final-Project-Database#readme",
   "dependencies": {
-    "express": "^4.17.1",
-    "mongodb": "^3.6.5",
-    "bcryptjs": "^2.4.3",
-    "express-session": "^1.17.0",
     "axios": "^0.21.1",
+    "bcryptjs": "^2.4.3",
+    "express": "^4.17.1",
     "express-handlebars": "^3.1.0",
+    "express-session": "^1.17.0",
     "handlebars": "^4.7.3",
+    "mongodb": "^3.6.5",
     "uuid": "^3.3.2"
   }
 }

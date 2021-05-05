@@ -35,9 +35,6 @@ let exportedMethods = {
         return await this.getUserById(accountId);
     },
     
-
-
-
 }
 
 module.exports = exportedMethods

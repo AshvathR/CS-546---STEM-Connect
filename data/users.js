@@ -11,12 +11,10 @@ async function init(){
 
 let exportedMethods = {
 
-  async addUser(userName, password, profilePictureUrl, email,address, firstName, lastName, phoneNumber, aboutMe, gender, accountId) {
+  async addUser( profilePictureUrl, email,address, firstName, lastName, phoneNumber, aboutMe, gender, dob, resumeUrl) {
     const userCollection = await users();
 
     let newUser = {
-      userName : userName,
-      password : password,
       profilePictureUrl: profilePictureUrl,
       email:email,
       address:address,
@@ -24,13 +22,18 @@ let exportedMethods = {
       phoneNumber: phoneNumber,
       aboutMe: aboutMe,
       gender:gender,
-      resumes:[]
+      dob: dob,
+      resumeUrl:[resumeUrl],
+      // accountId:accountId,
+      jobExperience:[],
+      resume:[]
+       
     };
-    accountId = mongodb.ObjectId(accountId)
+    // accountId = mongodb.ObjectId(accountId)
 
     const newInsertInformation = await userCollection.insertOne(newUser);
     // const newId = newInsertInformation.insertedId;
-    await loginInfo.addUserToAccount(accountId, newUser);
+    // await loginInfo.addUserToAccount(accountId, newUser);
     console.log("Added User")
     return newUser
     // return await this.getResumeById(newId);
