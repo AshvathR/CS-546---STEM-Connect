@@ -6,7 +6,6 @@ const cookieParser = require("cookie-parser");
 const bcrypt = require('bcryptjs');
 const exphbs = require("express-handlebars");
 const configRoutes = require('./routes');
-const bcrypt = require('bcryptjs');
 const static = express.static(__dirname + '/public');
 
 app.use('/public', static);
