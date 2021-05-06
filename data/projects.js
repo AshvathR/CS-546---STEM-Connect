@@ -19,8 +19,8 @@ let exportedMethods = {
         const newInsertInformation = await projectCollection.insertOne(newProject);
         // const newId = newInsertInformation.insertedId;
         // await users.addResumeToUser(userId, newResume);
-        console.log("Added newProject")
-        return newResume
+        console.log("Added newProject");
+        return newProject;
     }
 
 

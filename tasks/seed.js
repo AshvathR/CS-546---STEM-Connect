@@ -7,9 +7,10 @@ const workExperience = data.workExperience;
 const Resume = data.userResume;
 const project = data.projects;
 const company = data.company;
-const job = data.jobDetails
+const job = data.jobDetails;
 
-async function main() {
+async function main() 
+{
   const db = await dbConnection();
   await db.dropDatabase();
 
