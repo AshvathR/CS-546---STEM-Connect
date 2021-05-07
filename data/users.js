@@ -2,8 +2,15 @@ const mongoCollections = require('../config/mongoCollections');
 const users = mongoCollections.users;
 var mongodb = require('mongodb');
 const { userResume } = require('../config/mongoCollections');
-const loginInfo = require('./loginInfo')
+const loginInfo = require('./loginInfo'); 
 
+function checkUndef(variable, variableName)
+{
+    if (variable === null || variable === undefined)
+    {
+        throw `${variableName || 'Provided Variable'} is not defined!`
+    }
+}
 
 async function init(){
   return users()
@@ -40,12 +47,14 @@ let exportedMethods = {
   },
 
   async addResumeToUser(userId, newResume) {
+    checkUndef(userId, "userId");
+    checkUndef(newResume, "newResume");
     // let currentUser = await this.getBookById(bookId);
     const resumeCollection = await userResume();
 
     const updateInfo = await resumeCollection.updateOne(
       { _id: userId },
-      { $addToSet: { resumes: newResume } }
+      { $addToSet: { resume: newResume } }
     );
 
     if (!updateInfo.matchedCount && !updateInfo.modifiedCount)
@@ -55,6 +64,7 @@ let exportedMethods = {
   },
 
   async getUserById(id) {
+    checkUndef(id, "id");
     const userCollection = await users();
     // console.log(id)
     const user = await userCollection.findOne({  _id:mongodb.ObjectId(id) });
@@ -62,8 +72,30 @@ let exportedMethods = {
     if (!user) throw 'User not found';
     return user;
   },
-  //users: init
-  //users : mongoCollections.users
+
+  async getAllUsers()
+  {
+    const userCollection = await users();
+    return await userCollection.find({}).toArray();
+  },
+
+  async removeResumeFromUser(resumeId)
+  {
+    checkUndef(resumeId);
+
+    const userCollection = await users();
+    const user = await userCollection.findOne({ resume: {$elemMatch : {_id: mongodb.ObjectID(id)} } });
+    console.log(user);
+    let userId = user._id;
+
+    const updatedInfo = await userCollection.updateOne(
+      {_id: userId},
+      {$pull : {resume: {_id: resumeId } } }
+    );
+
+    if (!updatedInfo.matchedCount && !updatedInfo.modifiedCount) throw `Update Failed!`
+    return await this.getUserById(userId);
+  }
 }
 
 module.exports = exportedMethods

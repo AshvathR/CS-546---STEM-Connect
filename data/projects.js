@@ -21,9 +21,12 @@ let exportedMethods = {
         // await users.addResumeToUser(userId, newResume);
         console.log("Added newProject");
         return newProject;
+    },
+
+    async addProjectToResume()
+    {
+      
     }
-
-
 }
 
 module.exports = exportedMethods
