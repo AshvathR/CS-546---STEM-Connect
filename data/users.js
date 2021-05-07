@@ -12,10 +12,6 @@ function checkUndef(variable, variableName)
     }
 }
 
-async function init(){
-  return users()
-}
-
 let exportedMethods = {
 
   async addUser( profilePictureUrl, email,address, firstName, lastName, phoneNumber, aboutMe, gender, dob, resumeUrl) {

@@ -13,7 +13,7 @@ function checkUndef(variable, variableName)
 
 let exportedMethods = {
 
-    async addJobDetials(jobTitle, jobLocation, jobDescription, jobCategory, salaryMin, salaryMax, qualifications) {
+    async addJob (jobTitle, jobLocation, jobDescription, jobCategory, salaryMin, salaryMax, qualifications) {
 
         const jobCollection = await jobDetails();
     
@@ -87,14 +87,12 @@ let exportedMethods = {
       }
 
       const jobCollection = await jobDetails();
-      const updateInfo = await jobCollection.updateOne({ _id: objectId(id) }, { $set: jobUpdateInfo});
+      const updateInfo = await jobCollection.updateOne({ _id: objectId(id) }, { $set: jobUpdateInfo });
 
       if(!updateInfo.matchedCount && !updateInfo.modifiedCount) throw `Update Faield!`;
 
       return await this.getJobById(id);
     }
-
-
 }
 
 module.exports = exportedMethods

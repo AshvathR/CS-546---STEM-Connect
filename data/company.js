@@ -64,11 +64,16 @@ let exportedMethods = {
 
       // let temp = company._id;
 
-      const deletionInfo = await companyCollection.removeOne({ _id: objectId(id)});
+      const deletionInfo = await companyCollection.removeOne({ _id: objectId(id) });
       if (deletionInfo.deletedCount === 0)
       {
         throw `Could not delete the company with given ID: ${id}`;
       }
+    },
+
+    async addJobToComany()
+    {
+      
     }
 }
 
