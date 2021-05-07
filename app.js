@@ -8,6 +8,8 @@ const exphbs = require("express-handlebars");
 const configRoutes = require('./routes');
 const bcrypt = require('bcryptjs');
 const static = express.static(__dirname + '/public');
+const data = require('../data');
+const loginData = data.loginIfo;
 
 app.use('/public', static);
 app.use(express.json());
@@ -16,6 +18,35 @@ app.engine('handlebars', exphbs({ defaultLayout: 'main' }));
 app.set('view engine', 'handlebars');
 
 
+app.use(
+  session({
+    name: 'AuthCookie',
+    secret: "This is a secret.. shhh don't tell anyone",
+    saveUninitialized: true,
+    resave: false,
+    authenticated : false
+  })
+);
+
+app.post('/login', (req,res) => {
+  if(!req.session.authenticated){
+    let currentUser = loginData.checkUsernameandPassword(req.body.username, req.body.password)
+    if(errorCheckString(req.body.username) && errorCheckString(req.body.password) && currentUser){
+        req.session.user = currentUser; 
+        req.session.authenticated = true;
+    }
+    else{
+      res.status(401);
+      res.render("employee/login",{currentTitle : "Login", currentHeader : "Login Form", hasErrors : true});
+    }
+  }
+});
+
+function errorCheckString(val){
+	if(!val)	return false;
+	if(val.trim() === '')	return false;
+  return true;
+}
 
 app.listen(3000, () => {
   console.log("We've now got a server!");
