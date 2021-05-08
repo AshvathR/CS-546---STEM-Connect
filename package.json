@@ -4,6 +4,7 @@
   "description": "database repo",
   "main": "app.js",
   "scripts": {
+    "test": "node app.js",
     "seed": "node ./tasks/seed.js",
     "start": "node app.js"
   },
