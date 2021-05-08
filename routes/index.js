@@ -5,9 +5,11 @@ const landing = require('./landing');
 //const signupRoutes = require('./signup');
 const userProfile = require('./userProfile');
 const notFoundError = require('./404page.js');
+const searchApi = require('./searchApi');
 
 const constructorMethod = (app) => {
     app.use('/', landing);
+    app.use('/search', searchApi);
     //app.use('/about', aboutUs);
     //app.use('/company', companyProfile);
     //app.use('/user', userProfile);
