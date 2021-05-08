@@ -37,6 +37,25 @@ let exportedMethods = {
         return newResume
     },
 
+    async addProjectToUserResume(resumeId, newProject) {
+      checkUndef(resumeId, "resumeId");
+      checkUndef(newProject, "newProject");
+      
+      // let currentUser = await this.getUserById(resumeId);
+      // const userCollection = await users();
+      const resumeCollection = await userResume();
+  
+      const updateInfo = await resumeCollection.updateOne(
+        { _id: resumeId },
+        { $addToSet: { projects: newProject } }
+      );
+  
+      if (!updateInfo.matchedCount && !updateInfo.modifiedCount)
+        throw 'Update failed';
+  
+      return await this.getResumeById(resumeId);
+    },
+
     async getResumeById(id)
     {
       checkUndef(id, "id");

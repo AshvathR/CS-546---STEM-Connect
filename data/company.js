@@ -40,11 +40,11 @@ let exportedMethods = {
     async getCompanyById(id)
     {
       checkUndef(id, "id");
-
+      // console.log("reached")
       const companyCollection = await company();
-      const company = await companyCollection.findOne({ _id: objectId(id) });
-      if (!company) throw `Company with the given ID: ${id} not found`;
-      return company;
+      const selectedCompany = await companyCollection.findOne({ _id: objectId(id) });
+      if (!selectedCompany) throw `Company with the given ID: ${id} not found`;
+      return selectedCompany;
     },
 
     async removeCompany (id)
@@ -71,10 +71,24 @@ let exportedMethods = {
       }
     },
 
-    async addJobToComany()
-    {
+    async addJobToCompany(companyId, newJob) {
+      checkUndef(companyId, "companyId");
+      checkUndef(newJob, "newJob");
       
-    }
+      // let currentJob = await userRes.getResumeById(companyId._id);
+      const companyCollection = await company();
+      // const resumeCollection = await userResume();
+  
+      const updateInfo = await companyCollection.updateOne(
+        { _id: companyId },
+        { $addToSet: { jobDetails: newJob } }
+      );
+  
+      if (!updateInfo.matchedCount && !updateInfo.modifiedCount)
+        throw 'Update failed';
+  
+      return await this.getCompanyById(companyId);
+    },
 }
 
 module.exports = exportedMethods
