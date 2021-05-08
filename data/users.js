@@ -2,7 +2,8 @@ const mongoCollections = require('../config/mongoCollections');
 const users = mongoCollections.users;
 var mongodb = require('mongodb');
 const { userResume } = require('../config/mongoCollections');
-const loginInfo = require('./loginInfo'); 
+const loginInfo = require('./loginInfo');
+const objectId = require("mongodb").ObjectID;
 
 function checkUndef(variable, variableName)
 {
@@ -14,14 +15,15 @@ function checkUndef(variable, variableName)
 
 let exportedMethods = {
 
-  async addUser( profilePictureUrl, email,address, firstName, lastName, phoneNumber, aboutMe, gender, dob, resumeUrl) {
+  async addUser( profilePictureUrl, email,address, firstName, lastName, phoneNumber, aboutMe, gender, dob, resumeUrl)
+  {
     const userCollection = await users();
 
     let newUser = {
       profilePictureUrl: profilePictureUrl,
       email:email,
       address:address,
-      name:{firstName: firstName , lastName: lastName},
+      name: { firstName: firstName, lastName: lastName },
       phoneNumber: phoneNumber,
       aboutMe: aboutMe,
       gender:gender,
@@ -42,13 +44,16 @@ let exportedMethods = {
     // return await this.getResumeById(newId);
   },
 
-  async addResumeToUser(userId, newResume) {
+  async addResumeToUser(userId, newResume) 
+  {
     checkUndef(userId, "userId");
     checkUndef(newResume, "newResume");
-    // let currentUser = await this.getBookById(bookId);
-    const resumeCollection = await userResume();
+    
+    const currentUser = await this.getUserById(userId);
+    console.log(currentUser);
 
-    const updateInfo = await resumeCollection.updateOne(
+    const userCollection = await users();
+    const updateInfo = await userCollection.updateOne(
       { _id: userId },
       { $addToSet: { resume: newResume } }
     );
@@ -56,15 +61,18 @@ let exportedMethods = {
     if (!updateInfo.matchedCount && !updateInfo.modifiedCount)
       throw 'Update failed';
 
-    return await this.getResumeById(userId);
+    return await this.getUserById(userId);
   },
 
   async getUserById(id) {
     checkUndef(id, "id");
+
     const userCollection = await users();
-    // console.log(id)
-    const user = await userCollection.findOne({  _id:mongodb.ObjectId(id) });
-    // console.log(user)
+    // console.log(typeof id);
+    const user = await userCollection.findOne({ _id: id });
+    
+    // console.log(user);
+    
     if (!user) throw 'User not found';
     return user;
   },
@@ -80,13 +88,15 @@ let exportedMethods = {
     checkUndef(resumeId);
 
     const userCollection = await users();
-    const user = await userCollection.findOne({ resume: {$elemMatch : {_id: mongodb.ObjectID(id)} } });
+    const user = await userCollection.findOne(
+      { resume: { $elemMatch : { _id: mongodb.ObjectID(id) } } }
+      );
     console.log(user);
     let userId = user._id;
 
     const updatedInfo = await userCollection.updateOne(
-      {_id: userId},
-      {$pull : {resume: {_id: resumeId } } }
+      { _id: userId },
+      { $pull : { resume: { _id: resumeId } } }
     );
 
     if (!updatedInfo.matchedCount && !updatedInfo.modifiedCount) throw `Update Failed!`
