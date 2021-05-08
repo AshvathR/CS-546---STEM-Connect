@@ -13,7 +13,8 @@ function checkUndef(variable, variableName)
 
 let exportedMethods = {
 
-    async addJob (jobTitle, jobLocation, jobDescription, jobCategory, salaryMin, salaryMax, qualifications) {
+    async addJob (jobTitle, jobLocation, jobDescription, jobCategory, salaryMin, salaryMax, qualifications)
+    {
 
         const jobCollection = await jobDetails();
     

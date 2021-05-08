@@ -9,7 +9,7 @@ const project = data.projects;
 const company = data.company;
 const job = data.jobDetails;
 
-async function main() 
+async function main()
 {
   const db = await dbConnection();
   await db.dropDatabase();
@@ -74,7 +74,6 @@ async function main()
   //     console.log (e);
   //   }
 
-  
   console.log('Done seeding database');
 
   await db.serverConfig.close();
