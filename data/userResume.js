@@ -14,9 +14,10 @@ function checkUndef(variable, variableName)
 
 let exportedMethods = {
 
-    async addResume(education, skills, description, userResumeUrl, workStatus, resumeActive)
-    {
+    async addResume(education, skills, description, userResumeUrl, workStatus, resumeActive) {
+
         const resumeCollection = await userResume();
+    
         const newResume = {
           education: education,//array_of_objects
           workExperience: [],//array_of_objects,sub document
@@ -30,15 +31,10 @@ let exportedMethods = {
         // userId = mongodb.ObjectId(userId)
     
         const newInsertInformation = await resumeCollection.insertOne(newResume);
-        const newId = newInsertInformation.insertedId;
-        console.log(newId);
-        console.log(newResume);
-        
-        
-        await users.addResumeToUser(newId, newResume);
-        console.log("Added Resume");
-
-        return await this.getResumeById(newId);
+        // const newId = newInsertInformation.insertedId;
+        // await users.addResumeToUser(userId, newResume);
+        console.log("Added Resume")
+        return newResume
     },
 
     async getResumeById(id)
