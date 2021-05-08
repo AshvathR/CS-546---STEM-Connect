@@ -9,6 +9,8 @@ const project = data.projects;
 const company = data.company;
 const job = data.jobDetails;
 
+console.log('pxp saved me')
+
 async function main() 
 {
   const db = await dbConnection();
