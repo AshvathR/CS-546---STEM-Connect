@@ -30,7 +30,7 @@ let exportedMethods = {
       dob: dob,
       resumeUrl:[resumeUrl],
       // accountId:accountId,
-      jobExperience:[],
+      workExperience:[],
       resume:[]
        
     };
@@ -49,13 +49,32 @@ let exportedMethods = {
     checkUndef(userId, "userId");
     checkUndef(newResume, "newResume");
     
-    const currentUser = await this.getUserById(userId);
-    console.log(currentUser);
-
+    let currentUser = await this.getUserById(userId);
     const userCollection = await users();
+    // const resumeCollection = await userResume();
+
     const updateInfo = await userCollection.updateOne(
       { _id: userId },
       { $addToSet: { resume: newResume } }
+    );
+
+    if (!updateInfo.matchedCount && !updateInfo.modifiedCount)
+      throw 'Update failed';
+
+    return await this.getUserById(userId);
+  },
+
+  async addWorkDesToUser(userId, newWorkExperience) {
+    checkUndef(userId, "userId");
+    checkUndef(newWorkExperience, "newWorkExperience");
+    
+    let currentUser = await this.getUserById(userId);
+    const userCollection = await users();
+    // const resumeCollection = await userResume();
+
+    const updateInfo = await userCollection.updateOne(
+      { _id: userId },
+      { $addToSet: { workExperience: newWorkExperience } }
     );
 
     if (!updateInfo.matchedCount && !updateInfo.modifiedCount)
@@ -81,6 +100,25 @@ let exportedMethods = {
   {
     const userCollection = await users();
     return await userCollection.find({}).toArray();
+  },
+
+  async getAllUsername() {
+    const userCollection = await users();
+    const userList = await userCollection.find({},{ projection: { _id: 1, username: 1}}).toArray();
+    return userList;
+  },
+
+  async checkExistingUsername(username){
+    checkUndef(username, "username");
+    const allUsername = await this.getAllUsername();
+    for(let current of allUsername ){
+      let currentUsername = current.username.toLowerCase();
+      username = username.toLowerCase();
+      if(currentUsername === username){
+        return false;
+      }
+    }
+    return true;
   },
 
   async removeResumeFromUser(resumeId)

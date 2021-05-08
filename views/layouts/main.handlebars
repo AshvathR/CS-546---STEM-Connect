@@ -2,11 +2,16 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>{{currentTitle}}</title>
+    <title>{{title}}</title>
     <link rel="stylesheet" href="/public/site.css">
 </head>
 <body>
     <main>
+        {{#if auth}}
+        {{> navigationAuthPartial }}
+        {{else}}
+        {{> navigationUnauthPartial }}
+        {{/if}}
         {{{body}}}
     </main>
 </body>
