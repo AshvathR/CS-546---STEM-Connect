@@ -20,7 +20,7 @@ async function main()
     console.log (e);
   }
   try {
-    await job.addJobDetials('Front End Dev', 'Mumbai','working on the ui','IT','35$','65$','Text on Qualifications')
+    await job.addJob('Front End Dev', 'Mumbai','working on the ui','IT','35$','65$','Text on Qualifications')
   }catch(e){
     console.log (e);
   }
@@ -31,28 +31,33 @@ async function main()
     console.log (e);
   }
 
+  // try {
+  //   // const account = await loginInfo.addAccount('SHUBHAMWARGHADE','qwertyuiop')
+  //   // console.log(loginInfo)
+  //   // const id = account._id;
+  //   // ( profilePictureUrl, email,address, firstName, lastName, phoneNumber, aboutMe, gender, dob, resumeUrl)
+  //   await users.addUser('asada.jpeg','shubham@shubham.shubham',' 123 address, deep, NYC', 'Shubham', 'Warghade', '123456789', 'I am batman!','M','05/07/1997','https:/')
+  // }catch(e){
+  //   console.log (e);
+  // }
+
   try {
-    await Resume.addResume([['SchoolName','startDate','endDate','gpa'],['SchoolName2','startDate','endDate','gpa']],['web dev','Analytics'],'hey this is my first resume','resume.pdf','Employed','yes')
+    const newUser = await users.addUser('asada.jpeg','shubham@shubham.shubham',' 123 address, deep, NYC', 'Shubham', 'Warghade', '123456789', 'I am batman!','M','05/07/1997','https:/')
+    const resume =  await Resume.addResume([['SchoolName','startDate','endDate','gpa'],['SchoolName2','startDate','endDate','gpa']],['web dev','Analytics'],'hey this is my first resume','resume.pdf','Employed','yes')
+    const newWorkExperience = await workExperience.addWorkDescription('TechName','web dev','jobDes','04/03/2020','19/11/2020')
+    console.log(newUser._id)
+    const addResumeToUser = await users.addResumeToUser(newUser._id,resume)
+    const addWorkDesToUser = await users.addWorkDesToUser(newUser._id,newWorkExperience)
   }catch(e){
     console.log (e);
   }
 
-  try {
-    // const account = await loginInfo.addAccount('SHUBHAMWARGHADE','qwertyuiop')
-    // console.log(loginInfo)
-    // const id = account._id;
-    // ( profilePictureUrl, email,address, firstName, lastName, phoneNumber, aboutMe, gender, dob, resumeUrl)
-    await users.addUser('asada.jpeg','shubham@shubham.shubham',' 123 address, deep, NYC', 'Shubham', 'Warghade', '123456789', 'I am batman!','M','05/07/1997','https:/')
-  }catch(e){
-    console.log (e);
-  }
-
-  try {
-    // (companyName, jobTitle, jobDescription,startDate, endDate)
-      await workExperience.addWorkDescription('TechName','web dev','jobDes','04/03/2020','19/11/2020')
-    }catch(e){
-      console.log (e);
-    }
+  // try {
+  //   // (companyName, jobTitle, jobDescription,startDate, endDate)
+  //     await workExperience.addWorkDescription('TechName','web dev','jobDes','04/03/2020','19/11/2020')
+  //   }catch(e){
+  //     console.log (e);
+  //   }
 
   
   console.log('Done seeding database');

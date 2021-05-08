@@ -1,4 +1,5 @@
 const mongoCollections = require('../config/mongoCollections');
+const { ObjectID } = require('mongodb');
 const loginInfo = mongoCollections.loginInfo;
 const users = mongoCollections.users;
 
@@ -34,6 +35,11 @@ let exportedMethods = {
     
         return await this.getUserById(accountId);
     },
+
+    // async checkUsernameandPassword(username, password){
+    //   if(!username || !password) return false;
+      
+    // }
     
 }
 
