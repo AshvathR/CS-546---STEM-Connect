@@ -7,7 +7,9 @@ const exphbs = require("express-handlebars");
 const configRoutes = require('./routes');
 const static = express.static(__dirname + '/public');
 const data = require('./data');
-const loginData = data.loginIfo;
+const usersData = data.users;
+const companyData = data.company;
+const saltRounds = 16;
 
 app.use('/public', static);
 app.use(express.json());
@@ -42,7 +44,7 @@ app.use(
 
 app.post('/login', (req,res) => {
   if(!req.session.authenticated){
-    let currentUser = loginData.checkUsernameandPassword(req.body.username, req.body.password)
+    let currentUser = usersData.checkUsernameandPassword(req.body.username, req.body.password)
     if(errorCheckString(req.body.username) && errorCheckString(req.body.password) && currentUser){
         req.session.user = currentUser; 
         req.session.authenticated = true;
@@ -59,21 +61,44 @@ app.post('/signup', (req,res) => {
     let username = req.body.username;
     let password = req.body.password;
     let re_password = req.body.reEnterPassword;
-    errorCheckString(password);
-    errorCheckString(re_password);
-    if(password !== re_password){
-      res.status(401);
-      res.render("employee/login",{currentTitle : "Login", currentHeader : "Login Form", hasErrors : true});
-    }
     let userType = req.body.usertype;
-    let currentUserDetails = loginData.checkUsernameandPassword(req.body.username, req.body.password);
-    if(errorCheckString(req.body.username) && errorCheckString(req.body.password) && currentUserDetails){
-        req.session.user = currentUserDetails; 
-        req.session.authenticated = true;
+    if(userType === "company"){
+      if(password === re_password && errorCheckString(password) && errorCheckString(re_password)){
+        let hashedPassword = await bcrypt.hash(plainTextPassword, saltRounds);
+      }
+      else{
+        res.status(401);
+        res.render("employee/login",{currentTitle : "Login", currentHeader : "Login Form", hasErrors : true});
+      }
+      let checkUsernameExists = companyData.checkExistingUsername(username);
+      if(checkUsernameExists && errorCheckString(username)){
+        req.session.username = username;
+        req.session.hashedPassword = hashedPassword;
+        req.session.authenticated
+      }
+      else{
+        res.status(401);
+        res.render("employee/login",{currentTitle : "Login", currentHeader : "Login Form", hasErrors : true});
+      }
     }
     else{
-      res.status(401);
-      res.render("employee/login",{currentTitle : "Login", currentHeader : "Login Form", hasErrors : true});
+      if(password === re_password && errorCheckString(password) && errorCheckString(re_password)){
+        let hashedPassword = await bcrypt.hash(plainTextPassword, saltRounds);
+      }
+      else{
+        res.status(401);
+        res.render("employee/login",{currentTitle : "Login", currentHeader : "Login Form", hasErrors : true});
+      }
+      let checkUsernameExists = usersData.checkExistingUsername(username);
+      if(checkUsernameExists && errorCheckString(username)){
+        req.session.username = username;
+        req.session.hashedPassword = hashedPassword;
+        req.session.authenticated
+      }
+      else{
+        res.status(401);
+        res.render("employee/login",{currentTitle : "Login", currentHeader : "Login Form", hasErrors : true});
+      }
     }
   }
 });
