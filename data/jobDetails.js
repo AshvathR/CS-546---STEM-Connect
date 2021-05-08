@@ -2,6 +2,8 @@ const mongoCollections = require('../config/mongoCollections');
 const jobDetails = mongoCollections.jobDetails;
 const users = require('./users');
 const objectId = require('mongodb').ObjectID;
+const company = mongoCollections.company;
+const companyFunc = require('./company')
 
 function checkUndef(variable, variableName)
 {
@@ -68,16 +70,17 @@ let exportedMethods = {
       return true;
     },
 
-    async updateJob(id, updatedJob)
+    async updateJob(id, updatedJob,companyId)
     {
       checkUndef(id, "id");
       checkUndef(updatedJob, "updatedJob");
+      checkUndef(companyId, "companyId")
 
       const job = await this.getJobById(id);
 
       let jobUpdateInfo = 
       {
-        jobName: updatedJob.jobName,
+        jobTitle: updatedJob.jobTitle,
         jobLocation: updatedJob.jobLocation,
         jobDescription: updatedJob.jobDescription,
         jobCategory: updatedJob.jobCategory,
@@ -89,7 +92,29 @@ let exportedMethods = {
       const jobCollection = await jobDetails();
       const updateInfo = await jobCollection.updateOne({ _id: objectId(id) }, { $set: jobUpdateInfo });
 
-      if(!updateInfo.matchedCount && !updateInfo.modifiedCount) throw `Update Faield!`;
+      if(!updateInfo.matchedCount && !updateInfo.modifiedCount) throw `Update Field!`;
+      // Update job in company doc
+      const companyCollection = await company()
+
+
+      // console.log(companyCollection)
+      // console.log("companyID : " +objectId(companyId))
+      // console.log("job id: "+ objectId(id))
+
+      const updateJob = await companyCollection.updateOne({
+        _id : objectId(companyId),
+        "jobDetails._id" : objectId(id)
+      },{
+        $set: {
+          "jobDetails.$.jobTitle" : updatedJob.jobTitle,
+          "jobDetails.$.jobLocation": updatedJob.jobLocation,
+          "jobDetails.$.jobDescription": updatedJob.jobDescription,
+          "jobDetails.$.jobCategory": updatedJob.jobCategory,
+          "jobDetails.$.salaryMin": updatedJob.salaryMin,
+          "jobDetails.$.salaryMax": updatedJob.salaryMax,
+          "jobDetails.$.qualifications": updatedJob.qualifications
+        }
+      },false,true);
 
       return await this.getJobById(id);
     }
