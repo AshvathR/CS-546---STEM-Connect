@@ -28,7 +28,7 @@ let exportedMethods = {
       dob: dob,
       resumeUrl:[resumeUrl],
       // accountId:accountId,
-      jobExperience:[],
+      workExperience:[],
       resume:[]
        
     };
@@ -45,10 +45,12 @@ let exportedMethods = {
   async addResumeToUser(userId, newResume) {
     checkUndef(userId, "userId");
     checkUndef(newResume, "newResume");
-    // let currentUser = await this.getBookById(bookId);
-    const resumeCollection = await userResume();
+    
+    let currentUser = await this.getUserById(userId);
+    const userCollection = await users();
+    // const resumeCollection = await userResume();
 
-    const updateInfo = await resumeCollection.updateOne(
+    const updateInfo = await userCollection.updateOne(
       { _id: userId },
       { $addToSet: { resume: newResume } }
     );
@@ -56,7 +58,26 @@ let exportedMethods = {
     if (!updateInfo.matchedCount && !updateInfo.modifiedCount)
       throw 'Update failed';
 
-    return await this.getResumeById(userId);
+    return await this.getUserById(userId);
+  },
+
+  async addWorkDesToUser(userId, newWorkExperience) {
+    checkUndef(userId, "userId");
+    checkUndef(newWorkExperience, "newWorkExperience");
+    
+    let currentUser = await this.getUserById(userId);
+    const userCollection = await users();
+    // const resumeCollection = await userResume();
+
+    const updateInfo = await userCollection.updateOne(
+      { _id: userId },
+      { $addToSet: { workExperience: newWorkExperience } }
+    );
+
+    if (!updateInfo.matchedCount && !updateInfo.modifiedCount)
+      throw 'Update failed';
+
+    return await this.getUserById(userId);
   },
 
   async getUserById(id) {

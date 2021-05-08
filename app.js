@@ -3,7 +3,6 @@ const app = express();
 const session = require('express-session');
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
-const bcrypt = require('bcryptjs');
 const exphbs = require("express-handlebars");
 const configRoutes = require('./routes');
 const bcrypt = require('bcryptjs');
