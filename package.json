@@ -5,11 +5,6 @@
   "main": "app.js",
   "scripts": {
     "seed": "node ./tasks/seed.js",
-<<<<<<< HEAD
-    "test": "node app.js",
-=======
-    "test": "echo \"Error: no test specified\" && exit 1",
->>>>>>> 732b3fdfccfeeeff524dc4d5619cda216f017027
     "start": "node app.js"
   },
   "repository": {

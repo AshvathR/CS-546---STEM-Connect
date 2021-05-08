@@ -96,6 +96,25 @@ let exportedMethods = {
     return await userCollection.find({}).toArray();
   },
 
+  async getAllUsername() {
+    const userCollection = await users();
+    const userList = await userCollection.find({},{ projection: { _id: 1, username: 1}}).toArray();
+    return userList;
+  },
+
+  async checkExistingUsername(username){
+    checkUndef(username, "username");
+    const allUsername = await this.getAllUsername();
+    for(let current of allUsername ){
+      let currentUsername = current.username.toLowerCase();
+      username = username.toLowerCase();
+      if(currentUsername === username){
+        return false;
+      }
+    }
+    return true;
+  },
+
   async removeResumeFromUser(resumeId)
   {
     checkUndef(resumeId);

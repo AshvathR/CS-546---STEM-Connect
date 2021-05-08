@@ -40,6 +40,30 @@ app.post('/login', (req,res) => {
   }
 });
 
+app.post('/signup', (req,res) => {
+  if(!req.session.authenticated){
+    let username = req.body.username;
+    let password = req.body.password;
+    let re_password = req.body.reEnterPassword;
+    errorCheckString(password);
+    errorCheckString(re_password);
+    if(password !== re_password){
+      res.status(401);
+      res.render("employee/login",{currentTitle : "Login", currentHeader : "Login Form", hasErrors : true});
+    }
+    let userType = req.body.usertype;
+    let currentUserDetails = loginData.checkUsernameandPassword(req.body.username, req.body.password);
+    if(errorCheckString(req.body.username) && errorCheckString(req.body.password) && currentUserDetails){
+        req.session.user = currentUserDetails; 
+        req.session.authenticated = true;
+    }
+    else{
+      res.status(401);
+      res.render("employee/login",{currentTitle : "Login", currentHeader : "Login Form", hasErrors : true});
+    }
+  }
+});
+
 function errorCheckString(val){
 	if(!val)	return false;
 	if(val.trim() === '')	return false;
