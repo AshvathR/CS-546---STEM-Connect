@@ -1,6 +1,5 @@
 const mongoCollections = require('../config/mongoCollections');
 const workExperience = mongoCollections.workExperience;
-const userRes = require('./userResume')
 
 let exportedMethods = {
 
@@ -22,7 +21,7 @@ let exportedMethods = {
         // await loginInfo.addUserToAccount(jobExperienceId, newJob);
         console.log("Added workExperience")
         return newWork
-        // return await thusis.getResumeById(newId);
+        // return await this.getResumeById(newId);
       },
 
 

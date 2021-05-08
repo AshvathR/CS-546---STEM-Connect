@@ -1,6 +1,5 @@
 const mongoCollections = require('../config/mongoCollections');
 const users = mongoCollections.users;
-const userRes = require('./userResume')
 var mongodb = require('mongodb');
 const { userResume } = require('../config/mongoCollections');
 const loginInfo = require('./loginInfo');
@@ -50,13 +49,13 @@ let exportedMethods = {
     checkUndef(userId, "userId");
     checkUndef(newResume, "newResume");
     
-    let currentResume = await userRes.getResumeById(newResume._id);
+    let currentUser = await this.getUserById(userId);
     const userCollection = await users();
     // const resumeCollection = await userResume();
 
     const updateInfo = await userCollection.updateOne(
       { _id: userId },
-      { $addToSet: { resume: currentResume } }
+      { $addToSet: { resume: newResume } }
     );
 
     if (!updateInfo.matchedCount && !updateInfo.modifiedCount)

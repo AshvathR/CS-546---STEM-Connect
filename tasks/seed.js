@@ -15,26 +15,21 @@ async function main()
   await db.dropDatabase();
 
   try {
-    //Add company
-    newCompany = await company.addCompany('Essential Tech', 'Mumbai','IT','hrMail@mail.com')
-    //Add job
-    newJob = await job.addJob('Front End Dev', 'Mumbai','working on the ui','IT','35$','65$','Text on Qualifications')
-    //Add job to company
-    const addJobToCompany = await company.addJobToCompany(newCompany._id,newJob)
+    await company.addCompany('Essential Tech', 'Mumbai','IT','hrMail@mail.com')
   }catch(e){
     console.log (e);
   }
-  // try {
-  //   await job.addJob('Front End Dev', 'Mumbai','working on the ui','IT','35$','65$','Text on Qualifications')
-  // }catch(e){
-  //   console.log (e);
-  // }
+  try {
+    await job.addJob('Front End Dev', 'Mumbai','working on the ui','IT','35$','65$','Text on Qualifications')
+  }catch(e){
+    console.log (e);
+  }
 
-  // try {
-  //   await project.addProject('Customer Analytics', 'description on the project','04/03/2020','04/03/2020')
-  // }catch(e){
-  //   console.log (e);
-  // }
+  try {
+    await project.addProject('Customer Analytics', 'description on the project','04/03/2020','04/03/2020')
+  }catch(e){
+    console.log (e);
+  }
 
   // try {
   //   // const account = await loginInfo.addAccount('SHUBHAMWARGHADE','qwertyuiop')
@@ -47,22 +42,12 @@ async function main()
   // }
 
   try {
-    //Add user
     const newUser = await users.addUser('asada.jpeg','shubham@shubham.shubham',' 123 address, deep, NYC', 'Shubham', 'Warghade', '123456789', 'I am batman!','M','05/07/1997','https:/')
-    //Add Resume
     const resume =  await Resume.addResume([['SchoolName','startDate','endDate','gpa'],['SchoolName2','startDate','endDate','gpa']],['web dev','Analytics'],'hey this is my first resume','resume.pdf','Employed','yes')
-    //Add Project to resume
-    const newProject =  await project.addProject('Customer Analytics', 'description on the project','04/03/2020','04/03/2020')
-    const addProjectToUserResume = await userResume.addProjectToUserResume(resume._id,newProject)
-    //Add Resume to user
-    const addResumeToUser = await users.addResumeToUser(newUser._id,resume)
-    // Add workExperience to user
     const newWorkExperience = await workExperience.addWorkDescription('TechName','web dev','jobDes','04/03/2020','19/11/2020')
+    console.log(newUser._id)
+    const addResumeToUser = await users.addResumeToUser(newUser._id,resume)
     const addWorkDesToUser = await users.addWorkDesToUser(newUser._id,newWorkExperience)
-    
-    // console.log(newUser._id)
-    
-    
   }catch(e){
     console.log (e);
   }
