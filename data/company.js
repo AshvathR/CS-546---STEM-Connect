@@ -11,7 +11,7 @@ function checkUndef(variable, variableName)
 }
 
 let exportedMethods = {
-  async addCompany(companyName, location, category, hrEmail) {
+  async addCompany(companyName, location, category, hrEmail, username, hashedPassword) {
 
         const companyCollection = await company();
     
@@ -20,7 +20,9 @@ let exportedMethods = {
           location: location,//array_of_objects,sub document
           category:category,//array_of_object,sub document
           hrEmail: hrEmail,//array_of_skills
-          jobDetails:[]
+          jobDetails:[],
+          username: username,
+          hashedPassword: hashedPassword
         };
         // userId = mongodb.ObjectId(userId)
     

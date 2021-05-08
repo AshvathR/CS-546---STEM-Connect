@@ -15,7 +15,7 @@ function checkUndef(variable, variableName)
 
 let exportedMethods = {
 
-  async addUser( profilePictureUrl, email,address, firstName, lastName, phoneNumber, aboutMe, gender, dob, resumeUrl) {
+  async addUser( profilePictureUrl, email,address, firstName, lastName, phoneNumber, aboutMe, gender, dob, resumeUrl, username, hashedPassword) {
     const userCollection = await users();
 
     let newUser = {
@@ -30,8 +30,9 @@ let exportedMethods = {
       resumeUrl:[resumeUrl],
       // accountId:accountId,
       workExperience:[],
-      resume:[]
-       
+      resume:[],
+      username: username,
+      hashedPassword: hashedPassword
     };
     // accountId = mongodb.ObjectId(accountId)
 
