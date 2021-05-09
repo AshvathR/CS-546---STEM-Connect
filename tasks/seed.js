@@ -10,11 +10,6 @@ const project = data.projects;
 const company = data.company;
 const job = data.jobDetails;
 
-<<<<<<< HEAD
-//console.log('pxp saved me')
-=======
->>>>>>> 2d0a0c5da442f2195e8718cea91c63027b4aa67e
-
 async function main() 
 {
   try{
