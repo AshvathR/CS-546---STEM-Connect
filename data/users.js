@@ -22,7 +22,7 @@ let exportedMethods = {
       profilePictureUrl: profilePictureUrl,
       email:email,
       address:address,
-      name:{firstName: firstName , lastName: lastName},
+      name:{firstName: firstName , lastName: lastName, fullName: firstName + ' ' + lastName},
       phoneNumber: phoneNumber,
       aboutMe: aboutMe,
       gender:gender,
@@ -95,13 +95,25 @@ let exportedMethods = {
   async getAllUsers()
   {
     const userCollection = await users();
-    return await userCollection.find({}).toArray();
+    let userList = await userCollection.find({}).toArray();
+    if (!userList) throw 'No users in System';
+    return userList;
+
+
   },
 
   async getAllUsername() {
     const userCollection = await users();
     const userList = await userCollection.find({},{ projection: { _id: 1, username: 1}}).toArray();
     return userList;
+  },
+
+  async getPartialNameMatch(partialName){
+    if(!partialName) throw 'Invalid Lookup';
+    const userCollection = await users();
+    let match = new RegExp('^' + partialName);
+    const partialMatchList = await userCollection.find({ "name.fullName": match}, {projection: {_id: 1, "name.fullName": 1}}).toArray();
+    return partialMatchList;
   },
 
   async checkExistingUsername(username){
