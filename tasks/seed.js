@@ -10,9 +10,14 @@ const project = data.projects;
 const company = data.company;
 const job = data.jobDetails;
 
+<<<<<<< HEAD
+//console.log('pxp saved me')
+=======
+>>>>>>> 2d0a0c5da442f2195e8718cea91c63027b4aa67e
 
 async function main() 
 {
+  try{
   const db = await dbConnection();
   await db.dropDatabase();
 
@@ -102,6 +107,10 @@ async function main()
   console.log('Done seeding database');
 
   await db.serverConfig.close();
+  } catch(e){
+    console.log(e);
+  }
+
 }
 
 main();
