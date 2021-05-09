@@ -80,18 +80,37 @@ async function main()
     const newWorkExperience = await workExperience.addWorkDesc('TechName','web dev','jobDes','04/03/2020','19/11/2020');
     const addWorkDesToUser = await users.addWorkDesToUser(newUser._id, newWorkExperience);
 
-    tempProject =
+    tempWorkDesc =
     {
-      "projectTitle": "Essential Tech",
-      "jobTitle": "Data Engineer Intern",
-      "jobDescription": "Made an appointment SaaS",
-      "startDate": "05/01/2020",
-      "endDate": "07/31/2020"
+      "companyName": "ADP",
+      "jobTitle": "Front End Developer",
+      "jobDescription": "Implemented and tested solutions with Mocha/Chai and Cypress in a CI/CD Agile environment",
+      "startDate": "06/01/2020",
+      "endDate": "08/07/2020"
     }
+
+    //updating work description
 
     try {
       const updateWorkDesc = await workExperience.updateWorkDesc(newWorkExperience._id, newUser._id, tempWorkDesc);
       console.log(updateWorkDesc);
+    } catch (e) {
+      console.log(e)
+    }
+    
+    tempProject =
+    {
+      "projectTitle": "Essential Tech",
+      "description": "Made an appointment SaaS",
+      "startDate": "05/01/2020",
+      "endDate": "07/31/2020"
+    }
+
+    //updating projects
+
+    try {
+      const updateProject = await project.updateProject(newProject._id, resume._id, newUser._id, tempProject);
+      // console.log(updateProject);
     } catch (e) {
       console.log(e)
     }

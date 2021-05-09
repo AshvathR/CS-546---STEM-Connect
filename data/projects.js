@@ -1,6 +1,8 @@
 const mongoCollections = require('../config/mongoCollections');
 const projects = mongoCollections.projects;
 const resumes = mongoCollections.userResume;
+const users = mongoCollections.users;
+const resumeFunc = require("./userResume");
 const objectId = require('mongodb').ObjectID;
 
 function checkUndef(variable, variableName)
@@ -63,13 +65,16 @@ let exportedMethods = {
       return true;
     },
 
-    async updateProject(id, updatedProject, resumeId)
+    async updateProject(id, resumeId, userId, updatedProject)
     {
       checkUndef(id, "id");
       checkUndef(updatedProject, "updatedProject");
       checkUndef(resumeId, "resumeId");
+      checkUndef(userId, "userId");
 
       const project = this.getProjectById(id);
+
+      console.log(updatedProject.description);
 
       let projectUpdateInfo =
       {
@@ -89,8 +94,8 @@ let exportedMethods = {
 
       const tempProject = await resumeCollection.updateOne(
       {
-        _id: objectId(resumeId),
-        "projects._id": objectId(id)
+        _id: resumeId,
+        "projects._id": id
       },
       {
         $set:
@@ -102,6 +107,28 @@ let exportedMethods = {
         }
       }, false, true);
 
+      const currentResume = await resumeFunc.getResumeById(resumeId);
+
+      const userCollection = await users();
+
+      const temperProject = await userCollection.updateOne(
+      {
+        _id: userId,
+        "resume._id": resumeId
+      },
+      {
+        $set:
+        {
+          "resume.$.education": currentResume.education,
+          "resume.$.projects": currentResume.projects,
+          "resume.$.skills": currentResume.skills,
+          "resume.$.workStatus": currentResume.workStatus,
+          "resume.$.description": currentResume.description,
+          "resume.$.resumeActive": currentResume.resumeActive,
+          "resume.$.userResumeUrl": currentResume.userResumeUrl          
+        }
+      }, false, true);
+      
       return await this.getProjectById(id);
     }
 }
