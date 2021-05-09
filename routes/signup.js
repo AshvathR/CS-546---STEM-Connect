@@ -7,30 +7,13 @@ const usersData = data.users;
 const companyData = data.company;
 const saltRounds = 16;
 
+
 function errorCheckString(val){
 	if(!val)	return false;
 	if(val.trim() === '')	return false;
   return true;
 }
 
-router.post('/', async (req, res) => {
-    if(!req.session.authenticated){
-        let currentUser = usersData.checkUsernameandPassword(req.body.username, req.body.password)
-        if(errorCheckString(req.body.username) && errorCheckString(req.body.password) && currentUser){
-            req.session.user = currentUser; 
-            req.session.authenticated = true;
-        }
-        else{
-          res.status(401);
-          res.render("employee/login",{currentTitle : "Login", currentHeader : "Login Form", hasErrors : true});
-        }
-      }
-});
-
-module.exports = router;
-
-
-  
 router.post('/signup', async (req,res) => {
     if(!req.session.authenticated){
       let username = req.body.username;
@@ -59,7 +42,7 @@ router.post('/signup', async (req,res) => {
       }
       else{
         if(password === re_password && errorCheckString(password) && errorCheckString(re_password)){
-          let hashedPassword = await bcrypt.hash(plainTextPassword, saltRounds);
+          hashedPassword = await bcrypt.hash(plainTextPassword, saltRounds);
         }
         else{
           res.status(401);
@@ -78,3 +61,5 @@ router.post('/signup', async (req,res) => {
       }
     }
   });
+
+  module.exports = router;
