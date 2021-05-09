@@ -1,12 +1,5 @@
 <div id="landingPage">
     <div id="searchBar">
-        <form>
-            <label for="userTypeToggle">User Type</label>
-            <input type="checkbox" name="userTypeToggle" id="userTypeToggle"/>
-            <label for="homeSearchBar">Find a User</label>
-            <input type="text" pattern="^[a-zA-Z0-9_.-]*$" name="homeSearchBar" id="homeSearchBar" placeholder="Find our many users and companies"/>
-            <button type="submit">Search</button>
-            <div id="homeSearchBarErrorState"></div>
-        </form>
+        {{> generalSearchPartial }}
     </div>
 </div>
