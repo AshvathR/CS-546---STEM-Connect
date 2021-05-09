@@ -1,5 +1,6 @@
 const mongoCollections = require('../config/mongoCollections');
 const company = mongoCollections.company;
+const jobDetails = require('./jobDetails')
 const objectId = require("mongodb").ObjectID;
 
 function checkUndef(variable, variableName)
@@ -49,6 +50,14 @@ let exportedMethods = {
       return selectedCompany;
     },
 
+    async getPartialNameMatch(partialName){
+      if(!partialName || partialName.length  < 5) throw 'Invalid Lookup';
+      const userCollection = await company();
+      let match = new RegExp('^' + partialName);
+      const partialMatchList = await userCollection.find({ companyName: match}, {projection: {_id: 1, companyName: 1}}).toArray();
+      return partialMatchList;
+    },
+
     async removeCompany (id)
     {
       const companyCollection = await company();
@@ -56,7 +65,7 @@ let exportedMethods = {
 
       try
       {
-        review = await this.getCompanyById(id);
+        company = await this.getCompanyById(id);
       }
       catch(e)
       {
@@ -91,6 +100,29 @@ let exportedMethods = {
   
       return await this.getCompanyById(companyId);
     },
+
+    // async updateJobInCompany(companyId, id) {
+    //   console.log("reached")
+    //   checkUndef(companyId,"companyId")
+    //   checkUndef(id,"id")
+
+    //   // return (1)
+
+    //   // const companyData = await this.getCompanyById(companyId)
+    //   const updatedJob = await jobDetails.getJobById(id)
+
+    //   const companyCollection = await company()
+       
+    //   const updateJob = await companyCollection.update({
+    //     _id : companyId,
+    //     "jobDetails._id" : updatedJob._id
+    //   },{
+    //     $set: updatedJob
+    //   },false,true)
+    //   return await this.getCompanyById(companyId)
+    //   },
+
+      
 }
 
 module.exports = exportedMethods

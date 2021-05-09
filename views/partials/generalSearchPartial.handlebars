@@ -1,0 +1,13 @@
+<form action="/search" method="POST" id="landingSearch">
+    <label for="userTypeToggle">User Type</label>
+    {{#if isPost}}
+        <input type="checkbox" value="{{userType}}" name="userTypeToggle" id="userTypeToggle"/>
+    {{else}}
+        <input type="checkbox" value="Company" name="userTypeToggle" id="userTypeToggle"/>
+        <input type="hidden" value="User" id="hiddenInput" name="userTypeToggle"/>
+    {{/if}}
+    <label for="homeSearchBar">Find a User</label>
+    <input type="text" value="{{partialName}}" name="homeSearchBar" id="homeSearchBar" placeholder="Find our many users and companies"/>
+    <button type="submit">Search</button>
+    <div id="homeSearchBarErrorState"></div>
+</form>

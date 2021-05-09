@@ -20,7 +20,7 @@ let exportedMethods = {
     
         const newResume = {
           education: education,//array_of_objects
-          workExperience: [],//array_of_objects,sub document
+          // workExperience: [],//array_of_objects,sub document (Removed Because wrong Cardinality)
           projects: [],//array_of_object,sub document
           skills: skills,//array_of_skills
           workStatus:workStatus,
@@ -100,6 +100,11 @@ let exportedMethods = {
       if (!resumeList) throw `No resumes found!`;
       return resumeList;
     },
+
+    async updateResume()
+    {
+
+    }
 }
 
 module.exports = exportedMethods
