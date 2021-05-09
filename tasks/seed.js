@@ -1,3 +1,4 @@
+const { jobDetails } = require('../config/mongoCollections');
 const dbConnection = require('../config/mongoConnection');
 const data = require('../data/');
 const loginInfo = data.loginInfo;
@@ -9,7 +10,10 @@ const project = data.projects;
 const company = data.company;
 const job = data.jobDetails;
 
+<<<<<<< HEAD
 //console.log('pxp saved me')
+=======
+>>>>>>> 2d0a0c5da442f2195e8718cea91c63027b4aa67e
 
 async function main() 
 {
@@ -22,8 +26,29 @@ async function main()
     newCompany = await company.addCompany('Essential Tech', 'Mumbai','IT','hrMail@mail.com')
     //Add job
     newJob = await job.addJob('Front End Dev', 'Mumbai','working on the ui','IT','35$','65$','Text on Qualifications')
+    console.log("Created Job   " + newJob)
     //Add job to company
     const addJobToCompany = await company.addJobToCompany(newCompany._id,newJob)
+    tempJob = {
+      "jobTitle": "Back End Dev ",
+      "jobLocation": "Banglore",
+      "jobDescription": "working on the DF",
+      "jobCategory": "IT",
+      "salaryMin": "35$",
+      "salaryMax": "65$",
+      "qualifications": "Text on Qualifications"
+    }
+    //Update Job
+    try{
+      // update job in job sub doc
+      // console.log("job id: " + newJob._id)
+      // console.log("tempJob: "+ tempJob)
+      // console.log("newcom Id: "+ newCompany._id)
+      const updatedJob = await job.updateJob(newJob._id, tempJob,newCompany._id)
+      // console.log(updatedJob)
+    }catch(e){
+      console.log (e);
+    }
   }catch(e){
     console.log (e);
   }
@@ -69,6 +94,7 @@ async function main()
   }catch(e){
     console.log (e);
   }
+
 
   // try {
   //   // (companyName, jobTitle, jobDescription,startDate, endDate)
