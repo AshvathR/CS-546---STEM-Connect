@@ -1,0 +1,46 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="/">STEMConnect</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navigation">
+        <ul class="navbar-nav" id="navv-bar">
+            <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+            <li class="nav-item"><a class="nav-link" href="/search">Filtered Search</a></li>
+            <li class="nav-item"><a class="nav-link" href="/search">Profile</a></li>
+            <li class="nav-item"><a class="nav-link" href="/search">{{listingType}} Builder</a></li>
+            <li class="nav-item"><a class="nav-link" href="/aboutUS">About Us</a></li>
+        </ul>
+    </div>
+</nav>
+<main>
+    <h1 class = "first">Log In</h1>
+        <div class = "divForm">
+            <form action="/sigup" method="POST" class="signup-form">
+            <label id = "form">
+                Username:
+                <br>
+                <input type="text" id="username" name="username" placeholder="Username" value="{{signup.username}}" class="full-width-input"/>
+                <br>
+                Password:
+                <br>
+                <input type="password" id="password" name="password" placeholder="Password" value="{{signup.password}}" class="full-width-input"/>
+                <br>
+                Confirm Password:
+                <br>
+                <input type="password" id="reEnterPassword" name="reEnterPassword" placeholder="Confirm Password"  class="full-width-input"/>
+            </label>
+            <br>
+            <br>
+            <button class="btnSignUp" type="TO BE DECIDED">Sign Up</button></a>
+            </form>
+        </div>
+        <div id="message">
+            <h3>Password must contain the following:</h3>
+            <p id="letter" >A lowercase letter</p>
+            <p id="capital" >A capital letter</p>
+            <p id="number" >A number</p>
+            <p id="length" >Minimum 8 characters</p>
+        </div>
+        <script src="/public/login.js"></script>
+</main>

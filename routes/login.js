@@ -15,7 +15,7 @@ function errorCheckString(val){
 
 router.post('/', async (req, res) => {
     if(!req.session.authenticated){
-        let currentUser = usersData.checkUsernameandPassword(req.body.username, req.body.password)
+        let currentUser = await usersData.checkUsernameandPassword(req.body.username, req.body.password)
         if(errorCheckString(req.body.username) && errorCheckString(req.body.password) && currentUser){
             req.session.user = currentUser; 
             req.session.authenticated = true;
@@ -26,6 +26,10 @@ router.post('/', async (req, res) => {
         }
       }
 });
+
+router.get('/', async(req,res)=> {
+    res.render('general/login', { title: "Log In" ,  auth: false});
+})
 
 module.exports = router;
 
