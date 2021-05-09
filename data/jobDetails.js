@@ -114,7 +114,7 @@ let exportedMethods = {
           "jobDetails.$.salaryMax": updatedJob.salaryMax,
           "jobDetails.$.qualifications": updatedJob.qualifications
         }
-      },false,true);
+      }, false, true);
 
       return await this.getJobById(id);
     }

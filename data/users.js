@@ -86,7 +86,7 @@ let exportedMethods = {
     checkUndef(id, "id");
     const userCollection = await users();
     // console.log(id)
-    const user = await userCollection.findOne({  _id:mongodb.ObjectId(id) });
+    const user = await userCollection.findOne({  _id: mongodb.ObjectId(id) });
     // console.log(user)
     if (!user) throw 'User not found';
     return user;

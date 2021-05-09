@@ -100,6 +100,11 @@ let exportedMethods = {
       if (!resumeList) throw `No resumes found!`;
       return resumeList;
     },
+
+    async updateResume()
+    {
+
+    }
 }
 
 module.exports = exportedMethods
