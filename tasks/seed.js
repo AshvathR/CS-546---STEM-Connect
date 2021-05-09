@@ -36,9 +36,6 @@ async function main()
     //Update Job
     try{
       // update job in job sub doc
-      // console.log("job id: " + newJob._id)
-      // console.log("tempJob: "+ tempJob)
-      // console.log("newcom Id: "+ newCompany._id)
       const updatedJob = await job.updateJob(newJob._id, tempJob,newCompany._id)
       // console.log(updatedJob)
     }catch(e){
@@ -80,12 +77,24 @@ async function main()
     //Add Resume to user
     const addResumeToUser = await users.addResumeToUser(newUser._id,resume)
     // Add workExperience to user
-    const newWorkExperience = await workExperience.addWorkDescription('TechName','web dev','jobDes','04/03/2020','19/11/2020')
-    const addWorkDesToUser = await users.addWorkDesToUser(newUser._id,newWorkExperience)
-    
-    // console.log(newUser._id)
-    
-    
+    const newWorkExperience = await workExperience.addWorkDesc('TechName','web dev','jobDes','04/03/2020','19/11/2020');
+    const addWorkDesToUser = await users.addWorkDesToUser(newUser._id, newWorkExperience);
+
+    tempProject =
+    {
+      "projectTitle": "Essential Tech",
+      "jobTitle": "Data Engineer Intern",
+      "jobDescription": "Made an appointment SaaS",
+      "startDate": "05/01/2020",
+      "endDate": "07/31/2020"
+    }
+
+    try {
+      const updateWorkDesc = await workExperience.updateWorkDesc(newWorkExperience._id, newUser._id, tempWorkDesc);
+      console.log(updateWorkDesc);
+    } catch (e) {
+      console.log(e)
+    }
   }catch(e){
     console.log (e);
   }
@@ -93,7 +102,7 @@ async function main()
 
   // try {
   //   // (companyName, jobTitle, jobDescription,startDate, endDate)
-  //     await workExperience.addWorkDescription('TechName','web dev','jobDes','04/03/2020','19/11/2020')
+  //     await workExperience.addWorkDesc('TechName','web dev','jobDes','04/03/2020','19/11/2020')
   //   }catch(e){
   //     console.log (e);
   //   }
