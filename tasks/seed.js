@@ -10,6 +10,7 @@ const project = data.projects;
 const company = data.company;
 const job = data.jobDetails;
 
+
 async function main() 
 {
   try{
