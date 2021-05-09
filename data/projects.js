@@ -19,16 +19,13 @@ let exportedMethods = {
         const projectCollection = await projects();
     
         const newProject = {
-          projectTitle: projectTitle,//array_of_objects
-          description: description,//array_of_objects,sub document
-          startDate:startDate,//array_of_object,sub document
-          endDate: endDate,//array_of_skills
+          projectTitle: projectTitle,
+          description: description,
+          startDate:startDate,
+          endDate: endDate
         };
-        // userId = mongodb.ObjectId(userId)
     
         const newInsertInformation = await projectCollection.insertOne(newProject);
-        // const newId = newInsertInformation.insertedId;
-        // await users.addResumeToUser(userId, newResume);
         console.log("Added newProject");
         return newProject;
     },

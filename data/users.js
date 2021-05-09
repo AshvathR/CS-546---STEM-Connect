@@ -34,14 +34,10 @@ let exportedMethods = {
       username: username,
       hashedPassword: hashedPassword
     };
-    // accountId = mongodb.ObjectId(accountId)
 
     const newInsertInformation = await userCollection.insertOne(newUser);
-    // const newId = newInsertInformation.insertedId;
-    // await loginInfo.addUserToAccount(accountId, newUser);
     console.log("Added User")
     return newUser
-    // return await this.getResumeById(newId);
   },
 
   async addResumeToUser(userId, newResume) {
@@ -50,7 +46,6 @@ let exportedMethods = {
     
     let currentResume = await userRes.getResumeById(newResume._id);
     const userCollection = await users();
-    // const resumeCollection = await userResume();
 
     const updateInfo = await userCollection.updateOne(
       { _id: userId },
@@ -69,7 +64,6 @@ let exportedMethods = {
     
     let currentUser = await this.getUserById(userId);
     const userCollection = await users();
-    // const resumeCollection = await userResume();
 
     const updateInfo = await userCollection.updateOne(
       { _id: userId },
@@ -84,10 +78,10 @@ let exportedMethods = {
 
   async getUserById(id) {
     checkUndef(id, "id");
+    
     const userCollection = await users();
-    // console.log(id)
     const user = await userCollection.findOne({  _id: mongodb.ObjectId(id) });
-    // console.log(user)
+
     if (!user) throw 'User not found';
     return user;
   },

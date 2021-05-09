@@ -19,20 +19,17 @@ let exportedMethods = {
         const resumeCollection = await userResume();
     
         const newResume = {
-          education: education,//array_of_objects
+          education: education,
           // workExperience: [],//array_of_objects,sub document (Removed Because wrong Cardinality)
-          projects: [],//array_of_object,sub document
-          skills: skills,//array_of_skills
-          workStatus:workStatus,
-          description:description,
-          resumeActive:resumeActive,
-          userResumeUrl:userResumeUrl
+          projects: [],
+          skills: skills,
+          workStatus: workStatus,
+          description: description,
+          resumeActive: resumeActive,
+          userResumeUrl: userResumeUrl
         };
-        // userId = mongodb.ObjectId(userId)
     
         const newInsertInformation = await resumeCollection.insertOne(newResume);
-        // const newId = newInsertInformation.insertedId;
-        // await users.addResumeToUser(userId, newResume);
         console.log("Added Resume")
         return newResume
     },
@@ -41,8 +38,6 @@ let exportedMethods = {
       checkUndef(resumeId, "resumeId");
       checkUndef(newProject, "newProject");
       
-      // let currentUser = await this.getUserById(resumeId);
-      // const userCollection = await users();
       const resumeCollection = await userResume();
   
       const updateInfo = await resumeCollection.updateOne(

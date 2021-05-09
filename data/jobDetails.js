@@ -20,19 +20,16 @@ let exportedMethods = {
         const jobCollection = await jobDetails();
     
         const newJob = {
-          jobTitle: jobTitle,//array_of_objects
-          jobLocation: jobLocation,//array_of_objects,sub document
-          jobDescription:jobDescription,//array_of_object,sub document
+          jobTitle: jobTitle,
+          jobLocation: jobLocation,
+          jobDescription:jobDescription,
           jobCategory: jobCategory,
           salaryMin: salaryMin,
           salaryMax: salaryMax,
           qualifications: qualifications
         };
-        // userId = mongodb.ObjectId(userId)
     
         const newInsertInformation = await jobCollection.insertOne(newJob);
-        // const newId = newInsertInformation.insertedId;
-        // await users.addResumeToUser(userId, newResume);
         console.log("Added newJob")
         return newJob
     },
@@ -93,13 +90,7 @@ let exportedMethods = {
       const updateInfo = await jobCollection.updateOne({ _id: objectId(id) }, { $set: jobUpdateInfo });
 
       if(!updateInfo.matchedCount && !updateInfo.modifiedCount) throw `Update Field!`;
-      // Update job in company doc
       const companyCollection = await company()
-
-
-      // console.log(companyCollection)
-      // console.log("companyID : " +objectId(companyId))
-      // console.log("job id: "+ objectId(id))
 
       const updateJob = await companyCollection.updateOne({
         _id : objectId(companyId),

@@ -22,14 +22,10 @@ async function addWorkDesc(companyName, jobTitle, jobDescription,startDate, endD
     startDate:startDate,
     endDate: endDate          
   };
-  // jobExperienceId = mongodb.ObjectId(jobExperienceId)
     
   const newInsertInformation = await workExperienceCollection.insertOne(newWork);
- // const newId = newInsertInformation.insertedId;
-  // await loginInfo.addUserToAccount(jobExperienceId, newJob);
   console.log("Added workExperience")
-  return newWork
-  // return await thusis.getResumeById(newId);
+  return newWork;
 }
 
 async function getAllWorkDesc()
