@@ -73,9 +73,7 @@ let exportedMethods = {
       checkUndef(userId, "userId");
 
       const project = this.getProjectById(id);
-
-      console.log(updatedProject.description);
-
+      
       let projectUpdateInfo =
       {
         projectTitle: updatedProject.projectTitle,

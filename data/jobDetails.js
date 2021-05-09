@@ -96,11 +96,6 @@ let exportedMethods = {
       // Update job in company doc
       const companyCollection = await company()
 
-
-      // console.log(companyCollection)
-      // console.log("companyID : " +objectId(companyId))
-      // console.log("job id: "+ objectId(id))
-
       const updateJob = await companyCollection.updateOne({
         _id : objectId(companyId),
         "jobDetails._id" : objectId(id)

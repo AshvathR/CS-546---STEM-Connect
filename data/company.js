@@ -25,11 +25,8 @@ let exportedMethods = {
           username: username,
           hashedPassword: hashedPassword
         };
-        // userId = mongodb.ObjectId(userId)
     
         const newInsertInformation = await companyCollection.insertOne(newCompany);
-        // const newId = newInsertInformation.insertedId;
-        // await users.addResumeToUser(userId, newResume);
         console.log("Added newCompany")
         return newCompany;
     },
@@ -43,7 +40,7 @@ let exportedMethods = {
     async getCompanyById(id)
     {
       checkUndef(id, "id");
-      // console.log("reached")
+
       const companyCollection = await company();
       const selectedCompany = await companyCollection.findOne({ _id: objectId(id) });
       if (!selectedCompany) throw `Company with the given ID: ${id} not found`;
@@ -99,30 +96,7 @@ let exportedMethods = {
         throw 'Update failed';
   
       return await this.getCompanyById(companyId);
-    },
-
-    // async updateJobInCompany(companyId, id) {
-    //   console.log("reached")
-    //   checkUndef(companyId,"companyId")
-    //   checkUndef(id,"id")
-
-    //   // return (1)
-
-    //   // const companyData = await this.getCompanyById(companyId)
-    //   const updatedJob = await jobDetails.getJobById(id)
-
-    //   const companyCollection = await company()
-       
-    //   const updateJob = await companyCollection.update({
-    //     _id : companyId,
-    //     "jobDetails._id" : updatedJob._id
-    //   },{
-    //     $set: updatedJob
-    //   },false,true)
-    //   return await this.getCompanyById(companyId)
-    //   },
-
-      
+    }      
 }
 
 module.exports = exportedMethods

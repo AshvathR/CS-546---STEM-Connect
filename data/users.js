@@ -84,10 +84,10 @@ let exportedMethods = {
 
   async getUserById(id) {
     checkUndef(id, "id");
+    
     const userCollection = await users();
-    // console.log(id)
     const user = await userCollection.findOne({  _id: mongodb.ObjectId(id) });
-    // console.log(user)
+    
     if (!user) throw 'User not found';
     return user;
   },
@@ -98,8 +98,6 @@ let exportedMethods = {
     let userList = await userCollection.find({}).toArray();
     if (!userList) throw 'No users in System';
     return userList;
-
-
   },
 
   async getAllUsername() {
@@ -135,7 +133,6 @@ let exportedMethods = {
 
     const userCollection = await users();
     const user = await userCollection.findOne({ resume: {$elemMatch : {_id: mongodb.ObjectID(id)} } });
-    console.log(user);
     let userId = user._id;
 
     const updatedInfo = await userCollection.updateOne(

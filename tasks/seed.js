@@ -38,7 +38,6 @@ async function main()
     try{
       // update job in job sub doc
       const updatedJob = await job.updateJob(newJob._id, tempJob,newCompany._id)
-      // console.log(updatedJob)
     }catch(e){
       console.log (e);
     }
@@ -94,7 +93,6 @@ async function main()
 
     try {
       const updateWorkDesc = await workExperience.updateWorkDesc(newWorkExperience._id, newUser._id, tempWorkDesc);
-      console.log(updateWorkDesc);
     } catch (e) {
       console.log(e)
     }
@@ -111,7 +109,6 @@ async function main()
 
     try {
       const updateProject = await project.updateProject(newProject._id, resume._id, newUser._id, tempProject);
-      // console.log(updateProject);
     } catch (e) {
       console.log(e)
     }
