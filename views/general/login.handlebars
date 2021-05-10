@@ -17,19 +17,13 @@
                 Password:
                 <br>
                 <input type="password" id="password" name="password" placeholder="Password" value="{{login.password}}" class="full-width-input"/>
+                <span id = "message"> </span> 
             </label>
             <br>
             <br>
             <button class="btnLogin" type="submit">Log in</button>
-            <a href="/signup"><button class="btnSignUp" type="TO BE DECIDED">Sign Up</button></a>
+            <a href="/signup"><button class="btnSignUp">Sign Up</button></a>
             </form>
-        </div>
-        <div id="message">
-            <h3>Password must contain the following:</h3>
-            <p id="letter" >A lowercase letter</p>
-            <p id="capital">A capital letter</p>
-            <p id="number" >A number</p>
-            <p id="length" >Minimum 8 characters</p>
         </div>
         <script src="/public/login.js"></script>
 </main>
