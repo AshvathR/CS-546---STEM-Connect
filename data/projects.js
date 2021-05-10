@@ -24,11 +24,8 @@ let exportedMethods = {
           startDate:startDate,//array_of_object,sub document
           endDate: endDate,//array_of_skills
         };
-        // userId = mongodb.ObjectId(userId)
     
         const newInsertInformation = await projectCollection.insertOne(newProject);
-        // const newId = newInsertInformation.insertedId;
-        // await users.addResumeToUser(userId, newResume);
         console.log("Added newProject");
         return newProject;
     },
@@ -57,8 +54,20 @@ let exportedMethods = {
       checkUndef(id, "id");
 
       const projectCollection = await projects();
-      const deletionInfo = await projectCollection.removeOne({ _id: objectId(id) });
+      let project = null;
 
+      try
+      {
+        project = await this.getProjectById(id);
+      }
+      catch (e)
+      {
+        console.log(e)  ;
+      }
+
+      let temp = project._id;
+      
+      const deletionInfo = await projectCollection.removeOne({ _id: objectId(id) });
       if (deletionInfo.deletedCount == 0)
         throw `Could not delete project with the ID ${id}`;
       

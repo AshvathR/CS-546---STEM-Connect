@@ -9,6 +9,7 @@
         form.submit(function(e){
             if(searchBar.val().length < 1){
                 e.preventDefault();
+                $('#homeSearchBarErrorState').empty();
                 $('#homeSearchBarErrorState').append('<p class="validationMessage"> Error: Type in a name to search for a user or company?</p>')
             } else{
                 $('#homeSearchBarErrorState').empty();
@@ -73,6 +74,9 @@
                 
             }
         });
+    }
+    function searchBehavior(){
+
     }
     generalSearchBehavior()
 })(window.jQuery);

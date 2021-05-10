@@ -15,7 +15,7 @@ function checkUndef(variable, variableName)
 
 let exportedMethods = {
 
-    async addJob (jobTitle, jobLocation, jobDescription, jobCategory, salaryMin, salaryMax, qualifications) {
+    async addJob (jobTitle, jobLocation, jobDescription, jobCategory, salaryMin, salaryMax, qualifications, yearsOfExperience, skills,jobStatus) {
 
         const jobCollection = await jobDetails();
     
@@ -23,10 +23,13 @@ let exportedMethods = {
           jobTitle: jobTitle,//array_of_objects
           jobLocation: jobLocation,//array_of_objects,sub document
           jobDescription:jobDescription,//array_of_object,sub document
+          yearsOfExperience:yearsOfExperience,
+          skills: skills,
           jobCategory: jobCategory,
           salaryMin: salaryMin,
           salaryMax: salaryMax,
-          qualifications: qualifications
+          qualifications: qualifications,
+          jobStatus:jobStatus
         };
         // userId = mongodb.ObjectId(userId)
     
@@ -69,6 +72,16 @@ let exportedMethods = {
 
       return true;
     },
+    async searchJobByYearSkills(years,skillsArray)
+    {
+      checkUndef(years, "years");
+      checkUndef(skillsArray,"skillsArray");
+      const jobCollection = await jobDetails();
+      console.log(years);
+      const jobsList = await jobCollection.find({$and: [{jobStatus: true},{ yearsOfExperience: { $lte: parseInt(years)} }, { skills: { $in: skillsArray}}]}).toArray();
+      // console.log(jobsList)
+      return jobsList
+    },
 
     async updateJob(id, updatedJob,companyId)
     {
@@ -83,10 +96,13 @@ let exportedMethods = {
         jobTitle: updatedJob.jobTitle,
         jobLocation: updatedJob.jobLocation,
         jobDescription: updatedJob.jobDescription,
+        yearsOfExperience:updatedJob.yearsOfExperience,
+        skills:updatedJob.skills,
         jobCategory: updatedJob.jobCategory,
         salaryMin: updatedJob.salaryMin,
         salaryMax: updatedJob.salaryMax,
-        qualifications: updatedJob.qualifications
+        qualifications: updatedJob.qualifications,
+        jobStatus: updatedJob.jobStatus
       }
 
       const jobCollection = await jobDetails();
@@ -94,7 +110,7 @@ let exportedMethods = {
 
       if(!updateInfo.matchedCount && !updateInfo.modifiedCount) throw `Update Field!`;
       // Update job in company doc
-      const companyCollection = await company()
+      const companyCollection = await company();
 
       const updateJob = await companyCollection.updateOne({
         _id : objectId(companyId),

@@ -64,6 +64,16 @@ let exportedMethods = {
     return await this.getUserById(userId);
   },
 
+  async findUserByResumeId(resumeId) {
+    checkUndef(resumeId, "resumeId");
+    
+    const userCollection = await users();
+    const user = await userCollection.find({  "resume._id": mongodb.ObjectId(resumeId) }).toArray();
+    
+    if (!user) throw 'User not found';
+    return user;
+  },
+
   async addWorkDesToUser(userId, newWorkExperience) {
     checkUndef(userId, "userId");
     checkUndef(newWorkExperience, "newWorkExperience");
@@ -168,6 +178,7 @@ let exportedMethods = {
     }
   },
 
+
   async getUserID(username) {
     checkUndef(username, "Username");
     const userCollection = await users();
@@ -182,8 +193,19 @@ let exportedMethods = {
   {
     const userCollection = await users();
     let user = null;
+
+    try
+    {
+      user = await this.getUserById(id);
+    }
+    catch (e)
+    {
+      console.log(e);
+    }
+
+    const deletionInfo = await userCollection.removeOne({ _id: id });
+    if (deletionInfo.deletedCount == 0) throw `Could not delete the user with ID: ${id}`;
+    else return true
   }
-
 }
-
 module.exports = exportedMethods
