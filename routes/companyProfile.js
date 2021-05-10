@@ -11,7 +11,9 @@ router.get('/:id', async (req, res) => {
     res.json(company);
 });
 
-
+router.get('/', async(req,res)=> {
+    res.render('company/companyInfo', { title: "Company Details" ,  auth: true, notLoginPage: true});
+})
 
 
 module.exports = router;

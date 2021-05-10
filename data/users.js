@@ -4,6 +4,7 @@ const userRes = require('./userResume')
 var mongodb = require('mongodb');
 const { userResume } = require('../config/mongoCollections');
 const loginInfo = require('./loginInfo'); 
+const bcrypt = require('bcryptjs');
 
 function checkUndef(variable, variableName)
 {
@@ -121,10 +122,10 @@ let exportedMethods = {
       let currentUsername = current.username.toLowerCase();
       username = username.toLowerCase();
       if(currentUsername === username){
-        return false;
+        return true;
       }
     }
-    return true;
+    return false;
   },
 
   async removeResumeFromUser(resumeId)
@@ -165,8 +166,23 @@ let exportedMethods = {
         return checkPassword;
       }
     }
-  }
+  },
 
+  async getUserID(username) {
+    checkUndef(username, "Username");
+    const userCollection = await users();
+    const user = await userCollection.findOne({  username: username });
+    if (!user){
+      user = await userCollection.findOne({email: username})
+    };
+    return user._id;
+  },
+
+  async removeUser (id)
+  {
+    const userCollection = await users();
+    let user = null;
+  }
 
 }
 
