@@ -25,11 +25,8 @@ let exportedMethods = {
           username: username,
           hashedPassword: hashedPassword
         };
-        // userId = mongodb.ObjectId(userId)
     
         const newInsertInformation = await companyCollection.insertOne(newCompany);
-        // const newId = newInsertInformation.insertedId;
-        // await users.addResumeToUser(userId, newResume);
         console.log("Added newCompany")
         return newCompany;
     },
@@ -43,7 +40,7 @@ let exportedMethods = {
     async getCompanyById(id)
     {
       checkUndef(id, "id");
-      // console.log("reached")
+
       const companyCollection = await company();
       const selectedCompany = await companyCollection.findOne({ _id: objectId(id) });
       if (!selectedCompany) throw `Company with the given ID: ${id} not found`;
