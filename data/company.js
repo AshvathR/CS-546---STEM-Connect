@@ -134,24 +134,7 @@ let exportedMethods = {
           return checkPassword;
         }
       }
-    },
-
-    // async removeJobFromCompany(jobId)
-    // {
-    //   checkUndef(jobId);
-
-    //   const companyCollection = await company();
-    //   const company = await companyCollection.findOne({ jobDetails: { $elemMatch: { _id: jobId } } });
-    //   let companyId = company._id;
-
-    //   const updateInfo = await companyCollection.updateOne(
-    //     { _id: companyId},
-    //     { $pull: { jobDetails: { _id: jobId } } }
-    //   );
-
-    //   if (!updateInfo.matchedCount && !updateInfo.modifiedCount) throw `Update Failed!`;
-    //   return await this.getCompanyById(companyId);
-    // }
+    }
 }
 
 module.exports = exportedMethods

@@ -122,23 +122,6 @@ let exportedMethods = {
     return true;
   },
 
-  async removeResumeFromUser(resumeId)
-  {
-    checkUndef(resumeId);
-
-    const userCollection = await users();
-    const user = await userCollection.findOne({ resume: {$elemMatch : {_id: mongodb.ObjectID(id)} } });
-    let userId = user._id;
-
-    const updatedInfo = await userCollection.updateOne(
-      {_id: userId},
-      {$pull : {resume: {_id: resumeId } } }
-    );
-
-    if (!updatedInfo.matchedCount && !updatedInfo.modifiedCount) throw `Update Failed!`
-    return await this.getUserById(userId);
-  },
-
   async checkUsernameandPassword(username, password){
     username = username.toLowerCase();
     let usernameExists = await this.checkExistingUsername(username);
@@ -160,23 +143,6 @@ let exportedMethods = {
         return checkPassword;
       }
     }
-  },
-
-  async removeWorkDescFromUser(workDescId)
-  {
-    checkUndef(workDescId, "workDescId");
-
-    const userCollection = await users();
-    const user = await userCollection.findOne({ workExperience: { $elemMatch: { _id: workDescId } } });
-    let userId = user._id;
-
-    const updateInfo = await userCollection.updateOne(
-      { _id: userId },
-      { $pull: { workExperience: {_id: workDescId } } }
-    );
-
-    if (!updateInfo.matchedCount && !updateInfo.modifiedCount) throw `Update Failed!`;
-    return await this.getUserById(userId);
   },
 
   async removeUser (id)
