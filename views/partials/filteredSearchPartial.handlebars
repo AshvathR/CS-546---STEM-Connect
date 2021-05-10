@@ -1,0 +1,21 @@
+<form action="/search/filter" method="POST" id="filteredSearchForm">
+    <h2>STEMConnect Filtered Search</h2>
+    <p>Please enter the number of years you have worked in industry and the skills required </p>
+        <div class="min-max-slider" data-legendnum="2">
+            <label for="yearExp">Years Experience
+                <input id="yearsExpSlider" class="min" name="yearsExp" type="range" step="1" min="0" max="30" value="" />
+                <input id="yearsExpInput" name="yearsExp" type="number" min="0" max="30"/>
+            </label>
+        </div>
+        <label for="skillsLookUp">Skills</label>
+        <input id="skillsLookUp" name="skillsLookup" type="text" placeholder="Skills"/>
+        <div id="skillsList">
+            <h4 id="skillsHeading"></h4>
+            <ul id="insertedSkills"></ul>
+        </div>   
+        <button type="submit">Search</button>
+        <br/>
+        <div id="filteredSearchBarErrorState"></div>       
+        <br/>
+    </form>
+<script src="/public/js/filteredSearch.js"></script>
