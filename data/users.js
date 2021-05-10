@@ -63,6 +63,16 @@ let exportedMethods = {
     return await this.getUserById(userId);
   },
 
+  async findUserByResumeId(resumeId) {
+    checkUndef(resumeId, "resumeId");
+    
+    const userCollection = await users();
+    const user = await userCollection.find({  "resume._id": mongodb.ObjectId(resumeId) }).toArray();
+    
+    if (!user) throw 'User not found';
+    return user;
+  },
+
   async addWorkDesToUser(userId, newWorkExperience) {
     checkUndef(userId, "userId");
     checkUndef(newWorkExperience, "newWorkExperience");

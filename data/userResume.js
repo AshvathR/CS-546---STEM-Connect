@@ -1,5 +1,5 @@
-const users= mongoCollections.users;
 const mongoCollections = require('../config/mongoCollections');
+const users= mongoCollections.users;
 const userResume = mongoCollections.userResume;
 const usersFunc = require('./users');
 const objectId = require('mongodb').ObjectID;
@@ -12,9 +12,9 @@ function checkUndef(variable, variableName)
     }
 }
 
-let exportedMethods = 
-{
-    async addResume(education, skills, description, userResumeUrl, workStatus, resumeActive) {
+let exportedMethods = {
+
+    async addResume(education, skills, description, userResumeUrl, workStatus,yearsOfExperience, resumeActive) {
 
         const resumeCollection = await userResume();
     
@@ -24,6 +24,7 @@ let exportedMethods =
           projects: [],//array_of_object,sub document
           skills: skills,//array_of_skills
           workStatus:workStatus,
+          yearsOfExperience: yearsOfExperience,
           description:description,
           resumeActive:resumeActive,
           userResumeUrl:userResumeUrl
@@ -104,6 +105,8 @@ let exportedMethods =
       checkUndef(userId, "userId");
       checkUndef(updatedResume, "updatedResume");
 
+// Data Functions for Search Page
+    
       const resume = await this.getResumeById(id);
 
       let resumeUpdateInfo =
@@ -146,6 +149,15 @@ let exportedMethods =
 
       return await this.getResumeById(id);
     },
+    async searchResumeByYearSkills(years,skillsArray)
+    {
+      checkUndef(years, "years");
+      checkUndef(skillsArray,"skillsArray");
+      const resumeCollection = await userResume()
+      const resumeList = await resumeCollection.find({$and: [{ skills: { $in: skillsArray}}, { yearsOfExperience: { $gte: years} }, { resumeActive : true}]}).toArray();
+      // console.log(resumeList)
+      return resumeList
+    }
 
     // async removeProjectFromResume(projectId, resumeId)
     // {
