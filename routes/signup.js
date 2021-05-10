@@ -63,7 +63,7 @@ router.post('/signup', async (req,res) => {
   });
 
   router.get('/signup', async (req,res) => {
-    res.render('general/signup', { title: "Sign Up" ,  auth: false});
+    res.render('general/signup', { title: "Sign Up" ,  auth: false, notLoginPage:false});
   });
 
 

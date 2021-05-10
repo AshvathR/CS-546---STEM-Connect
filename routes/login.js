@@ -28,7 +28,7 @@ router.post('/', async (req, res) => {
 });
 
 router.get('/', async(req,res)=> {
-    res.render('general/login', { title: "Log In" ,  auth: false});
+    res.render('general/login', { title: "Log In" ,  auth: false, notLoginPage: false});
 })
 
 module.exports = router;

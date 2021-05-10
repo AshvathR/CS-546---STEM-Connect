@@ -35,7 +35,8 @@ router.post('/', async function(request, response) {
         partialName:  searchData.homeSearchBar,
         userType: searchData.userTypeToggle,
         searchResults: partialMatch,
-        isUser: searchData.userTypeToggle == "User"
+        isUser: searchData.userTypeToggle == "User",
+        notLoginPage:true
     });
 });
 
@@ -44,6 +45,7 @@ router.get('/', async function(request, response) {
         title: "Search Page",
         auth: false,
         isPost: false,
+        notLoginPage:true
     });   
 });
 
