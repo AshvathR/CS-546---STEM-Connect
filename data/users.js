@@ -4,6 +4,7 @@ const userRes = require('./userResume')
 var mongodb = require('mongodb');
 const { userResume } = require('../config/mongoCollections');
 const loginInfo = require('./loginInfo'); 
+const { removeWorkDesc } = require('./workExperience');
 
 function checkUndef(variable, variableName)
 {
@@ -159,6 +160,23 @@ let exportedMethods = {
         return checkPassword;
       }
     }
+  },
+
+  async removeWorkDescFromUser(workDescId)
+  {
+    checkUndef(workDescId, "workDescId");
+
+    const userCollection = await users();
+    const user = await userCollection.findOne({ workExperience: { $elemMatch: { _id: workDescId } } });
+    let userId = user._id;
+
+    const updateInfo = await userCollection.updateOne(
+      { _id: userId },
+      { $pull: { workExperience: {_id: workDescId } } }
+    );
+
+    if (!updateInfo.matchedCount && !updateInfo.modifiedCount) throw `Update Failed!`;
+    return await this.getUserById(userId);
   },
 
   async removeUser (id)

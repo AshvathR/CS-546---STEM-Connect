@@ -49,16 +49,18 @@ let exportedMethods = {
       return project;
     },
 
-    async removeProject(id)
+    async removeProject(projectId, resumeId, userId)
     {
-      checkUndef(id, "id");
+      checkUndef(projectId, "projectId");
+      checkUndef(resumeId, "resumeId");
+      checkUndef(userId, "userId");
 
       const projectCollection = await projects();
       let project = null;
 
       try
       {
-        project = await this.getProjectById(id);
+        project = await this.getProjectById(projectId);
       }
       catch (e)
       {
@@ -67,9 +69,38 @@ let exportedMethods = {
 
       let temp = project._id;
       
-      const deletionInfo = await projectCollection.removeOne({ _id: objectId(id) });
+      const deletionInfo = await projectCollection.removeOne({ _id: objectId(projectId) });
       if (deletionInfo.deletedCount == 0)
-        throw `Could not delete project with the ID ${id}`;
+        throw `Could not delete project with the ID ${projectId}`;
+      
+      const resumeCollection = await resumes();
+
+      const projectRemove = await resumeCollection.updateOne(
+        {
+          _id: resumeId,
+          "projects._id": projectId
+        },
+        {
+          $pull : { projects: { _id: projectId } }
+        }, false, true
+      );
+
+      const currentResume = await resumeFunc.getResumeById(resumeId);
+
+      const userCollection = await users();
+
+      const projectRemoveFromUser = await userCollection.updateOne(
+        {
+          _id: userId,
+          "resume._id": resumeId
+        },
+        {
+          $pull:
+          {
+            projects: { _id: projectId }
+          }
+        }, false, true
+      );
       
       return true;
     },
@@ -95,7 +126,6 @@ let exportedMethods = {
       const updateInfo = await projectCollection.updateOne({ _id: objectId(id) }, { $set: projectUpdateInfo });
 
       if (!updateInfo.matchedCount && !updateInfo.modifiedCout) throw `Update Failed`;
-      else console.log(`Project Updated Successfully!`);
 
       const resumeCollection = await resumes();
 

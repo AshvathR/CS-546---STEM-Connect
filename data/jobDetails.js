@@ -52,17 +52,38 @@ let exportedMethods = {
       return job;
     },
 
-    async removeJob(id)
+    async removeJob(jobId, companyId)
     {
-      checkUndef(id, "id");
+      checkUndef(jobId, "jobId");
 
       const jobCollection = await jobDetails();
-      const deletionInfo = await jobCollection.removeOne({ _id: objectId(id)} );
-
-      if (deletionInfo.deletedCount == 0)
+      let job = null;
+      
+      try
       {
-        throw `Could not delete job with id of ${id}`;
+        job = await this.getJobById(jobId);
       }
+      catch (e)
+      {
+        console.log(e);
+      }
+      
+      const deletionInfo = await jobCollection.removeOne({ _id: objectId(jobId)} );
+      if (deletionInfo.deletedCount == 0)
+        throw `Could not delete job with id of ${jobId}`;
+      
+      const companyCollection = await company();
+
+      const jobRemove = await companyCollection.updateOne
+      (
+        {
+          _id: companyId,
+          "jobDetails._id": jobId
+        },
+        {
+          $pull: { jobDetails: { _id: jobId } }
+        }, false, true
+      );
 
       return true;
     },
@@ -92,7 +113,6 @@ let exportedMethods = {
       if(!updateInfo.matchedCount && !updateInfo.modifiedCount) throw `Update Field!`;
       const companyCollection = await company()
       // Update job in company doc
-      const companyCollection = await company();
 
       const updateJob = await companyCollection.updateOne({
         _id : objectId(companyId),

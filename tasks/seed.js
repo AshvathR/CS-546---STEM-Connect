@@ -22,26 +22,24 @@ async function main()
     newCompany = await company.addCompany('Essential Tech', 'Mumbai','IT','hrMail@mail.com', 'mumbaiUser', '123_Mumbai')
     //Add job
     newJob = await job.addJob('Front End Dev', 'Mumbai','working on the ui','IT','35$','65$','Text on Qualifications')
-    console.log("Created Job   " + newJob)
+    newJob1 = await job.addJob("Back End Dec", "Bangalore", "Working on the Data Functions", "Software Development", "$55", "$85", "Masters in Computer Science");
     //Add job to company
-    const addJobToCompany = await company.addJobToCompany(newCompany._id,newJob)
-    tempJob = {
-      "jobTitle": "Back End Dev ",
-      "jobLocation": "Banglore",
-      "jobDescription": "working on the DF",
-      "jobCategory": "IT",
-      "salaryMin": "35$",
-      "salaryMax": "65$",
-      "qualifications": "Text on Qualifications"
+    const newJobToCompany = await company.addJobToCompany(newCompany._id, newJob);
+    const newJobToCompany1 = await company.addJobToCompany(newCompany._id, newJob1);
+    //Remove Job
+    try
+    {
+      // remove job in job sub doc
+      const removedJob = await job.removeJob(newJob1._id, newCompany._id);
+      console.log(removedJob);
     }
-    //Update Job
-    try{
-      // update job in job sub doc
-      const updatedJob = await job.updateJob(newJob._id, tempJob,newCompany._id)
-    }catch(e){
+    catch(e)
+    {
       console.log (e);
     }
-  }catch(e){
+  }
+  catch(e)
+  {
     console.log (e);
   }
   // try {
@@ -79,21 +77,15 @@ async function main()
     const addResumeToUser = await users.addResumeToUser(newUser._id,resume)
     // Add workExperience to user
     const newWorkExperience = await workExperience.addWorkDesc('TechName','web dev','jobDes','04/03/2020','19/11/2020');
+    const newWorkExperience1 = await workExperience.addWorkDesc('ADP','Front End Developer','Implemented and tested solutions with Mocha/Chai and Cypress in a CI/CD Agile environment','06/01/2020','08/07/2020');
     const addWorkDesToUser = await users.addWorkDesToUser(newUser._id, newWorkExperience);
-
-    tempWorkDesc =
-    {
-      "companyName": "ADP",
-      "jobTitle": "Front End Developer",
-      "jobDescription": "Implemented and tested solutions with Mocha/Chai and Cypress in a CI/CD Agile environment",
-      "startDate": "06/01/2020",
-      "endDate": "08/07/2020"
-    }
+    const addWorkDesToUser1 = await users.addWorkDesToUser( newUser._id, newWorkExperience1);
 
     //updating work description
 
     try {
-      const updateWorkDesc = await workExperience.updateWorkDesc(newWorkExperience._id, newUser._id, tempWorkDesc);
+      const removeWorkDesc = await workExperience.removeWorkDesc(newWorkExperience1._id, newUser._id);
+      console.log(removeWorkDesc);
     } catch (e) {
       console.log(e)
     }
