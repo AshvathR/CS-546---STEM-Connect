@@ -14,7 +14,7 @@ router.post('/autoCompleteCompany', async function(request, response) {
 	response.json({match: partialMatch, type: "company"});
 });
 
-router.post('/', async function(request, response) {
+router.post('/general', async function(request, response) {
 	let searchData = request.body;
     if(!searchData.homeSearchBar) throw 'No Object Listed for Search';
     console.log(searchData);
@@ -35,14 +35,22 @@ router.post('/', async function(request, response) {
         partialName:  searchData.homeSearchBar,
         userType: searchData.userTypeToggle,
         searchResults: partialMatch,
-        isUser: searchData.userTypeToggle == "User"
+        isUser: true
     });
+});
+
+router.post('/filter',  async function(request, response) {
+	let searchData = request.body;
+    if(!searchData.yearsExp || isNaN(searchData.yearsExp)) throw 'Invalid field: Years of Experience';
+    if(!searchData.skills || !Array.isArray(searchData.skills) || searchData.skills.length < 1) throw 'Invalid field: Skills Array';
+    console.log(searchData);
+
 });
 
 router.get('/', async function(request, response) {
     response.render('general/search',{
         title: "Search Page",
-        auth: false,
+        auth: true,
         isPost: false,
     });   
 });
