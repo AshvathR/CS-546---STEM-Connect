@@ -36,6 +36,7 @@ router.post('/general', async function(request, response) {
         userType: searchData.userTypeToggle,
         searchResults: partialMatch,
         isUser: true
+
     });
 });
 
@@ -52,6 +53,7 @@ router.get('/', async function(request, response) {
         title: "Search Page",
         auth: true,
         isPost: false,
+        notLoginPage:true
     });   
 });
 

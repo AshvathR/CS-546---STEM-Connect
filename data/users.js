@@ -63,6 +63,16 @@ let exportedMethods = {
     return await this.getUserById(userId);
   },
 
+  async findUserByResumeId(resumeId) {
+    checkUndef(resumeId, "resumeId");
+    
+    const userCollection = await users();
+    const user = await userCollection.find({  "resume._id": mongodb.ObjectId(resumeId) }).toArray();
+    
+    if (!user) throw 'User not found';
+    return user;
+  },
+
   async addWorkDesToUser(userId, newWorkExperience) {
     checkUndef(userId, "userId");
     checkUndef(newWorkExperience, "newWorkExperience");
@@ -142,7 +152,48 @@ let exportedMethods = {
 
     if (!updatedInfo.matchedCount && !updatedInfo.modifiedCount) throw `Update Failed!`
     return await this.getUserById(userId);
+  },
+
+  async checkUsernameandPassword(username, password){
+    username = username.toLowerCase();
+    let usernameExists = await this.checkExistingUsername(username);
+    const allUsers = await this.getAllUsers();
+    for(let current of allUsers ){
+      let currentEmail = current.email.toLowerCase();
+      if(currentEmail === username){
+        usernameExists = true;
+      }
+    }
+    if(!usernameExists){
+      return false;
+    } 
+    for(let current of allUsers ){
+      let currentEmail = current.email.toLowerCase();
+      let currentUserName = current.username.toLowerCase();
+      if(username === currentEmail || username === currentUserName){
+        let checkPassword = await bcrypt.compare(password, current.hashedPassword);
+        return checkPassword;
+      }
+    }
+  },
+
+  async removeUser (id)
+  {
+    const userCollection = await users();
+    let user = null;
+
+    try
+    {
+      user = await this.getUserById(id);
+    }
+    catch (e)
+    {
+      console.log(e);
+    }
+
+    const deletionInfo = await userCollection.removeOne({ _id: id });
+    if (deletionInfo.deletedCount == 0) throw `Could not delete the user with ID: ${id}`;
+    else return true
   }
 }
-
 module.exports = exportedMethods
