@@ -91,6 +91,8 @@ let exportedMethods = {
 
       if(!updateInfo.matchedCount && !updateInfo.modifiedCount) throw `Update Field!`;
       const companyCollection = await company()
+      // Update job in company doc
+      const companyCollection = await company();
 
       const updateJob = await companyCollection.updateOne({
         _id : objectId(companyId),

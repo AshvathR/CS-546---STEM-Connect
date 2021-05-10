@@ -54,8 +54,20 @@ let exportedMethods = {
       checkUndef(id, "id");
 
       const projectCollection = await projects();
-      const deletionInfo = await projectCollection.removeOne({ _id: objectId(id) });
+      let project = null;
 
+      try
+      {
+        project = await this.getProjectById(id);
+      }
+      catch (e)
+      {
+        console.log(e)  ;
+      }
+
+      let temp = project._id;
+      
+      const deletionInfo = await projectCollection.removeOne({ _id: objectId(id) });
       if (deletionInfo.deletedCount == 0)
         throw `Could not delete project with the ID ${id}`;
       
@@ -70,9 +82,7 @@ let exportedMethods = {
       checkUndef(userId, "userId");
 
       const project = this.getProjectById(id);
-
-      console.log(updatedProject.description);
-
+      
       let projectUpdateInfo =
       {
         projectTitle: updatedProject.projectTitle,

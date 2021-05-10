@@ -1,0 +1,29 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+        {{#if auth}}
+        {{> navigationAuthPartial }}
+        {{else}}
+        {{> navigationUnauthPartial }}
+        {{/if}}
+</nav>
+<main>
+<div id="searchResultsPage">
+    <div id="searchBar">
+        {{> generalSearchPartial }}
+    </div>
+    <div id="filteredSearch">
+
+    </div>
+    <div id="searchResults">
+        <ul>
+        {{searchResults}}
+        {{#each searchResults}}
+            {{#if isUser}}
+                {{isUser}}
+                <li><a href="/user/{{_id}}">{{name.fullName}}</a></li> 
+            {{/if}}
+            <li><a href="/user/{{_id}}">{{name.fullName}}</a></li> 
+        {{/each}}
+        </ul>   
+    </div>
+</div>
+</main>

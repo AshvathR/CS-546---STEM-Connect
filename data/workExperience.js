@@ -68,7 +68,6 @@ async function updateWorkDesc(id, userId, updatedWorkDesc)
   checkUndef(updatedWorkDesc, "updatedWorkDesc");
 
   const workDesc = await this.getWorkDescById(id);
-  console.log(workDesc);
 
   let workDescInfo = 
   {

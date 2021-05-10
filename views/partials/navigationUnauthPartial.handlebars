@@ -1,15 +1,22 @@
 <div id="navigationUnauthPartial">
-    <div id="signIn">
-        <h1>STEMConnect</h1>
-        <p>A Modern Employment Solution</p>
-        <a href="/login"><button id="loginButton">Login</button></a>
-        <a href="/signup"><button id="signUpButton">Sign Up</button></a>
-    </div>
-    <div id="navigation">
-        <ul id="navv-bar">
-            <li><a href="/">Home</a></li>
-            <li><a href="/search">Find a User or Company</a></li>
-            <li><a href="/aboutUS">About Us</a></li>
+    {{#if notLoginPage}}
+        <div id="signIn">
+            <h1>STEMConnect</h1>
+            <p>A Modern Employment Solution</p>
+            <a href="/login"><button id="loginButton">Login</button></a>
+            <a href="/signup"><button id="signUpButton">Sign Up</button></a>
+        </div>
+    {{else}}
+    <a class="navbar-brand" href="/">STEMConnect</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    {{/if}}
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav" id="navv-bar">
+            <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+            <li class="nav-item"><a class="nav-link" href="/search">Find a User or Company</a></li>
+            <li class="nav-item"><a class="nav-link" href="/aboutUS">About Us</a></li>
         </ul>
     </div>
 </div>

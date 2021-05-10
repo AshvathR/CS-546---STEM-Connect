@@ -22,7 +22,7 @@ let exportedMethods = {
       profilePictureUrl: profilePictureUrl,
       email:email,
       address:address,
-      name:{firstName: firstName , lastName: lastName},
+      name:{firstName: firstName , lastName: lastName, fullName: firstName + ' ' + lastName},
       phoneNumber: phoneNumber,
       aboutMe: aboutMe,
       gender:gender,
@@ -81,7 +81,7 @@ let exportedMethods = {
     
     const userCollection = await users();
     const user = await userCollection.findOne({  _id: mongodb.ObjectId(id) });
-
+    
     if (!user) throw 'User not found';
     return user;
   },
@@ -89,13 +89,23 @@ let exportedMethods = {
   async getAllUsers()
   {
     const userCollection = await users();
-    return await userCollection.find({}).toArray();
+    let userList = await userCollection.find({}).toArray();
+    if (!userList) throw 'No users in System';
+    return userList;
   },
 
   async getAllUsername() {
     const userCollection = await users();
     const userList = await userCollection.find({},{ projection: { _id: 1, username: 1}}).toArray();
     return userList;
+  },
+
+  async getPartialNameMatch(partialName){
+    if(!partialName) throw 'Invalid Lookup';
+    const userCollection = await users();
+    let match = new RegExp('^' + partialName);
+    const partialMatchList = await userCollection.find({ "name.fullName": match}, {projection: {_id: 1, "name.fullName": 1}}).toArray();
+    return partialMatchList;
   },
 
   async checkExistingUsername(username){
@@ -117,7 +127,6 @@ let exportedMethods = {
 
     const userCollection = await users();
     const user = await userCollection.findOne({ resume: {$elemMatch : {_id: mongodb.ObjectID(id)} } });
-    console.log(user);
     let userId = user._id;
 
     const updatedInfo = await userCollection.updateOne(
@@ -127,7 +136,48 @@ let exportedMethods = {
 
     if (!updatedInfo.matchedCount && !updatedInfo.modifiedCount) throw `Update Failed!`
     return await this.getUserById(userId);
+  },
+
+  async checkUsernameandPassword(username, password){
+    username = username.toLowerCase();
+    let usernameExists = await this.checkExistingUsername(username);
+    const allUsers = await this.getAllUsers();
+    for(let current of allUsers ){
+      let currentEmail = current.email.toLowerCase();
+      if(currentEmail === username){
+        usernameExists = true;
+      }
+    }
+    if(!usernameExists){
+      return false;
+    } 
+    for(let current of allUsers ){
+      let currentEmail = current.email.toLowerCase();
+      let currentUserName = current.username.toLowerCase();
+      if(username === currentEmail || username === currentUserName){
+        let checkPassword = await bcrypt.compare(password, current.hashedPassword);
+        return checkPassword;
+      }
+    }
+  },
+
+  async removeUser (id)
+  {
+    const userCollection = await users();
+    let user = null;
+
+    try
+    {
+      user = await this.getUserById(id);
+    }
+    catch (e)
+    {
+      console.log(e);
+    }
+
+    const deletionInfo = await userCollection.removeOne({ _id: id });
+    if (deletionInfo.deletedCount == 0) throw `Could not delete the user with ID: ${id}`;
+    else return true
   }
 }
-
 module.exports = exportedMethods

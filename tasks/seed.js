@@ -13,12 +13,13 @@ const job = data.jobDetails;
 
 async function main() 
 {
+  try{
   const db = await dbConnection();
   await db.dropDatabase();
 
   try {
     //Add company
-    newCompany = await company.addCompany('Essential Tech', 'Mumbai','IT','hrMail@mail.com')
+    newCompany = await company.addCompany('Essential Tech', 'Mumbai','IT','hrMail@mail.com', 'mumbaiUser', '123_Mumbai')
     //Add job
     newJob = await job.addJob('Front End Dev', 'Mumbai','working on the ui','IT','35$','65$','Text on Qualifications')
     console.log("Created Job   " + newJob)
@@ -37,7 +38,6 @@ async function main()
     try{
       // update job in job sub doc
       const updatedJob = await job.updateJob(newJob._id, tempJob,newCompany._id)
-      // console.log(updatedJob)
     }catch(e){
       console.log (e);
     }
@@ -68,7 +68,8 @@ async function main()
 
   try {
     //Add user
-    const newUser = await users.addUser('asada.jpeg','shubham@shubham.shubham',' 123 address, deep, NYC', 'Shubham', 'Warghade', '123456789', 'I am batman!','M','05/07/1997','https:/')
+    const newUser = await users.addUser('asada.jpeg','shubham@shubham.shubham',' 123 address, deep, NYC', 'Shubham', 'Warghade', '123456789', 'I am batman!','M','05/07/1997','https:/',
+           'shubham', '$2b$16$XoxM9a/lLskO6Fx5wSpvauSwvGip7XexMvliIQiDSHHtElYEP3n3O')//password - '123_Shubham' hashedpassword -'$2b$16$XoxM9a/lLskO6Fx5wSpvauSwvGip7XexMvliIQiDSHHtElYEP3n3O'
     //Add Resume
     const resume =  await Resume.addResume([['SchoolName','startDate','endDate','gpa'],['SchoolName2','startDate','endDate','gpa']],['web dev','Analytics'],'hey this is my first resume','resume.pdf','Employed','yes')
     //Add Project to resume
@@ -93,7 +94,6 @@ async function main()
 
     try {
       const updateWorkDesc = await workExperience.updateWorkDesc(newWorkExperience._id, newUser._id, tempWorkDesc);
-      console.log(updateWorkDesc);
     } catch (e) {
       console.log(e)
     }
@@ -110,7 +110,6 @@ async function main()
 
     try {
       const updateProject = await project.updateProject(newProject._id, resume._id, newUser._id, tempProject);
-      // console.log(updateProject);
     } catch (e) {
       console.log(e)
     }
@@ -130,6 +129,10 @@ async function main()
   console.log('Done seeding database');
 
   await db.serverConfig.close();
+  } catch(e){
+    console.log(e);
+  }
+
 }
 
 main();
