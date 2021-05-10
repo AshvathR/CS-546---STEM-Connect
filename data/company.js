@@ -101,28 +101,47 @@ let exportedMethods = {
       return await this.getCompanyById(companyId);
     },
 
-    // async updateJobInCompany(companyId, id) {
-    //   console.log("reached")
-    //   checkUndef(companyId,"companyId")
-    //   checkUndef(id,"id")
+    async getAllUsername() {
+      const companyCollection = await company();
+      const companyList = await companyCollection.find({},{ projection: { _id: 1, username: 1}}).toArray();
+      return companyList;
+    },
 
-    //   // return (1)
+    async checkExistingUsername(username){
+      checkUndef(username, "username");
+      const allUsername = await this.getAllUsername();
+      for(let current of allUsername ){
+        let currentUsername = current.username.toLowerCase();
+        username = username.toLowerCase();
+        if(currentUsername === username){
+          return false;
+        }
+      }
+      return true;
+    },
 
-    //   // const companyData = await this.getCompanyById(companyId)
-    //   const updatedJob = await jobDetails.getJobById(id)
-
-    //   const companyCollection = await company()
-       
-    //   const updateJob = await companyCollection.update({
-    //     _id : companyId,
-    //     "jobDetails._id" : updatedJob._id
-    //   },{
-    //     $set: updatedJob
-    //   },false,true)
-    //   return await this.getCompanyById(companyId)
-    //   },
-
-      
+    async checkUsernameandPassword(username, password){
+      username = username.toLowerCase();
+      let usernameExists = await this.checkExistingUsername(username);
+      const allUsers = await this.getAllUsers();
+      for(let current of allUsers ){
+        let currentEmail = current.hrEmail.toLowerCase();
+        if(currentEmail === username){
+          usernameExists = true;
+        }
+      }
+      if(!usernameExists){
+        return false;
+      } 
+      for(let current of allUsers ){
+        let currentEmail = current.hrEmail.toLowerCase();
+        let currentUserName = current.username.toLowerCase();
+        if(username === currentEmail || username === currentUserName){
+          let checkPassword = await bcrypt.compare(password, current.hashedPassword);
+          return checkPassword;
+        }
+      }
+    }
 }
 
 module.exports = exportedMethods

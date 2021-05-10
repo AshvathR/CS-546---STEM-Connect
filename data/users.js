@@ -145,7 +145,32 @@ let exportedMethods = {
 
     if (!updatedInfo.matchedCount && !updatedInfo.modifiedCount) throw `Update Failed!`
     return await this.getUserById(userId);
+  },
+
+  async checkUsernameandPassword(username, password){
+    username = username.toLowerCase();
+    let usernameExists = await this.checkExistingUsername(username);
+    const allUsers = await this.getAllUsers();
+    for(let current of allUsers ){
+      let currentEmail = current.email.toLowerCase();
+      if(currentEmail === username){
+        usernameExists = true;
+      }
+    }
+    if(!usernameExists){
+      return false;
+    } 
+    for(let current of allUsers ){
+      let currentEmail = current.email.toLowerCase();
+      let currentUserName = current.username.toLowerCase();
+      if(username === currentEmail || username === currentUserName){
+        let checkPassword = await bcrypt.compare(password, current.hashedPassword);
+        return checkPassword;
+      }
+    }
   }
+
+
 }
 
 module.exports = exportedMethods
