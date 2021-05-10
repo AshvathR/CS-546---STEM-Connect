@@ -16,16 +16,18 @@ router.post('/autoCompleteCompany', async function(request, response) {
 
 router.post('/general', async function(request, response) {
 	let searchData = request.body;
-    if(!searchData.homeSearchBar) throw 'No Object Listed for Search';
-    console.log(searchData);
-    if(!searchData.userTypeToggle) throw 'No Object type detected for Search';
+    let homeSearchBar = xss(searchData.homeSearchBar);
+    let userTypeToggle = xss(searchData.userTypeToggle);
+
+    if(!homeSearchBar) throw 'No Object Listed for Search';
+    if(!userTypeToggle) throw 'No Object type detected for Search';
     let partialMatch = [];
-    if(searchData.userTypeToggle == "User"){
-        partialMatch = await data.users.getPartialNameMatch(xss(searchData.homeSearchBar));
-    }else if(searchData.userTypeToggle == "Company"){
-        partialMatch = await data.company.getPartialNameMatch(xss(searchData.homeSearchBar));
+    if(userTypeToggle == "User"){
+        partialMatch = await data.users.getPartialNameMatch(homeSearchBar);
+    }else if(userTypeToggle == "Company"){
+        partialMatch = await data.company.getPartialNameMatch(homeSearchBar);
     }else{
-        throw 'Object Type Error: ' + searchData.userTypeToggle;
+        throw 'Object Type Error: ' + userTypeToggle;
     }
 
     response.render('general/search',{
@@ -42,10 +44,15 @@ router.post('/general', async function(request, response) {
 
 router.post('/filter',  async function(request, response) {
 	let searchData = request.body;
-    if(!searchData.yearsExp || isNaN(searchData.yearsExp)) throw 'Invalid field: Years of Experience';
-    if(!searchData.skills || !Array.isArray(searchData.skills) || searchData.skills.length < 1) throw 'Invalid field: Skills Array';
-    console.log(searchData);
-
+    let yearsExp = xss(searchData.yearsExp);
+    let skills = searchData.skills;
+    for(skill of skills){
+        skill = xss(skill);
+    }
+    if(!yearsExp || isNaN(yearsExp)) throw 'Invalid field: Years of Experience';
+    if(!skills || !Array.isArray(skills) || skills.length < 1) throw 'Invalid field: Skills Array';
+    let listings = await data.jobDetails.searchJobByYearSkills(yearsExp, skills);
+    response.json(listings);
 });
 
 router.get('/', async function(request, response) {
