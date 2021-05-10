@@ -77,7 +77,8 @@ let exportedMethods = {
       checkUndef(years, "years");
       checkUndef(skillsArray,"skillsArray");
       const jobCollection = await jobDetails();
-      const jobsList = await jobCollection.find({$and: [{ skills: { $in: skillsArray}}, { yearsOfExperience: { $gte: years} },{jobStatus: true}]}).toArray();
+      console.log(years);
+      const jobsList = await jobCollection.find({$and: [{jobStatus: true},{ yearsOfExperience: { $lte: parseInt(years)} }, { skills: { $in: skillsArray}}]}).toArray();
       // console.log(jobsList)
       return jobsList
     },

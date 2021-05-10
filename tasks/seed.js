@@ -21,7 +21,7 @@ async function main()
     //Add company
     newCompany = await company.addCompany('Essential Tech', 'Mumbai','IT','hrMail@mail.com', 'mumbaiUser', '123_Mumbai')
     //Add job
-    newJob = await job.addJob('Front End Dev', 'Mumbai','working on the ui',4,['bootstrap', 'vuejs'],'IT','35$','65$','Text on Qualifications',false)
+    newJob = await job.addJob('Front End Dev', 'Mumbai','working on the ui',4,['Mongob', 'Nodejs'],'IT','35$','65$','Text on Qualifications',true)
     console.log("Created Job   " + newJob)
     //Add job to company
     const addJobToCompany = await company.addJobToCompany(newCompany._id,newJob)
@@ -30,7 +30,7 @@ async function main()
       "jobLocation": "Banglore",
       "jobDescription": "working on the DF",
       "yearsOfExperience": 2,
-      "skills": ['web dev', 'mongodb', 'expressjs'],
+      "skills": ['Mongob', 'Nodejs'],
       "jobCategory": "IT",
       "salaryMin": "35$",
       "salaryMax": "65$",
