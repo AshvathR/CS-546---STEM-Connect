@@ -70,8 +70,6 @@ let exportedMethods = {
         return;
       }
 
-      // let temp = company._id;
-
       const deletionInfo = await companyCollection.removeOne({ _id: objectId(id) });
       if (deletionInfo.deletedCount === 0)
       {
@@ -82,11 +80,8 @@ let exportedMethods = {
     async addJobToCompany(companyId, newJob) {
       checkUndef(companyId, "companyId");
       checkUndef(newJob, "newJob");
-      
-      // let currentJob = await userRes.getResumeById(companyId._id);
+
       const companyCollection = await company();
-      // const resumeCollection = await userResume();
-  
       const updateInfo = await companyCollection.updateOne(
         { _id: companyId },
         { $addToSet: { jobDetails: newJob } }

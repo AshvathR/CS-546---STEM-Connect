@@ -175,9 +175,25 @@ let exportedMethods = {
         return checkPassword;
       }
     }
+  },
+
+  async removeUser (id)
+  {
+    const userCollection = await users();
+    let user = null;
+
+    try
+    {
+      user = await this.getUserById(id);
+    }
+    catch (e)
+    {
+      console.log(e);
+    }
+
+    const deletionInfo = await userCollection.removeOne({ _id: id });
+    if (deletionInfo.deletedCount == 0) throw `Could not delete the user with ID: ${id}`;
+    else return true
   }
-
-
 }
-
 module.exports = exportedMethods
