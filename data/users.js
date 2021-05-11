@@ -16,7 +16,7 @@ function checkUndef(variable, variableName)
 
 let exportedMethods = {
 
-  async addUser({profilePictureUrl, email,address, firstName, lastName, phoneNumber, aboutMe, gender, dob, resumeUrl, username, hashedPassword}) {
+  async addUser(profilePictureUrl, email,address, firstName, lastName, phoneNumber, aboutMe, gender, dob, resumeUrl, username, hashedPassword) {
     const userCollection = await users();
 
     let newUser = {
@@ -127,8 +127,10 @@ let exportedMethods = {
 
   async checkExistingUsername(username){
     checkUndef(username, "username");
+    console.log(username)
     const allUsername = await this.getAllUsername();
     for(let current of allUsername ){
+      // console.log(current.username)
       let currentUsername = current.username.toLowerCase();
       username = username.toLowerCase();
       if(currentUsername === username){

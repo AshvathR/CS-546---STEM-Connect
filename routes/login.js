@@ -15,6 +15,7 @@ function errorCheckString(val){
 
 router.post('/', async (req, res) => {
       if(!req.session.authenticated){
+        // console.log(req.body.username)
         let currentUser = await usersData.checkUsernameandPassword(req.body.username, req.body.password);
         let currentCompany = await companyData.checkUsernameandPassword(req.body.username, req.body.password);
         if(errorCheckString(req.body.username) && errorCheckString(req.body.password) && currentUser){
