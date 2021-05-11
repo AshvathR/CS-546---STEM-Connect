@@ -26,9 +26,7 @@ button{
     background-color: #ffffff;
     padding: 30px;
 }
-.profile-card .col-md-3{
-     
-}
+
 .profile-card  .box{
     background-color: #ffffff;
     padding: 30px;
@@ -82,4 +80,14 @@ button{
     display: block;
     background: rgb(116,182,102);
     width: 100%;
+}
+
+input#homeSearchBar{
+    width: 75%;
+    height: 40px;
+    text-align: center;
+}
+
+div#filteredSearch{
+    display: none;
 }

@@ -15,7 +15,9 @@ function checkUndef(variable, variableName)
 
 let exportedMethods = {
 
-    async addJob (jobTitle, jobLocation, jobDescription, jobCategory, salaryMin, salaryMax, qualifications, yearsOfExperience, skills,jobStatus) {
+  
+    async addJob ({jobTitle, jobLocation, jobDescription, jobCategory, salaryMin, salaryMax, qualifications, yearsOfExperience, skills,jobStatus}) {
+
 
         const jobCollection = await jobDetails();
     
@@ -77,7 +79,8 @@ let exportedMethods = {
       checkUndef(years, "years");
       checkUndef(skillsArray,"skillsArray");
       const jobCollection = await jobDetails();
-      const jobsList = await jobCollection.find({$and: [{ skills: { $in: skillsArray}}, { yearsOfExperience: { $gte: years} },{jobStatus: true}]}).toArray();
+      console.log(years);
+      const jobsList = await jobCollection.find({$and: [{jobStatus: true},{ yearsOfExperience: { $lte: parseInt(years)} }, { skills: { $in: skillsArray}}]}).toArray();
       // console.log(jobsList)
       return jobsList
     },
@@ -89,13 +92,14 @@ let exportedMethods = {
       checkUndef(companyId, "companyId")
 
       const job = await this.getJobById(id);
+      console.log(updatedJob.yearsOfExperience)
 
       let jobUpdateInfo = 
       {
         jobTitle: updatedJob.jobTitle,
         jobLocation: updatedJob.jobLocation,
         jobDescription: updatedJob.jobDescription,
-        yearsOfExperience:updatedJob.yearsOfExperience,
+        yearsOfExperience: updatedJob.yearsOfExperience,
         skills:updatedJob.skills,
         jobCategory: updatedJob.jobCategory,
         salaryMin: updatedJob.salaryMin,
@@ -119,6 +123,8 @@ let exportedMethods = {
           "jobDetails.$.jobTitle" : updatedJob.jobTitle,
           "jobDetails.$.jobLocation": updatedJob.jobLocation,
           "jobDetails.$.jobDescription": updatedJob.jobDescription,
+          "jobDetails.$.yearsOfExperience": updatedJob.yearsOfExperience,
+          "jobDetails.$.skills": updatedJob.skills,
           "jobDetails.$.jobCategory": updatedJob.jobCategory,
           "jobDetails.$.salaryMin": updatedJob.salaryMin,
           "jobDetails.$.salaryMax": updatedJob.salaryMax,

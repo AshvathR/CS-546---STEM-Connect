@@ -99,6 +99,16 @@ let exportedMethods = {
       return companyList;
     },
 
+    async getUserID(username) {
+      checkUndef(username, "Username");
+      const companyCollection = await company();
+      const user = await companyCollection.findOne({  username: username });
+      if (!user){
+        user = await companyCollection.findOne({hrEmail: username})
+      };
+      return user._id;
+    },
+
     async checkExistingUsername(username){
       checkUndef(username, "username");
       const allUsername = await this.getAllUsername();
@@ -115,7 +125,7 @@ let exportedMethods = {
     async checkUsernameandPassword(username, password){
       username = username.toLowerCase();
       let usernameExists = await this.checkExistingUsername(username);
-      const allUsers = await this.getAllUsers();
+      const allUsers = await this.getAllCompanies();
       for(let current of allUsers ){
         let currentEmail = current.hrEmail.toLowerCase();
         if(currentEmail === username){

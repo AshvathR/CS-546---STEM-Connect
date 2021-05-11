@@ -1,121 +1,131 @@
-<form onsubmit="return validateMyForm();">
-    <div class="row">
-        <div class="col-md-12">
-            <div id="file" class="form-group">
-                <label for="profile">Profile image</label>
-                <br />
-                <img id="blah" src="#" alt="your image" />
-                <br />
-                <input type='file' onchange="readURL(this);" />
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="form-group">
-                <label for="Username">User Name</label>
-                <input type="text" class="form-control" id="Username" placeholder="">
-            </div>
-            <div class="form-group">
-                <label for="HrInputEmail1">HR Email</label>
-                <input type="email" class="form-control" id="HrInputEmail1" placeholder="">
-            </div>
-
-            <div class="form-group">
-                <label for="Password">Password</label>
-                <input type="password" class="form-control" id="Password" placeholder="">
-            </div>
-
-            <div class="form-group">
-                <label for="ConfirmPassword">Repeat Password</label>
-                <input type="password" class="form-control" id="ConfirmPassword" placeholder="">
-            </div>
-
-
-            <h4>New Job</h4>
-            <div id="job-wrapper">
-                <div class="form-group">
-                    <label for="JobTitle">Job Title</label>
-                    <input type="text" class="form-control" id="JobTitle" placeholder="">
+<form action="/company/new/form/" method="post">
+    <div class="row m-5">
+        <div class="col-md-12 mx-3">
+            <div class="d-flex align-items-center flex-column">
+                <div id="file" style="height: 300px;"
+                    class="d-flex justify-content-start align-items-center flex-column form-group col-md-6">
+                    <h2 class="text-center py-2" for="profile">Profile image</h2>
+                    <br />
+                    <img id="blah" style="height: 150px; width: 150px;"
+                        src="https://png.pngtree.com/element_our/20200609/ourmid/pngtree-children-s-software-programming-image_2230761.jpg"
+                        alt="your image" />
+                    <br />
+                    <input type='file' class="btn btn-outline-primary my-3" onchange="readURL(this);" />
                 </div>
-                <div class="form-group">
-                    <label for="JobLocation">Job Location</label>
-                    <input type="text" class="form-control" id="JobLocation" placeholder="">
-                </div>
+            </div>
+            <div class="col-md-12 d-flex justify-content-between align-items-start">
+                <div class="col-md-5 mx-3 my-4">
+                    <div class="form-group">
+                        <label for="userName">User Name</label>
+                        <input type="text" class="form-control" id="userName" name="userName" placeholder="">
+                    </div>
+                    <div class="form-group">
+                        <label for="HrInputEmail1">HR Email</label>
+                        <input type="email" class="form-control" id="hrEmail" name="hrEmail" placeholder="">
+                    </div>
 
-                <div class="form-group">
-                    <label for="JobCategory">Job Category</label>
-                    <input type="text" class="form-control" id="JobCategory" placeholder="">
+                    <div class="form-group">
+                        <label for="Password">Password</label>
+                        <input type="password" class="form-control" id="password" name="password" placeholder="">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="ConfirmPassword">Repeat Password</label>
+                        <input type="password" class="form-control" id="ConfirmPassword" name="ConfirmPassword"
+                            placeholder="">
+                    </div>
                 </div>
-                <div class="row">
-                    <div class="col-md-6">
+                <div class="col-md-5 mx-3">
+                    <div class="d-flex flex-column" id="workInformation">
+                        <h4 class="text-left pb-4 mt-0" for="profile">Company Information</h4>
+                        <div class="d-flex justify-content-between">
+                            <div class="form-group">
+                                <label for="companyName">Company Name</label>
+                                <input type="text" class="form-control" id="companyName" name="companyName"
+                                    placeholder="">
+                            </div>
+                        </div>
+
                         <div class="form-group">
-                            <label for="SalaryMin">Salary Min</label>
-                            <input type="text" class="form-control" id="SalaryMin" placeholder="">
+                            <label for="ConfirmPassword">Phone Number</label>
+                            <input type="number" class="form-control" id="phoneNumber" name="phoneNumber"
+                                placeholder="">
+                        </div>
+                        <div class="form-group">
+                            <label for="category">Category</label>
+                            <input type="text" class="form-control" id="category" name="category" placeholder="">
+                        </div>
+                        <div class="form-group">
+                            <label for="ConfirmPassword">Address</label>
+                            <input type="text" class="form-control" id="address" name="address" placeholder="">
                         </div>
                     </div>
-                    <div class="col-md-6">
+                </div>
+            </div>
+
+            <div id="job-wrapper" class="col-md-12 d-flex flex-column">
+                <div class="col-md-12 d-flex justify-content-between mt-5 align-items-center">
+                    <div class="col-md-5 mx-3">
+                        <div class="d-flex flex-column" id="workInformation">
+                            <div class="form-group">
+                                <label for="JobTitle">Job Title</label>
+                                <input type="text" class="form-control" id="JobTitle" name="jobTitle" placeholder="">
+                            </div>
+                            <div class="form-group">
+                                <label for="JobLocation">Job Location</label>
+                                <input type="text" class="form-control" id="JobLocation" name="jobLocation"
+                                    placeholder="">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="JobCategory">Job Category</label>
+                                <input type="text" class="form-control" id="JobCategory" name="jobCategory"
+                                    placeholder="">
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="SalaryMin">Salary Min</label>
+                                        <input type="text" class="form-control" id="SalaryMin" name="salaryMin"
+                                            placeholder="">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="SalaryMax">Salary Max</label>
+                                        <input type="text" class="form-control" id="SalaryMax" name="salaryMax"
+                                            placeholder="">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-5 mx-3">
                         <div class="form-group">
-                            <label for="SalaryMax">Salary Max</label>
-                            <input type="text" class="form-control" id="SalaryMax" placeholder="">
+                            <label for="jobDescription">Job Description</label>
+                            <textarea class="form-control" rows="5" id="jobDescription" name="jobDescription"
+                                placeholder=""></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="jobQualification">Qualification</label>
+                            <textarea class="form-control" rows="5" id="jobQualification" name="jobQualification"
+                                placeholder=""></textarea>
                         </div>
                     </div>
                 </div>
             </div>
-
-            <div>
-                <button type="button" onclick="addMoreDetails()">Add More1</button>
+            <div class="d-flex mx-5">
+                <button class="btn btn-primary" onclick="addMoreDetails()" type="button">Add More</button>
             </div>
         </div>
-        <div class="col-md-6">
-            <h4>Company Information</h4>
-            <div class="form-group">
-                <label for="complanyName">Company Name</label>
-                <input type="text" class="form-control" id="complanyName" placeholder="">
-            </div>
-
-            <div class="row">
-                <div class="col-md-12">
-                    <label for="PhoneNumber">Phone number</label>
-                </div>
-                <div class="col-md-2">
-                    <div class="form-group">
-                        <input type="text" class="form-control" id="" placeholder="">
-                    </div>
-                </div>
-                <div class="col-md-10">
-                    <div class="form-group">
-                        <input type="text" class="form-control" id="PhoneNumber" placeholder="">
-                    </div>
-                </div>
-
-            </div>
-            <div class="form-group">
-                <label for="Category">Category</label>
-                <input type="text" class="form-control" id="Category" placeholder="">
-            </div>
-
-            <div class="form-group">
-                <label for="address">Address</label>
-                <input type="text" class="form-control" id="address" placeholder="">
-            </div>
-
-
-
-            <div class="form-group">
-                <label for="JobDescription">Job Description</label>
-                <textarea type="text" class="form-control" id="JobDescription" placeholder="" rows="5"></textarea>
-            </div>
-
-            <div class="form-group">
-                <label for="Qualifications"> Qualifications</label>
-                <textarea type="text" class="form-control" id="Qualifications" placeholder="" rows="5"></textarea>
-            </div>
-        </div>
-        <div class="col-md-12 text-center">
-            <button type="submit">Save</button>
+        <div class="col-md-12 d-flex justify-content-end p-2 px-3">
+            <button class="btn btn-outline-secondary mx-3 px-5" type="submit">Cancel</button>
+            <button class="btn btn-primary px-5" type="submit">Save</button>
         </div>
     </div>
 </form>
 
+<script src="/public/js/company.js"></script>
 <script>
     function readURL(input) {
         if (input.files && input.files[0]) {
@@ -131,35 +141,51 @@
 
     function addMoreDetails() {
         let wrapper = document.getElementById('job-wrapper')
-        let html = `<div>
-            <div class="form-group">
-                    <label for="JobTitle">Job Title</label>
-                    <input type="text" class="form-control" id="JobTitle" placeholder="">
-                </div>
-                <div class="form-group">
-                    <label for="JobLocation">Job Location</label>
-                    <input type="text" class="form-control" id="JobLocation" placeholder="">
-                </div>
+        let html = `<div class="col-md-12 d-flex justify-content-between mt-5 align-items-center">
+                    <div class="col-md-5 mx-3">
+                        <div class="d-flex flex-column" id="workInformation"> 
+                            <div class="form-group">
+                                <label for="JobTitle">Job Title</label>
+                                <input type="text" class="form-control" id="JobTitle" name="jobTitle" placeholder="">
+                            </div>
+                            <div class="form-group">
+                                <label for="JobLocation">Job Location</label>
+                                <input type="text" class="form-control" id="JobLocation" name="jobLocation" placeholder="">
+                            </div>
 
-                <div class="form-group">
-                    <label for="JobCategory">Job Category</label>
-                    <input type="text" class="form-control" id="JobCategory" placeholder="">
-                </div>
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="SalaryMin">Salary Min</label>
-                            <input type="text" class="form-control" id="SalaryMin" placeholder="">
+                            <div class="form-group">
+                                <label for="JobCategory">Job Category</label>
+                                <input type="text" class="form-control" id="JobCategory" name="jobCategory" placeholder="">
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="SalaryMin">Salary Min</label>
+                                        <input type="text" class="form-control" id="SalaryMin" name="salaryMin" placeholder="">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="SalaryMax">Salary Max</label>
+                                        <input type="text" class="form-control" id="SalaryMax" name="salaryMax" placeholder="">
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-5 mx-3">
                         <div class="form-group">
-                            <label for="SalaryMax">Salary Max</label>
-                            <input type="text" class="form-control" id="SalaryMax" placeholder="">
+                            <label for="jobDescription">Job Description</label>
+                            <textarea class="form-control" rows="5" id="jobDescription" name="jobDescription"
+                                placeholder="" ></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="jobQualification">Qualification</label>
+                            <textarea class="form-control" rows="5" id="jobQualification" name="jobQualification"
+                                placeholder="" ></textarea>
                         </div>
                     </div>
-                </div>
-        </div>`;
+                </div>`;
         wrapper.innerHTML += html
     }
 </script>
