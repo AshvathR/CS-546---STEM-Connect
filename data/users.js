@@ -16,7 +16,7 @@ function checkUndef(variable, variableName)
 
 let exportedMethods = {
 
-  async addUser( profilePictureUrl, email,address, firstName, lastName, phoneNumber, aboutMe, gender, dob, resumeUrl, username, hashedPassword) {
+  async addUser({profilePictureUrl, email,address, firstName, lastName, phoneNumber, aboutMe, gender, dob, resumeUrl, username, hashedPassword}) {
     const userCollection = await users();
 
     let newUser = {

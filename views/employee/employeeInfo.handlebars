@@ -1,4 +1,4 @@
-<form action="/employee/new/form/" method="post">
+<form action="/user/new/form/" method="post">
     <div class="row m-5">
         <div class="col-md-12 mx-3">
             <div class="col-md-12 d-flex justify-content-between align-items-start">
@@ -21,7 +21,7 @@
                     </div>
                     <div class="form-group">
                         <label for="HrInputEmail1">Email</label>
-                        <input type="email" class="form-control" id="hrEmail" name="hrEmail" placeholder="">
+                        <input type="email" class="form-control" id="email" name="email" placeholder="">
                     </div>
 
                     <div class="form-group">
@@ -30,13 +30,9 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="Password">Password</label>
-                        <input type="password" class="form-control" id="category" name="category" placeholder="">
-                    </div>
-
-                    <div class="form-group">
                         <label for="ConfirmPassword">Repeat Password</label>
-                        <input type="password" class="form-control" id="ConfirmPassword" name="ConfirmPassword" placeholder="">
+                        <input type="password" class="form-control" id="ConfirmPassword" name="ConfirmPassword"
+                            placeholder="">
                     </div>
                 </div>
                 <div class="col-md-5 mx-3">
@@ -55,12 +51,15 @@
 
                         <div class="form-group">
                             <label for="ConfirmPassword">Phone Number</label>
-                            <input type="number" class="form-control" id="phoneNumber" name="phoneNumber" placeholder="">
+                            <input type="number" class="form-control" id="phoneNumber" name="phoneNumber"
+                                placeholder="">
                         </div>
                         <div class="d-flex">
                             <div class="dropdown form-group d-flex flex-column">
                                 <label for="ConfirmPassword">Gender</label>
-                                <button style="width: 200px;" class="text-right btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" name="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <button style="width: 200px;" class="text-right btn btn-secondary dropdown-toggle"
+                                    type="button" id="dropdownMenuButton" name="dropdownMenuButton"
+                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     Select
                                 </button>
                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
@@ -71,15 +70,15 @@
                             </div>
                             <div class="fd-flex flex-column ml-3">
                                 <label for="ConfirmPassword">Date of Birth</label>
-                                    <input type='date' id="dob" name="dob" class="form-control btn btn-outline-primary"
-                                        onchange="readURL(this);" />
+                                <input type='date' id="dob" name="dob" class="form-control btn btn-outline-primary"
+                                    onchange="readURL(this);" />
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="ConfirmPassword">Address</label>
                             <input type="text" class="form-control" id="address" name="address" placeholder="">
                         </div>
-                        <div class="d-flex flex-column" id="workInformation"> 
+                        <div class="d-flex flex-column" id="workInformation">
                             <h4 class="text-left py-1" for="profile">Upload Resume</h4>
                             <div>
                                 <input type='file' class="btn btn-outline-primary my-3" onchange="readURL(this);" />
@@ -89,106 +88,126 @@
                 </div>
             </div>
             {{!-- Profile End --}}
-            <div class="col-md-12 d-flex justify-content-between align-items-center">
-                <div class="col-md-5 mx-3">
-                    <div class="d-flex flex-column" id="workInformation"> 
-                        <h4 class="text-left py-4" for="profile">Work Information</h4>
-                        <div class="form-group">
-                            <label for="ConfirmPassword">Company Name</label>
-                            <input type="text" class="form-control" id="companyName" name="companyName" placeholder="">
-                        </div>
-                        <div class="form-group">
-                            <label for="ConfirmPassword">Job Title</label>
-                            <input type="text" class="form-control" id="jobTitle" name="jobTitle" placeholder="">
-                        </div>
-                        <div class="form-group">
-                            <label for="ConfirmPassword">Job Location</label>
-                            <input type="text" class="form-control" id="location" name="location" placeholder="">
+            <div id="work-information-wrapper" class="col-md-12 d-flex flex-column">
+                <h4 class="text-left py-4 mx-4" for="profile">Work Information</h4>
+                <div class="col-md-12 d-flex justify-content-between align-items-center">
+                    <div class="col-md-5">
+                        <div class="d-flex flex-column" id="workInformation">
+                            <div class="form-group">
+                                <label for="ConfirmPassword">Company Name</label>
+                                <input type="text" class="form-control" id="companyName" name="companyName"
+                                    placeholder="">
+                            </div>
+                            <div class="form-group">
+                                <label for="ConfirmPassword">Job Title</label>
+                                <input type="text" class="form-control" id="jobTitle" name="jobTitle" placeholder="">
+                            </div>
+
                         </div>
                     </div>
-                </div>
-                <div class="col-md-5 mx-3">
-                    <div class="form-group">
-                        <label for="ConfirmPassword">Job Description</label>
-                        <textarea class="form-control" rows="5" id="projectDescription" name="projectDescription"
-                            placeholder=" example textarea" ></textarea>
-                    </div>
-                </div>
-            </div>
-            <div class="d-flex mx-5">
-                <button class="btn btn-primary" type="submit">Add More</button>
-            </div>
-            {{!-- Work Info End --}}
-            <div class="col-md-12 d-flex justify-content-between align-items-start">
-                <div class="col-md-5 mx-3">
-                    <div class="d-flex flex-column" id="resume"> 
+                    <div class="col-md-5 d-flex flex-column mx-3">
                         <div class="d-flex flex-row">
-                            <h4 class="text-left py-4" for="profile">Resume</h4>
-                            <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input" id="resumeActive"> 
+                            <div class="d-flex flex-column">
+                                <label for="ConfirmPassword">Start Date</label>
+                                <div>
+                                    <input type='date' id="startDate" name="workStartDate"
+                                        class="btn btn-outline-primary my-3" onchange="readURL(this);" />
+                                </div>
+                            </div>
+                            <div class="fd-flex pl-2 flex-column">
+                                <label for="ConfirmPassword">End Date</label>
+                                <div>
+                                    <input type='date' id="endDate" name="workEndDate" class="btn btn-outline-primary my-3"
+                                        onchange="readURL(this);" />
+                                </div>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="ConfirmPassword">Education</label>
-                            <input type="text" class="form-control" id="education" name="education" placeholder="">
+                            <label for="ConfirmPassword">Job Description</label>
+                            <textarea class="form-control" rows="5" id="description" name="WorkDescription"
+                                placeholder=""></textarea>
                         </div>
-                        <div class="form-group">
-                            <label for="ConfirmPassword">Skill</label>
-                            <input type="text" class="form-control" id="skills" name="skills" placeholder="">
-                        </div>
-                        <div class="form-group">
-                            <label for="ConfirmPassword">Work Status</label>
-                            <input type="text" class="form-control" id="workStatus" name="workStatus" placeholder="">
-                        </div>
-                        <div class="form-group d-flex flex-column">
-                            <label for="ConfirmPassword">Resume</label>
-                            <div>
-                                <input type='file' class="btn btn-outline-primary my-3" onchange="readURL(this);" />
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="ConfirmPassword">Skill</label>
-                            <input type="text" class="form-control" id="skill" name="skill" placeholder="">
-                        </div>
-                        <div class="form-group">
-                            <label for="ConfirmPassword">Years of Experience</label>
-                            <input type="number" class="form-control" id="yearsOfExperience" name="yearsOfExperience" placeholder="">
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-5 mx-3">
-                    <div class="form-group">
-                        <label for="ConfirmPassword">Description</label>
-                        <textarea class="form-control" rows="5" id="resumeDescription" name="resumeDescription"
-                            placeholder=" example textarea" ></textarea>
                     </div>
                 </div>
             </div>
+        </div>
+        <div class="d-flex mx-5">
+            <button class="btn btn-primary" onclick="addMoreWorkInformation()" type="button">Add More</button>
+        </div>
+        {{!-- Work Info End --}}
+        <div class="col-md-12 d-flex justify-content-between align-items-start">
+            <div class="col-md-5 mx-3">
+                <div class="d-flex flex-column" id="resume">
+                    <div class="d-flex flex-row">
+                        <h4 class="text-left py-4" for="profile">Resume</h4>
+                        <div class="custom-control custom-switch">
+                            <input type="checkbox" class="custom-control-input" id="resumeActive">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="ConfirmPassword">Education</label>
+                        <input type="text" class="form-control" id="education" name="education" placeholder="">
+                    </div>
+                    <div class="form-group">
+                        <label for="ConfirmPassword">Skill</label>
+                        <input type="text" class="form-control" id="skills" name="skills" placeholder="">
+                    </div>
+                    <div class="form-group">
+                        <label for="ConfirmPassword">Work Status</label>
+                        <input type="text" class="form-control" id="workStatus" name="workStatus" placeholder="">
+                    </div>
+                    <div class="form-group d-flex flex-column">
+                        <label for="ConfirmPassword">Resume</label>
+                        <div>
+                            <input type='file' class="btn btn-outline-primary my-3" onchange="readURL(this);" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="ConfirmPassword">Skill</label>
+                        <input type="text" class="form-control" id="skill" name="skill" placeholder="">
+                    </div>
+                    <div class="form-group">
+                        <label for="ConfirmPassword">Years of Experience</label>
+                        <input type="number" class="form-control" id="yearsOfExperience" name="yearsOfExperience"
+                            placeholder="">
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-5 mx-3">
+                <div class="form-group">
+                    <label for="ConfirmPassword">Description</label>
+                    <textarea class="form-control" rows="5" id="resumeDescription" name="resumeDescription"
+                        placeholder=""></textarea>
+                </div>
+            </div>
+        </div>
+        <div id="project-wrapper" class="col-md-12 d-flex flex-column">
             {{!-- Resume End --}}
+            <h4 class="text-left mx-4 py-4" for="profile">Project</h4>
             <div class="col-md-12 d-flex justify-content-between align-items-center">
-                <div class="col-md-5 mx-3">
+                <div class="col-md-5">
                     <div class="d-flex" id="project">
                         <div class="d-flex flex-column">
                             <div class="d-flex flex-row">
-                                <h4 class="text-left py-4" for="profile">Project</h4>
                             </div>
                             <div class="form-group">
                                 <label for="ConfirmPassword">Project Title</label>
-                                <input type="text" class="form-control" id="projectTitle" name="projectTitle" placeholder="">
+                                <input type="text" class="form-control" id="projectTitle" name="projectTitle"
+                                    placeholder="">
                             </div>
                             <div class="d-flex">
                                 <div class="fd-flex flex-column">
                                     <label for="ConfirmPassword">Start Date</label>
                                     <div>
-                                        <input type='date' id="projectStartDate" name="projectStartDate" class="btn btn-outline-primary my-3"
-                                            onchange="readURL(this);" />
+                                        <input type='date' id="projectStartDate" name="projectStartDate"
+                                            class="btn btn-outline-primary my-3" onchange="readURL(this);" />
                                     </div>
                                 </div>
                                 <div class="fd-flex pl-2 flex-column">
                                     <label for="ConfirmPassword">End Date</label>
                                     <div>
-                                        <input type='date' id="projectEndDate" name="projectEndDate" class="btn btn-outline-primary my-3"
-                                            onchange="readURL(this);" />
+                                        <input type='date' id="projectEndDate" name="projectEndDate"
+                                            class="btn btn-outline-primary my-3" onchange="readURL(this);" />
                                     </div>
                                 </div>
                             </div>
@@ -199,18 +218,19 @@
                     <div class="form-group">
                         <label for="ConfirmPassword">Project Description</label>
                         <textarea class="form-control" rows="5" id="projectDescription" name="projectDescription"
-                            placeholder=" example textarea" ></textarea>
+                            placeholder=""></textarea>
                     </div>
                 </div>
             </div>
-            <div class="d-flex mx-5">
-                <button class="btn btn-primary" type="submit">Add More</button>
-            </div>
         </div>
-        <div class="col-md-12 d-flex justify-content-end p-2 px-3">
-            <button class="btn btn-outline-secondary mx-3 px-5" type="submit">Cancel</button>
-            <button class="btn btn-primary px-5" type="submit">Save</button>
+        <div class="d-flex mx-5 py-2">
+            <button class="btn btn-primary" onclick="addMoreProject()" type="button">Add More</button>
         </div>
+    </div>
+    <div class="col-md-12 d-flex justify-content-end p-2 px-3">
+        <button class="btn btn-outline-secondary mx-3 px-5" type="submit">Cancel</button>
+        <button class="btn btn-primary px-5" type="submit">Save</button>
+    </div>
     </div>
 </form>
 
@@ -228,37 +248,87 @@
         }
     }
 
-    function addMoreDetails() {
-        let wrapper = document.getElementById('job-wrapper')
-        let html = `<div>
-            <div class="form-group">
-                    <label for="JobTitle">Job Title</label>
-                    <input type="text" class="form-control" id="JobTitle" name="JobTitle" placeholder="">
-                </div>
-                <div class="form-group">
-                    <label for="JobLocation">Job Location</label>
-                    <input type="text" class="form-control" id="JobLocation" placeholder="">
-                </div>
+    function addMoreWorkInformation() {
+        let wrapper = document.getElementById('work-information-wrapper')
+        let html = `<div class="col-md-12 py-2 d-flex justify-content-between align-items-center">
+                    <div class="col-md-5">
+                        <div class="d-flex flex-column" id="workInformation">
+                            <div class="form-group">
+                                <label for="ConfirmPassword">Company Name</label>
+                                <input type="text" class="form-control" id="companyName" name="companyName"
+                                    placeholder="">
+                            </div>
+                            <div class="form-group">
+                                <label for="ConfirmPassword">Job Title</label>
+                                <input type="text" class="form-control" id="jobTitle" name="jobTitle" placeholder="">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-5 d-flex flex-column mx-3">
+                        <div class="d-flex flex-row">
+                            <div class="d-flex flex-column">
+                                <label for="ConfirmPassword">Start Date</label>
+                                <div>
+                                    <input type='date' id="workStartDate" name="workStartDate"
+                                        class="btn btn-outline-primary my-3" onchange="readURL(this);" />
+                                </div>
+                            </div>
+                            <div class="fd-flex pl-2 flex-column">
+                                <label for="ConfirmPassword">End Date</label>
+                                <div>
+                                    <input type='date' id="workEndDate" name="workEndDate" class="btn btn-outline-primary my-3"
+                                        onchange="readURL(this);" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="ConfirmPassword">Job Description</label>
+                            <textarea class="form-control" rows="5" id="description" name="WorkDescription"
+                                placeholder=""></textarea>
+                        </div>
+                    </div>
+                </div>`;
+        wrapper.innerHTML += html
+    }
 
-                <div class="form-group">
-                    <label for="JobCategory">Job Category</label>
-                    <input type="text" class="form-control" id="JobCategory" placeholder="">
-                </div>
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="SalaryMin">Salary Min</label>
-                            <input type="text" class="form-control" id="SalaryMin" placeholder="">
+    function addMoreProject() {
+        let wrapper = document.getElementById('project-wrapper')
+        let html = `<div class="col-md-12 py-2 d-flex justify-content-between align-items-center">
+                    <div class="col-md-5">
+                        <div class="d-flex" id="project">
+                            <div class="d-flex flex-column">
+                                <div class="form-group">
+                                    <label for="ConfirmPassword">Project Title</label>
+                                    <input type="text" class="form-control" id="projectTitle" name="projectTitle"
+                                        placeholder="">
+                                </div>
+                                <div class="d-flex">
+                                    <div class="fd-flex flex-column">
+                                        <label for="ConfirmPassword">Start Date</label>
+                                        <div>
+                                            <input type='date' id="projectStartDate" name="projectStartDate"
+                                                class="btn btn-outline-primary my-3" onchange="readURL(this);" />
+                                        </div>
+                                    </div>
+                                    <div class="fd-flex pl-2 flex-column">
+                                        <label for="ConfirmPassword">End Date</label>
+                                        <div>
+                                            <input type='date' id="projectEndDate" name="projectEndDate"
+                                                class="btn btn-outline-primary my-3" onchange="readURL(this);" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-5 mx-3">
                         <div class="form-group">
-                            <label for="SalaryMax">Salary Max</label>
-                            <input type="text" class="form-control" id="SalaryMax" placeholder="">
+                            <label for="ConfirmPassword">Project Description</label>
+                            <textarea class="form-control" rows="5" id="projectDescription" name="projectDescription"
+                                placeholder=""></textarea>
                         </div>
                     </div>
-                </div>
-        </div>`;
+                </div>`;
         wrapper.innerHTML += html
     }
 </script>
