@@ -7,3 +7,7 @@ input#homeSearchBar{
 div#filteredSearch{
     display: none;
 }
+
+.hidden {
+    display: none;
+}

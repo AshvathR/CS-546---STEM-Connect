@@ -18,18 +18,23 @@ router.post('/', async (req, res) => {
         let currentUser = await usersData.checkUsernameandPassword(req.body.username, req.body.password);
         let currentCompany = await companyData.checkUsernameandPassword(req.body.username, req.body.password);
         if(errorCheckString(req.body.username) && errorCheckString(req.body.password) && currentUser){
-            req.session.currentUser = "employee";
-            req.session.authenticated = true;
+            req.session.username = req.body.username;
             let currentUsername = req.body.username.toLowerCase();
             let currentID = await usersData.getUserID(currentUsername);
+            req.session._id = currentID;
+            req.session.currentUser = "employee";
+            req.session.authenticated = true;
+            
             // res.render('employee/profile', { title: "Employee profile" ,  auth: true, notLoginPage: true});
             res.redirect(`/user/${currentID}`);
         }
         else if(errorCheckString(req.body.username) && errorCheckString(req.body.password) && currentCompany){
-            req.session.currentUser = "company";
-            req.session.authenticated = true;
+            req.session.username = req.body.username;
             let currentUsername = req.body.username.toLowerCase();
             let currentID = await companyData.getUserID(currentUsername);
+            req.session._id = currentID;
+            req.session.currentUser = "company";
+            req.session.authenticated = true;
             // res.render('company/profile', { title: "Company profile" ,  auth: true, notLoginPage: true});
             res.redirect(`/company/${currentID}`);
         }
