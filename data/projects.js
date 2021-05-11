@@ -14,7 +14,7 @@ function checkUndef(variable, variableName)
 }
 
 let exportedMethods = {
-    async addProject(projectTitle, description, startDate, endDate) {
+    async addProject({projectTitle, description, startDate, endDate}) {
 
         const projectCollection = await projects();
     

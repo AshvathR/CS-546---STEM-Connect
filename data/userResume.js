@@ -14,7 +14,7 @@ function checkUndef(variable, variableName)
 
 let exportedMethods = {
 
-    async addResume(education, skills, description, userResumeUrl, workStatus, resumeActive) {
+    async addResume({education, skills, description, userResumeUrl, workStatus,yearsOfExperience, resumeActive}) {
 
         const resumeCollection = await userResume();
     
