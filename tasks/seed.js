@@ -15,7 +15,7 @@ async function main()
 {
   try{
   const db = await dbConnection();
-  // await db.dropDatabase();
+  await db.dropDatabase();
 
   try {
     //Add company
