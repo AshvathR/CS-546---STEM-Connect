@@ -4,6 +4,7 @@ const userRes = require('./userResume')
 var mongodb = require('mongodb');
 const { userResume } = require('../config/mongoCollections');
 const loginInfo = require('./loginInfo'); 
+const bcrypt = require('bcryptjs');
 
 function checkUndef(variable, variableName)
 {
@@ -63,6 +64,16 @@ let exportedMethods = {
     return await this.getUserById(userId);
   },
 
+  async findUserByResumeId(resumeId) {
+    checkUndef(resumeId, "resumeId");
+    
+    const userCollection = await users();
+    const user = await userCollection.find({  "resume._id": mongodb.ObjectId(resumeId) }).toArray();
+    
+    if (!user) throw 'User not found';
+    return user;
+  },
+
   async addWorkDesToUser(userId, newWorkExperience) {
     checkUndef(userId, "userId");
     checkUndef(newWorkExperience, "newWorkExperience");
@@ -84,10 +95,10 @@ let exportedMethods = {
 
   async getUserById(id) {
     checkUndef(id, "id");
+    
     const userCollection = await users();
-    // console.log(id)
     const user = await userCollection.findOne({  _id: mongodb.ObjectId(id) });
-    // console.log(user)
+    
     if (!user) throw 'User not found';
     return user;
   },
@@ -98,8 +109,6 @@ let exportedMethods = {
     let userList = await userCollection.find({}).toArray();
     if (!userList) throw 'No users in System';
     return userList;
-
-
   },
 
   async getAllUsername() {
@@ -123,10 +132,10 @@ let exportedMethods = {
       let currentUsername = current.username.toLowerCase();
       username = username.toLowerCase();
       if(currentUsername === username){
-        return false;
+        return true;
       }
     }
-    return true;
+    return false;
   },
 
   async removeResumeFromUser(resumeId)
@@ -135,7 +144,6 @@ let exportedMethods = {
 
     const userCollection = await users();
     const user = await userCollection.findOne({ resume: {$elemMatch : {_id: mongodb.ObjectID(id)} } });
-    console.log(user);
     let userId = user._id;
 
     const updatedInfo = await userCollection.updateOne(
@@ -145,7 +153,59 @@ let exportedMethods = {
 
     if (!updatedInfo.matchedCount && !updatedInfo.modifiedCount) throw `Update Failed!`
     return await this.getUserById(userId);
+  },
+
+  async checkUsernameandPassword(username, password){
+    username = username.toLowerCase();
+    let usernameExists = await this.checkExistingUsername(username);
+    const allUsers = await this.getAllUsers();
+    for(let current of allUsers ){
+      let currentEmail = current.email.toLowerCase();
+      if(currentEmail === username){
+        usernameExists = true;
+      }
+    }
+    if(!usernameExists){
+      return false;
+    } 
+    for(let current of allUsers ){
+      let currentEmail = current.email.toLowerCase();
+      let currentUserName = current.username.toLowerCase();
+      if(username === currentEmail || username === currentUserName){
+        let checkPassword = await bcrypt.compare(password, current.hashedPassword);
+        return checkPassword;
+      }
+    }
+  },
+
+
+  async getUserID(username) {
+    checkUndef(username, "Username");
+    const userCollection = await users();
+    const user = await userCollection.findOne({  username: username });
+    if (!user){
+      user = await userCollection.findOne({email: username})
+    };
+    return user._id;
+  },
+
+  async removeUser (id)
+  {
+    const userCollection = await users();
+    let user = null;
+
+    try
+    {
+      user = await this.getUserById(id);
+    }
+    catch (e)
+    {
+      console.log(e);
+    }
+
+    const deletionInfo = await userCollection.removeOne({ _id: id });
+    if (deletionInfo.deletedCount == 0) throw `Could not delete the user with ID: ${id}`;
+    else return true
   }
 }
-
 module.exports = exportedMethods

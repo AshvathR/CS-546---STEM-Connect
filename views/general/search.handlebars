@@ -1,20 +1,39 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+        {{#if auth}}
+        {{> navigationAuthPartial }}
+        {{else}}
+        {{> navigationUnauthPartial }}
+        {{/if}}
+</nav>
+<main>
+<script src="/public/js/util.js"></script>
 <div id="searchResultsPage">
     <div id="searchBar">
         {{> generalSearchPartial }}
     </div>
+    
+   
+
+    {{#if auth}}
     <div id="filteredSearch">
+        {{> filteredSearchPartial }}
+    </div>
+    <input type="submit" onclick="searchToggle()" id="filteredSearchReveal" value="Use Filtered Search"/>      
+    {{else}}
+        <button type="submit" onclick="document.location.href='/login'" id="loginRedirectSearch">Filtered Search</button>
+    {{/if}}
 
     </div>
     <div id="searchResults">
         <ul>
-        {{searchResults}}
         {{#each searchResults}}
-            {{#if isUser}}
-                {{isUser}}
-                <li><a href="/user/{{_id}}">{{name.fullName}}</a></li> 
+            {{#if ../isUser}}
+                <li><a href="/user/{{_id}}">{{name.fullName}}</a></li>
+            {{else}} 
+                <li><a href="/company/{{_id}}">{{companyName}}</a></li>
             {{/if}}
-            <li><a href="/user/{{_id}}">{{name.fullName}}</a></li> 
         {{/each}}
         </ul>   
     </div>
 </div>
+</main>

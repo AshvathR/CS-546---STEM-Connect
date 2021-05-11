@@ -29,7 +29,7 @@ router.post('/signup', async (req,res) => {
           res.status(401);
           res.render("employee/login",{currentTitle : "Login", currentHeader : "Login Form", hasErrors : true});
         }
-        let checkUsernameExists = companyData.checkExistingUsername(username);
+        let checkUsernameExists = await companyData.checkExistingUsername(username);
         if(checkUsernameExists && errorCheckString(username)){
           req.session.username = username;
           req.session.hashedPassword = hashedPassword;
@@ -48,7 +48,7 @@ router.post('/signup', async (req,res) => {
           res.status(401);
           res.render("employee/login",{currentTitle : "Login", currentHeader : "Login Form", hasErrors : true});
         }
-        let checkUsernameExists = usersData.checkExistingUsername(username);
+        let checkUsernameExists = await usersData.checkExistingUsername(username);
         if(checkUsernameExists && errorCheckString(username)){
           req.session.username = username;
           req.session.hashedPassword = hashedPassword;
@@ -61,5 +61,10 @@ router.post('/signup', async (req,res) => {
       }
     }
   });
+
+  router.get('/signup', async (req,res) => {
+    res.render('general/signup', { title: "Sign Up" ,  auth: false, notLoginPage:false});
+  });
+
 
   module.exports = router;

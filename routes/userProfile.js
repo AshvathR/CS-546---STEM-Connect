@@ -11,7 +11,9 @@ router.get('/:id', async (req, res) => {
     res.json(user);
 });
 
-
+router.get('/', async(req,res)=> {
+    res.render('employee/employeeInfo', { title: "Employee Details" ,  auth: true, notLoginPage: true});
+})
 
 
 module.exports = router;

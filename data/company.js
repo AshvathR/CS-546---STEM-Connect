@@ -25,11 +25,8 @@ let exportedMethods = {
           username: username,
           hashedPassword: hashedPassword
         };
-        // userId = mongodb.ObjectId(userId)
     
         const newInsertInformation = await companyCollection.insertOne(newCompany);
-        // const newId = newInsertInformation.insertedId;
-        // await users.addResumeToUser(userId, newResume);
         console.log("Added newCompany")
         return newCompany;
     },
@@ -43,7 +40,7 @@ let exportedMethods = {
     async getCompanyById(id)
     {
       checkUndef(id, "id");
-      // console.log("reached")
+
       const companyCollection = await company();
       const selectedCompany = await companyCollection.findOne({ _id: objectId(id) });
       if (!selectedCompany) throw `Company with the given ID: ${id} not found`;
@@ -73,8 +70,6 @@ let exportedMethods = {
         return;
       }
 
-      // let temp = company._id;
-
       const deletionInfo = await companyCollection.removeOne({ _id: objectId(id) });
       if (deletionInfo.deletedCount === 0)
       {
@@ -85,11 +80,8 @@ let exportedMethods = {
     async addJobToCompany(companyId, newJob) {
       checkUndef(companyId, "companyId");
       checkUndef(newJob, "newJob");
-      
-      // let currentJob = await userRes.getResumeById(companyId._id);
+
       const companyCollection = await company();
-      // const resumeCollection = await userResume();
-  
       const updateInfo = await companyCollection.updateOne(
         { _id: companyId },
         { $addToSet: { jobDetails: newJob } }
@@ -101,28 +93,57 @@ let exportedMethods = {
       return await this.getCompanyById(companyId);
     },
 
-    // async updateJobInCompany(companyId, id) {
-    //   console.log("reached")
-    //   checkUndef(companyId,"companyId")
-    //   checkUndef(id,"id")
+    async getAllUsername() {
+      const companyCollection = await company();
+      const companyList = await companyCollection.find({},{ projection: { _id: 1, username: 1}}).toArray();
+      return companyList;
+    },
 
-    //   // return (1)
+    async getUserID(username) {
+      checkUndef(username, "Username");
+      const companyCollection = await company();
+      const user = await companyCollection.findOne({  username: username });
+      if (!user){
+        user = await companyCollection.findOne({hrEmail: username})
+      };
+      return user._id;
+    },
 
-    //   // const companyData = await this.getCompanyById(companyId)
-    //   const updatedJob = await jobDetails.getJobById(id)
+    async checkExistingUsername(username){
+      checkUndef(username, "username");
+      const allUsername = await this.getAllUsername();
+      for(let current of allUsername ){
+        let currentUsername = current.username.toLowerCase();
+        username = username.toLowerCase();
+        if(currentUsername === username){
+          return false;
+        }
+      }
+      return true;
+    },
 
-    //   const companyCollection = await company()
-       
-    //   const updateJob = await companyCollection.update({
-    //     _id : companyId,
-    //     "jobDetails._id" : updatedJob._id
-    //   },{
-    //     $set: updatedJob
-    //   },false,true)
-    //   return await this.getCompanyById(companyId)
-    //   },
-
-      
+    async checkUsernameandPassword(username, password){
+      username = username.toLowerCase();
+      let usernameExists = await this.checkExistingUsername(username);
+      const allUsers = await this.getAllCompanies();
+      for(let current of allUsers ){
+        let currentEmail = current.hrEmail.toLowerCase();
+        if(currentEmail === username){
+          usernameExists = true;
+        }
+      }
+      if(!usernameExists){
+        return false;
+      } 
+      for(let current of allUsers ){
+        let currentEmail = current.hrEmail.toLowerCase();
+        let currentUserName = current.username.toLowerCase();
+        if(username === currentEmail || username === currentUserName){
+          let checkPassword = await bcrypt.compare(password, current.hashedPassword);
+          return checkPassword;
+        }
+      }
+    }
 }
 
 module.exports = exportedMethods
