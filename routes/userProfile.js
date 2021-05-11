@@ -2,13 +2,31 @@ const express = require('express');
 const router = express.Router();
 const data = require('../data');
 const xss = require('xss');
-const {projectFields, resumeFields, companyFields} = require('./constants');
+const {projectFields, resumeFields, companyFields,workFields, userFields} = require('./constants');
 
 const extractValue = (body, fields) =>
   fields.reduce((acc, { propKey, elementKey }) => {
     const value = body[elementKey];
     return { ...acc, [propKey]: value || null };
   }, {});
+
+const extractJobValue = (body, fields, key="jobTitle") => {
+  if (Array.isArray(body[key])) {
+    const values = [];
+    for(const count in body[key]) {
+      const value = fields.reduce((acc, value )=> {
+        acc[value.propKey] = body[value.elementKey][count] || null
+        return acc;
+      }, {})
+      values.push(value);
+    }
+    return values;
+  } else {
+    return [extractValue(body, fields)]
+  }
+
+}
+
 
 router.get("/:type/form", async (req, res) => {
   res.render("employee/employeeInfo", {

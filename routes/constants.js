@@ -20,8 +20,59 @@ const companyFields = [
       elementKey: "username",
     },
     {
+      propKey: "address",
+      elementKey: "address",
+    },
+    {
       propKey: "password",
       elementKey: "password",
+    },
+    {
+      propKey: "phoneNumber",
+      elementKey: "phoneNumber",
+    },
+    {
+      propKey: "phoneNumber",
+      elementKey: "phoneNumber",
+    },
+  ];
+
+  const userFields = [
+    {
+      propKey: "address",
+      elementKey: "address",
+    },
+    {
+      propKey: "email",
+      elementKey: "email",
+    },
+    {
+      propKey: "gender",
+      elementKey: "gender",
+    },
+    {
+      propKey: "lastName",
+      elementKey: "lastName",
+    },
+    {
+      propKey: "firstName",
+      elementKey: "firstName",
+    },
+    {
+      propKey: "address",
+      elementKey: "address",
+    },
+    {
+      propKey: "dob",
+      elementKey: "dob",
+    },
+    {
+      propKey: "password",
+      elementKey: "password",
+    },
+    {
+      propKey: "username",
+      elementKey: "username",
     },
   ];
   
@@ -71,7 +122,65 @@ const companyFields = [
     },
   ];
 
+  const workFields = [
+    {
+      propKey: "companyName",
+      elementKey: "companyName",
+    },
+    {
+      propKey: "jobTitle",
+      elementKey: "jobTitle",
+    },
+    {
+      propKey: "jobDescription",
+      elementKey: "jobDescription",
+    },
+    {
+      propKey: "startDate",
+      elementKey: "workStartDate",
+    },
+    {
+      propKey: "endDate",
+      elementKey: "workEndDate",
+    },
+  ];
+  
+  const jobFields = [
+    {
+      propKey: "jobTitle",
+      elementKey: "jobTitle",
+    },
+    {
+      propKey: "jobLocation",
+      elementKey: "jobLocation",
+    },
+    {
+      propKey: "jobCategory",
+      elementKey: "jobCategory",
+    },
+    {
+      propKey: "salaryMin",
+      elementKey: "salaryMin",
+    },
+    {
+      propKey: "salaryMax",
+      elementKey: "salaryMax",
+    },
+    {
+      propKey: "jobDescription",
+      elementKey: "jobDescription",
+    },
+    {
+      propKey: "jobQualification",
+      elementKey: "jobQualification",
+    },
+  ];
+
   module.exports = {
+
+    userFields,
+    jobFields,
+    workFields,
     projectFields,
     resumeFields,
     companyFields

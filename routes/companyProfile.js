@@ -10,6 +10,24 @@ const extractValue = (body, fields) =>
     return { ...acc, [propKey]: value || null };
   }, {});
 
+  const extractJobValue = (body, key="jobTitle") => {
+    if (Array.isArray(body[key])) {
+      const values = [];
+      for(const count in body[key]) {
+        const value = jobFields.reduce((acc, value )=> {
+          acc[value.propKey] = body[value.elementKey][count] || null
+          return acc;
+        }, {})
+        values.push(value);
+      }
+      return values;
+    } else {
+      return [extractValue(body, jobFields)]
+    }
+  
+  }
+
+  
 router.get("/:type/form", async (req, res) => {
   res.render("company/companyInfo", {
     title: "STEMConnect",

@@ -11,7 +11,7 @@ function checkUndef(variable, variableName)
     }
 }
 
-async function addWorkDesc(companyName, jobTitle, jobDescription,startDate, endDate)
+async function addWorkDesc({companyName, jobTitle, jobDescription,startDate, endDate})
 {
   const workExperienceCollection = await workExperience();
     
