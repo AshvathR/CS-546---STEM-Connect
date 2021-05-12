@@ -183,6 +183,7 @@ let exportedMethods = {
     checkUndef(username, "Username");
     const userCollection = await users();
     let user = await userCollection.findOne({  username: username });
+    // console.log(user);
     if (!user){
       user = await userCollection.findOne({email: username})
     };

@@ -39,7 +39,7 @@ router.post('/', async (req, res) => {
             res.redirect(`/company/${currentID}`);
         }
         else{
-          // console.log("else")
+          console.log("else")
           res.status(401);
           res.render('general/login', { title: "Log In" ,  auth: false, notLoginPage: false});
         }

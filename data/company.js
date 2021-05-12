@@ -2,6 +2,7 @@ const mongoCollections = require('../config/mongoCollections');
 const company = mongoCollections.company;
 const jobDetails = require('./jobDetails')
 const objectId = require("mongodb").ObjectID;
+const bcrypt = require('bcryptjs');
 
 function checkUndef(variable, variableName)
 {
@@ -95,6 +96,7 @@ let exportedMethods = {
 
     async getAllUsername() {
       const companyCollection = await company();
+      // console.log(companyCollection)
       const companyList = await companyCollection.find({},{ projection: { _id: 1, username: 1}}).toArray();
       return companyList;
     },
@@ -102,10 +104,15 @@ let exportedMethods = {
     async getUserID(username) {
       checkUndef(username, "Username");
       const companyCollection = await company();
-      const user = await companyCollection.findOne({  username: username });
-      if (!user){
-        user = await companyCollection.findOne({hrEmail: username})
-      };
+      const allUsers = await this.getAllCompanies();
+      let user = {};
+      for(let current of allUsers ){
+        let currentEmail = current.hrEmail.toLowerCase();
+        let currentUsername = current.username.toLowerCase();
+        if(currentEmail === username || currentUsername === username){
+          user = current;
+        }
+      }
       return user._id;
     },
 
@@ -116,10 +123,10 @@ let exportedMethods = {
         let currentUsername = current.username.toLowerCase();
         username = username.toLowerCase();
         if(currentUsername === username){
-          return false;
+          return true;
         }
       }
-      return true;
+      return false;
     },
 
     async checkUsernameandPassword(username, password){
