@@ -38,14 +38,16 @@ router.get("/:type/form", async (req, res) => {
 });
 
 router.post("/:type/form", async (req, res) => {
+  console.log(req.body);
   const companyInfo = extractValue(req.body, companyFields);
-  const resumeInfo = extractValue(req.body, resumeFields);
-  const projectInfo = extractValue(req.body, projectFields);
-  const jobDetailInfo = extractValue(req.body, projectFields);
+  const jobDetailInfo = extractJobValue(req.body);
   await data.company.addCompany(companyInfo)
-  await data.userResume.addResume(resumeInfo)
   await data.projects.addProject(projectInfo)
-  await data.jobDetails.addJob(jobDetailInfo)
+  for (const jobDetail of jobDetailInfo) {
+    console.log(jobDetail);
+    await data.jobDetails.addJob(jobDetail)
+  }
+  
   
   res.render("company/successScreen", {
     title: "STEMConnect",

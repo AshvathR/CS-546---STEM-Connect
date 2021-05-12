@@ -127,7 +127,7 @@ let exportedMethods = {
 
   async checkExistingUsername(username){
     checkUndef(username, "username");
-    console.log(username)
+    // console.log(username)
     const allUsername = await this.getAllUsername();
     for(let current of allUsername ){
       // console.log(current.username)

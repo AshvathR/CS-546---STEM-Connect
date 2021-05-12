@@ -4,7 +4,19 @@
         var searchBar = $("#homeSearchBar");
         var form = $("#landingSearch");
         var checkbox = $("#userTypeToggle");
+        var userType = $("#getUserType");
 
+        checkbox.on("click", function(){
+            if(checkbox.prop('checked') == true){
+                userType.empty();
+                userType.css("margin-right", "5px");
+                userType.append("Company");
+            }else{
+                userType.empty();
+                userType.css("margin-right", "39px");
+                userType.append("User");
+            }
+        });
 
         form.submit(function(e){
             if(searchBar.val().length < 1){

@@ -6,25 +6,38 @@
     {{/if}}
 </nav>
 <main>
-    <h1 class = "first">Log In</h1>
-        <div class = "login-Form">
-            <form action="/login" method="POST" class="login-form">
-            <label id = "form">
-                Username:
-                <br>
-                <input type="text" id="username" name="username" placeholder="Username" value="{{login.username}}" >
-                <br>
-                Password:
-                <br>
-                <input type="password" id="password" name="password" placeholder="Password" value="{{login.password}}" >
-                <div class="error" id="errorDiv" hidden></div>
-                <div id = "error-message" class = "error-message" hidden> </div> 
-            </label>
-            <br>
-            <br>
-            <button type="submit" class="btnLogin" >Log in</button>
-            <a href="/signup"><button class="btnSignUp">Sign Up</button></a>
-            </form>
+    <div class="container" style="background-color: #f1f1f1; border-radius: 10px; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); padding:15px; ">
+        <div class="row">
+            <div class="col-md-6">
+            <img src="/public/login.png" alt="">
+        </div>
+        <div class="col-md-6">
+            <div style="margin-top: 15vh; margin-left: 2vh;">
+                <h1 class = "first">Log In</h1>
+                <div class = "login-Form">
+                    <form action="/login" method="POST" class="login-form">
+                    <label id = "form">
+                        Username:
+                        <br>
+                        <input type="text" id="username" name="username" placeholder="Username" value="{{login.username}}" >
+                        <span class="error-username" id="error-username"></span>
+                        <br>
+                        Password:
+                        <br>
+                        <input type="password" id="password" name="password" placeholder="Password" value="{{login.password}}" >
+                        <div class="error-password" id="error-password" ></div>
+            
+                    </label>
+                    <br>
+                    <br>
+                    <button type="submit" class="btnLogin" >Log in</button>
+                    <a href="/signup"><button class="btnSignUp">Sign Up</button></a>
+                    </form>
+                </div>
+            </div>
+        </div>
         </div>
         <script src="/public/js/login.js"></script>
+    </div>
+    
 </main>
