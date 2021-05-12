@@ -1,7 +1,80 @@
-<h1>{{userInfo.address}}</h1>
+<div class="container" id="companyView" style= "font-family: Verdana, Geneva, Tahoma, sans-serif;">
+    <div class="row">
+        <div class="col-4">
+            <div class="card" style="width: 18rem;">
+                <div class="card-body">
+                    <img id="card-image-top" src="https://png.pngtree.com/element_our/20200609/ourmid/pngtree-children-s-software-programming-image_2230761.jpg" alt="Card Image cap"/>
+                    <div class="card-body">
+                        <h2 class="card-title d-flex justify-content-center" style="font-weight: bolder;">{{company.companyName}}</h2>
+                        <h4 class="card-title d-flex justify-content-center" style="color: rgb(155, 155, 155); font-size: medium;">{{company.category}}</h4>
+                        <h4 class="card-title d-flex justify-content-center" style="color: rgb(155, 155, 155); font-size: medium;">{{company.location}}</h4>
+                        <p class="card-text d-flex justify-content-center">Located in Vasai Road Station's North Lanes.</p>
+                        <a href="/logout" class="btn btn-outline-dark d-flex justify-content-center" role="button" aria-pressed="true">Logout</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-8">
+            <div class="card mb-3">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <h6 class="mb-0">Company Name</h6>
+                        </div>
+                        <div class="col-sm-9 text-secondary" style="color: black;">
+                            {{company.companyName}}
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <h6 class="mb-0">Category</h6>
+                        </div>
+                        <div class="col-sm-9 text secondary">
+                            {{company.category}}
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <h6 class="mb-0">HR Email</h6>
+                        </div>
+                        <div class="col-sm-9 text secondary">
+                            {{company.hrEmail}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-4">
+                {{#each company.jobDetails}}
+                    {{#if this.jobStatus}}
+                        <div class="content">
+                            <div class="row">
+                                <div class="row">
+                                    <div class="col-lg-4">
+                                        <div class="text-center card-box">
+                                            <div class="member-card pt-3 pb-3">
+                                                <div class="">
+                                                    <h5>{{this.jobTitle}}</h5>
+                                                    <p class="text-muted">{{this.jobLocation}} <span> |</span>{{company.companyName}}</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {{/if}}
+                {{/each}}
+            </div>
+        </div>
+    </div>
+</div>
+<br>
+<br>
+<br>
 <div class="container" id="companyView">
     <div class="row">
-
             <div class="col-md-12 d-flex justify-content-between align-items-start">
                 <div class="row">
                 <div class="col-md-6 mx-3">

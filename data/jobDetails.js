@@ -92,7 +92,6 @@ let exportedMethods = {
       checkUndef(companyId, "companyId")
 
       const job = await this.getJobById(id);
-      console.log(updatedJob.yearsOfExperience)
 
       let jobUpdateInfo = 
       {
@@ -128,7 +127,8 @@ let exportedMethods = {
           "jobDetails.$.jobCategory": updatedJob.jobCategory,
           "jobDetails.$.salaryMin": updatedJob.salaryMin,
           "jobDetails.$.salaryMax": updatedJob.salaryMax,
-          "jobDetails.$.qualifications": updatedJob.qualifications
+          "jobDetails.$.qualifications": updatedJob.qualifications,
+          "jobDetails.$.jobStatus": updatedJob.jobStatus
         }
       }, false, true);
 
