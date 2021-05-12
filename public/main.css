@@ -26,9 +26,9 @@ button{
     background-color: #ffffff;
     padding: 30px;
 }
-.profile-card .col-md-3{
+/* .profile-card .col-md-3{
      
-}
+} */
 .profile-card  .box{
     background-color: #ffffff;
     padding: 30px;
@@ -82,4 +82,39 @@ button{
     display: block;
     background: rgb(116,182,102);
     width: 100%;
+}
+
+input#homeSearchBar{
+    width: 75%;
+    height: 40px;
+    text-align: center;
+}
+
+div#filteredSearch{
+    display: none;
+}
+
+p{
+    color: red;
+}
+
+div.job-info li {
+    list-style:none;
+    background-image:none;
+    background-repeat:none;
+    background-position:0; 
+}
+
+ul
+{
+    list-style-type:none;
+    padding:0px;
+    margin:0px;
+}
+
+li
+{
+    background-repeat:no-repeat;
+    background-position:0px 5px; 
+    padding-left:14px;
 }
