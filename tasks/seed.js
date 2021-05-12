@@ -21,7 +21,7 @@ async function main()
     //Add company
     newCompany = await company.addCompany('Essential Tech', 'Mumbai','IT','hrMail@mail.com', 'mumbaiUser', '$2b$16$XoxM9a/lLskO6Fx5wSpvauSwvGip7XexMvliIQiDSHHtElYEP3n3O')
     //Add job
-    newJob = await job.addJob('Front End Dev', 'Mumbai','working on the ui',4,['Mongob', 'Nodejs'],'IT','35$','65$','Text on Qualifications',true)
+    newJob = await job.addJob('Front End Dev', 'Mumbai','working on the ui',4,['Mongob', 'Nodejs'],'IT','35$','65$','Text on Qualifications',false)
     console.log("Created Job   " + newJob)
     //Add job to company
     const addJobToCompany = await company.addJobToCompany(newCompany._id,newJob)
@@ -40,7 +40,7 @@ async function main()
     //Update Job
     try{
       // update job in job sub doc
-      const updatedJob = await job.updateJob(newJob._id, tempJob,newCompany._id)
+      const updatedJob = await job.updateJob(newJob._id, tempJob, newCompany._id)
     }catch(e){
       console.log (e);
     }
