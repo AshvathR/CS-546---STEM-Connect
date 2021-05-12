@@ -91,3 +91,7 @@ input#homeSearchBar{
 div#filteredSearch{
     display: none;
 }
+
+p{
+    color: red;
+}
