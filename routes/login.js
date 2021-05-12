@@ -27,7 +27,7 @@ router.post('/', async (req, res) => {
             req.session.authenticated = true;
             
             // res.render('employee/profile', { title: "Employee profile" ,  auth: true, notLoginPage: true});
-            res.redirect(`/user/${currentID}`);
+            res.redirect(`/profile`); //res.redirect(`/user/${currentID}`);
         }
         else if(errorCheckString(req.body.username) && errorCheckString(req.body.password) && currentCompany){
             req.session.username = req.body.username;
@@ -37,7 +37,7 @@ router.post('/', async (req, res) => {
             req.session.currentUser = "company";
             req.session.authenticated = true;
             // res.render('company/profile', { title: "Company profile" ,  auth: true, notLoginPage: true});
-            res.redirect(`/company/${currentID}`);
+            res.redirect(`/profile`); //res.redirect(`/company/${currentID}`);
         }
         else{
           console.log("else")
