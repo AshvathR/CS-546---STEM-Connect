@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 router.get('/', async(req,res)=> {
-    // console.log(req.session._id)
+    console.log(req.session._id)
     res.render('employee/profile', { title: "Company Details" ,  auth: true, notLoginPage: true});
 })
 
