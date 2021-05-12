@@ -46,6 +46,51 @@
             errorDiv.hide();
         }
         })
+
+        let confirmPassword = $('#reEnterPassword');
+        confirmPassword.keyup(function(){
+        let errorDiv = $('#error-reEnterPassword');
+        let lowerCaseLetters = /[a-z]/g;
+        let upperCaseLetters = /[A-Z]/g;
+        let numbers = /[0-9]/g;
+        let enteredConfirmPassword = confirmPassword.val().trim();
+        let enteredPassword = password.val().trim();
+
+        if(enteredPassword !== enteredConfirmPassword){
+            errorDiv.html("")
+            errorDiv.show();
+            errorDiv.append('**Password and confirm password should match!');
+        }
+        else{
+            errorDiv.html("")
+            errorDiv.hide();
+        }
+        // if(enteredPassword === undefined || enteredPassword === '' || enteredPassword === null){
+        //     errorDiv.html("")
+        //     errorDiv.show();
+        //     errorDiv.append('**Password must be minimum of 8 characters and maximum of 15 characters!!');
+        // }
+        // else if(enteredPassword.length < 8){
+        //     errorDiv.html("")
+        //     errorDiv.show();
+        //     errorDiv.append('**Password must be minimum of 8 characters and maximum of 15 characters!!');
+        // }
+        // else if(enteredPassword.length > 15){
+        //     errorDiv.html("");
+        //     errorDiv.show();
+        //     errorDiv.append('**Password must be minimum of 8 characters and maximum of 15 characters!!');
+        // }
+        // else if(!enteredPassword.match(lowerCaseLetters) || !enteredPassword.match(upperCaseLetters) || !enteredPassword.match(numbers)){
+        //     errorDiv.show();
+        //     errorDiv.html("");
+        //     errorDiv.append('**Password must be a combination of uppercase, lowercase and a number!!');
+        // } 
+        // else{
+        //     errorDiv.html("")
+        //     errorDiv.hide();
+        // }
+        })
+
 })(window.jQuery);
 
 
