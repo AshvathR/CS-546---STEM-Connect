@@ -53,6 +53,7 @@ router.post("/:type/form", async (req, res) => {
     await data.workExperience.addWorkDesc(work)
   }
   
+  
   res.render("company/successScreen", {
     title: "STEMConnect",
     auth: false,
