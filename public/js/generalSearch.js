@@ -16,7 +16,7 @@
                 userType.css("margin-right", "39px");
                 userType.append("User");
             }
-        });
+        });  
 
         form.submit(function(e){
             if(searchBar.val().length < 1){
