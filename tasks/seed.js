@@ -15,11 +15,11 @@ async function main()
 {
   try{
   const db = await dbConnection();
-  // await db.dropDatabase();
+  await db.dropDatabase();
 
   try {
     //Add company
-    newCompany = await company.addCompany('Essential Tech', 'Mumbai','IT','hrMail@mail.com', 'mumbaiUser', '123_Mumbai')
+    newCompany = await company.addCompany('Essential Tech', 'Mumbai','IT','hrMail@mail.com', 'mumbaiUser', '$2b$16$XoxM9a/lLskO6Fx5wSpvauSwvGip7XexMvliIQiDSHHtElYEP3n3O')
     //Add job
     newJob = await job.addJob('Front End Dev', 'Mumbai','working on the ui',4,['Mongob', 'Nodejs'],'IT','35$','65$','Text on Qualifications',true)
     console.log("Created Job   " + newJob)
