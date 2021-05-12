@@ -100,7 +100,7 @@ div#filteredSearch{
     display: inline-block;
 }
 
- .switch {
+.toggleHold .switch {
     position: relative;
     display: inline-block;
     width: 60px;
@@ -176,7 +176,7 @@ div#filteredSearch{
   }
   
   /* Hide the browser's default radio button */
-  .container input {
+  .container .input {
     position: absolute;
     opacity: 0;
     cursor: pointer;
