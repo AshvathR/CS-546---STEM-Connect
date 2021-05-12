@@ -8,26 +8,43 @@
 <main>
     <h1 class = "first">Sign Up</h1>
         <div class = "divForm">
-            <form action="/sigup" method="POST" class="signup-form">
+            <form action="/signup" method="POST" class="signup-form">
             <label id = "form">
                 Username:
                 <br>
                 <input type="text" id="username" name="username" placeholder="Username" value="{{signup.username}}" class="full-width-input"/>
+                <span class="error-username" id="error-username"></span>
                 <br>
                 Password:
                 <br>
                 <input type="password" id="password" name="password" placeholder="Password" value="{{signup.password}}" class="full-width-input"/>
-                <span id = "errorPassword"> </span> 
+                <span class="error-password" id="error-password" ></span> 
                 <br>
                 Confirm Password:
                 <br>
-                <input type="password" id="reEnterPassword" name="reEnterPassword" placeholder="Confirm Password"  class="full-width-input"/>
-                <span id = "errorRePassword"> </span> 
+                <input type="password" id="reEnterPassword" name="reEnterPassword" placeholder="Confirm Password" value="{{signup.reEnterPassword}}" class="full-width-input"/>
+                <span class="error-reEnterPassword" id="error-reEnterPassword" ></span>
+                <br>
+                <br>
+                <label class="container"> 
+                <p>Sign up as</p>
+                </label>
+                <label class="container"> 
+                    <input type="radio" id="usertype" checked="checked" value="employee" name="usertype"> 
+                    <div> &nbsp;&nbsp; Employee </div>
+                    <span class="checkmark"></span>
+                </label>
+                
+                <label class="container">&nbsp;&nbsp; Company
+                    <input type="radio" value="company" name="usertype">
+                    <span class="checkmark"></span>
+                </label>
             </label>
+            
             <br>
             <br>
             <button class="btnSignUp" type="TO BE DECIDED">Sign Up</button></a>
             </form>
         </div>
-        <script src="/public/login.js"></script>
+        <script src="/public/js/login.js"></script>
 </main>

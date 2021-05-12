@@ -16,4 +16,14 @@ router.get('/', async(req,res)=> {
     }
 })
 
+router.get('/create', async(req,res)=>{
+    console.log(req.session.currentUser)
+    if(req.session.currentUser == 'employee'){
+        res.render('employee/employeeInfo', { title: "Employee Details" , auth: true, notLoginPage: true});
+    }
+    else{
+        res.render('company/companyInfo', { title: "Company Details" , auth: true, notLoginPage: true});
+    }
+})
+
 module.exports = router;

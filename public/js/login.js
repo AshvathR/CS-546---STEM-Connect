@@ -1,14 +1,96 @@
-(function($) {
-    let myInput = $('#password');
-    let loginForm = $('#login-form');
-    let errorDiv = $('#error-message');
-    loginForm.submit(function(event){
-        console.log("Here");
-        let enteredPassword = myInput.val().trim();
+(function($){
+        let username = $('#username');
+        username.keyup(function(){
+            let errorDiv = $('#error-username');
+            let enteredUsername = username.val().trim();
+            if(enteredUsername === undefined || enteredUsername === '' || enteredUsername === null){
+                errorDiv.html("")
+                errorDiv.show();
+                errorDiv.append('**Please enter the Username');
+            }
+            else{
+                errorDiv.html("")
+                errorDiv.hide();
+            }
+        })
+
+        let password = $('#password');
+        password.keyup(function(){
+        let errorDiv = $('#error-password');
+        let lowerCaseLetters = /[a-z]/g;
+        let upperCaseLetters = /[A-Z]/g;
+        let numbers = /[0-9]/g;
+        let enteredPassword = password.val().trim();
         if(enteredPassword === undefined || enteredPassword === '' || enteredPassword === null){
-            errorDiv.append('<p>Please give a valid data !!</p>');
+            errorDiv.html("")
+            errorDiv.show();
+            errorDiv.append('**Password must be minimum of 8 characters and maximum of 15 characters!!');
+        }
+        else if(enteredPassword.length < 8){
+            errorDiv.html("")
+            errorDiv.show();
+            errorDiv.append('**Password must be minimum of 8 characters and maximum of 15 characters!!');
+        }
+        else if(enteredPassword.length > 15){
+            errorDiv.html("");
+            errorDiv.show();
+            errorDiv.append('**Password must be minimum of 8 characters and maximum of 15 characters!!');
+        }
+        else if(!enteredPassword.match(lowerCaseLetters) || !enteredPassword.match(upperCaseLetters) || !enteredPassword.match(numbers)){
+            errorDiv.show();
+            errorDiv.html("");
+            errorDiv.append('**Password must be a combination of uppercase, lowercase and a number!!');
         } 
-    })
+        else{
+            errorDiv.html("")
+            errorDiv.hide();
+        }
+        })
+
+        let confirmPassword = $('#reEnterPassword');
+        confirmPassword.keyup(function(){
+        let errorDiv = $('#error-reEnterPassword');
+        let lowerCaseLetters = /[a-z]/g;
+        let upperCaseLetters = /[A-Z]/g;
+        let numbers = /[0-9]/g;
+        let enteredConfirmPassword = confirmPassword.val().trim();
+        let enteredPassword = password.val().trim();
+
+        if(enteredPassword !== enteredConfirmPassword){
+            errorDiv.html("")
+            errorDiv.show();
+            errorDiv.append('**Password and confirm password should match!');
+        }
+        else{
+            errorDiv.html("")
+            errorDiv.hide();
+        }
+        // if(enteredPassword === undefined || enteredPassword === '' || enteredPassword === null){
+        //     errorDiv.html("")
+        //     errorDiv.show();
+        //     errorDiv.append('**Password must be minimum of 8 characters and maximum of 15 characters!!');
+        // }
+        // else if(enteredPassword.length < 8){
+        //     errorDiv.html("")
+        //     errorDiv.show();
+        //     errorDiv.append('**Password must be minimum of 8 characters and maximum of 15 characters!!');
+        // }
+        // else if(enteredPassword.length > 15){
+        //     errorDiv.html("");
+        //     errorDiv.show();
+        //     errorDiv.append('**Password must be minimum of 8 characters and maximum of 15 characters!!');
+        // }
+        // else if(!enteredPassword.match(lowerCaseLetters) || !enteredPassword.match(upperCaseLetters) || !enteredPassword.match(numbers)){
+        //     errorDiv.show();
+        //     errorDiv.html("");
+        //     errorDiv.append('**Password must be a combination of uppercase, lowercase and a number!!');
+        // } 
+        // else{
+        //     errorDiv.html("")
+        //     errorDiv.hide();
+        // }
+        })
+
 })(window.jQuery);
 
 

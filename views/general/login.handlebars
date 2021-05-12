@@ -20,12 +20,13 @@
                         Username:
                         <br>
                         <input type="text" id="username" name="username" placeholder="Username" value="{{login.username}}" >
+                        <span class="error-username" id="error-username"></span>
                         <br>
                         Password:
                         <br>
                         <input type="password" id="password" name="password" placeholder="Password" value="{{login.password}}" >
-                        <div class="error" id="errorDiv" hidden></div>
-                        <div id = "error-message" class = "error-message" hidden> </div> 
+                        <div class="error-password" id="error-password" ></div>
+            
                     </label>
                     <br>
                     <br>
@@ -36,8 +37,7 @@
             </div>
         </div>
         </div>
-                
-                <script src="/public/js/login.js"></script>
+        <script src="/public/js/login.js"></script>
     </div>
     
 </main>
