@@ -1,231 +1,303 @@
-body{
-    background-color: rgb(236, 238, 239);
-    padding-top: 50px;
-    padding-bottom: 50px;
+body {
+  background-color: rgb(236, 238, 239);
+  padding-top: 50px;
+  padding-bottom: 50px;
 }
-img{
-    max-width: 100%;    
+img {
+  max-width: 100%;
 }
-input[type=file]{
-    display: inline-block;
+input[type='file'] {
+  display: inline-block;
 }
 #file {
-    text-align: center;
+  text-align: center;
 }
-label{
-    font-weight: 200;
+label {
+  font-weight: 200;
 }
-button{
-    background-color: rgb(60, 120,207);
-    color: #ffffff;
-    border: none;
-    padding: 10px 15px;
-    border-radius: 4px;
+button {
+  background-color: rgb(60, 120, 207);
+  color: #ffffff;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 4px;
 }
-.bg-white{
-    background-color: #ffffff;
-    padding: 30px;
-}
-
-.profile-card  .box{
-    background-color: #ffffff;
-    padding: 30px;
-}
-.image-box{
-    text-align: center;
-}
-.image-box img{
-    width: 150px;
-    height: 150px;
-    object-fit: contain;
-    object-position: center;
-}
-.jobTitle{
-    font-size: 24px;
-    margin-top: 15px;
-    margin-bottom: 0px;
-}
-.complanyName{
-    font-size: 14px;
-    opacity: 0.65;
-    margin: 0;
-}
-.salaryRange{
-    margin-top: 15px;
-    color: rgb(205,102,95);
-}
-.address{
-    margin-top: 15px;
-}
-.map-pin{
-    width: 25px;
-}
-.description{
-    margin-top: 15px;
-   margin-bottom: 15px;
-    opacity: 0.75;
-}
-.tag{
-    border: 1px solid rgb(168,213,232);
-    color: rgb(168,213,232);
-    border-radius: 30px;
-    padding: 5px 10px;
-    font-size: 10px;
-}
-.upper, .lower {
-    opacity: 0;
-    visibility: hidden;
-}
-.search{
-    display: block;
-    background: rgb(116,182,102);
-    width: 100%;
+.bg-white {
+  background-color: #ffffff;
+  padding: 30px;
 }
 
-input#homeSearchBar{
-    width: 75%;
-    height: 40px;
-    text-align: center;
+.profile-card .box {
+  background-color: #ffffff;
+  padding: 30px;
+}
+.image-box {
+  text-align: center;
+}
+.image-box img {
+  width: 150px;
+  height: 150px;
+  object-fit: contain;
+  object-position: center;
+}
+.jobTitle {
+  font-size: 24px;
+  margin-top: 15px;
+  margin-bottom: 0px;
+}
+.complanyName {
+  font-size: 14px;
+  opacity: 0.65;
+  margin: 0;
+}
+.salaryRange {
+  margin-top: 15px;
+  color: rgb(205, 102, 95);
+}
+.address {
+  margin-top: 15px;
+}
+.map-pin {
+  width: 25px;
+}
+.description {
+  margin-top: 15px;
+  margin-bottom: 15px;
+  opacity: 0.75;
+}
+.tag {
+  border: 1px solid rgb(168, 213, 232);
+  color: rgb(168, 213, 232);
+  border-radius: 30px;
+  padding: 5px 10px;
+  font-size: 10px;
+}
+.upper,
+.lower {
+  opacity: 0;
+  visibility: hidden;
+}
+.search {
+  display: block;
+  background: rgb(116, 182, 102);
+  width: 100%;
 }
 
-div#filteredSearch{
-    display: none;
+input#homeSearchBar {
+  width: 75%;
+  height: 40px;
+  text-align: center;
+}
+
+div#filteredSearch {
+  display: none;
 }
 
 .hidden {
-    display: none;
+  display: none;
 }
 
-.toggleHold{
-    display: inline-block;
+.toggleHold {
+  display: inline-block;
+}
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
+
+.toggleHold {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+/* .switch input {
+} */
+
+.toggleHold .slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgb(60, 120, 207);
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+}
+
+.toggleHold .slider:before {
+  position: absolute;
+  content: '';
+  height: 18px;
+  width: 18px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+}
+
+.toggleHold input:checked + .slider {
+  background-color: #cf943c;
+}
+
+.toggleHold input:focus + .slider {
+  box-shadow: 0 0 1px #cf943c;
+}
+
+.toggleHold input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(22px);
+}
+
+/* Rounded sliders */
+.toggleHold .slider.round {
+  border-radius: 34px;
+  height: 26px;
+  width: 48px;
+}
+
+.toggleHold .slider.round:before {
+  border-radius: 50%;
+}
+
+.hidden {
+  display: none;
+}
+
+.toggleHold {
+  display: inline-block;
 }
 
 .toggleHold .switch {
-    position: relative;
-    display: inline-block;
-    width: 60px;
-    height: 34px;
-  }
- 
-  .toggleHold .switch input { 
-    opacity: 0;
-    width: 0;
-    height: 0;
-  }
-  
-  .toggleHold .slider {
-    position: absolute;
-    cursor: pointer;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgb(60, 120,207);
-    -webkit-transition: .4s;
-    transition: .4s;
-  }
-  
-  .toggleHold .slider:before {
-    position: absolute;
-    content: "";
-    height: 18px;
-    width: 18px;
-    left: 4px;
-    bottom: 4px;
-    background-color: white;
-    -webkit-transition: .4s;
-    transition: .4s;
-  }
-  
-  .toggleHold input:checked + .slider {
-    background-color:#cf943c;
-  }
-  
-  .toggleHold input:focus + .slider {
-    box-shadow: 0 0 1px #cf943c;
-  }
-  
-  .toggleHold input:checked + .slider:before {
-    -webkit-transform: translateX(26px);
-    -ms-transform: translateX(26px);
-    transform: translateX(22px);
-  }
-  
-  /* Rounded sliders */
-  .toggleHold .slider.round {
-    border-radius: 34px;
-    height: 26px;
-    width:48px;
-  }
-  
-  .toggleHold .slider.round:before {
-    border-radius: 50%;
-  }
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
 
-  .container {
-    display: block;
-    position: relative;
-    padding-left: 35px;
-    margin-bottom: 12px;
-    cursor: pointer;
-    font-size: 22px;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-  }
-  
-  /* Hide the browser's default radio button */
-  .container .input {
-    position: absolute;
-    opacity: 0;
-    cursor: pointer;
-  }
-  
-  /* Create a custom radio button */
-  .checkmark {
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 25px;
-    width: 25px;
-    background-color: #eee;
-    border-radius: 50%;
-  }
-  
-  /* On mouse-over, add a grey background color */
-  .container:hover input ~ .checkmark {
-    background-color: #ccc;
-  }
-  
-  /* When the radio button is checked, add a blue background */
-  .container input:checked ~ .checkmark {
-    background-color: #2196F3;
-  }
-  
-  /* Create the indicator (the dot/circle - hidden when not checked) */
-  .checkmark:after {
-    content: "";
-    position: absolute;
-    display: none;
-  }
-  
-  /* Show the indicator (dot/circle) when checked */
-  .container input:checked ~ .checkmark:after {
-    display: block;
-  }
-  
-  /* Style the indicator (dot/circle) */
-  .container .checkmark:after {
-       top: 9px;
-      left: 9px;
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: white;
-  }
+.toggleHold .switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
 
-  #getUserType{
-      margin-right: 39px;
-     
-  }
+.toggleHold .slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgb(60, 120, 207);
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+}
+
+.toggleHold .slider:before {
+  position: absolute;
+  content: '';
+  height: 18px;
+  width: 18px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+}
+
+.toggleHold input:checked + .slider {
+  background-color: #cf943c;
+}
+
+.toggleHold input:focus + .slider {
+  box-shadow: 0 0 1px #cf943c;
+}
+
+.toggleHold input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(22px);
+}
+
+/* Rounded sliders */
+.toggleHold .slider.round {
+  border-radius: 34px;
+  height: 26px;
+  width: 48px;
+}
+
+.toggleHold .slider.round:before {
+  border-radius: 50%;
+}
+
+.container {
+  display: block;
+  position: relative;
+  padding-left: 35px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  font-size: 22px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* Hide the browser's default radio button */
+.container .input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+}
+
+/* Create a custom radio button */
+.checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 25px;
+  width: 25px;
+  background-color: #eee;
+  border-radius: 50%;
+}
+
+/* On mouse-over, add a grey background color */
+.container:hover input ~ .checkmark {
+  background-color: #ccc;
+}
+
+/* When the radio button is checked, add a blue background */
+.container input:checked ~ .checkmark {
+  background-color: #2196f3;
+}
+
+/* Create the indicator (the dot/circle - hidden when not checked) */
+.checkmark:after {
+  content: '';
+  position: absolute;
+  display: none;
+}
+
+/* Show the indicator (dot/circle) when checked */
+.container input:checked ~ .checkmark:after {
+  display: block;
+}
+
+/* Style the indicator (dot/circle) */
+.container .checkmark:after {
+  top: 9px;
+  left: 9px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: white;
+}
+
+#getUserType {
+  margin-right: 39px;
+}
