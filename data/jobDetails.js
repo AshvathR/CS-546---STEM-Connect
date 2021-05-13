@@ -74,14 +74,27 @@ let exportedMethods = {
 
       return true;
     },
-    async searchJobByYearSkills(years,skillsArray)
+    async searchJobByYearCategorySalarySkills(years, category, minSalary, skillsArray)
     {
       checkUndef(years, "years");
       checkUndef(skillsArray,"skillsArray");
+      checkUndef(category, "category");
+      checkUndef(minSalary, "minSalary");
+      let catQuery ={};
+      let minSalQuery = {};
+      let skillsQuery = {};
+
+      if (isNaN(minSalary)) throw "Invalid salary: Not a number!";
+      if(!Array.isArray(skillsArray)) throw "Invalid skills: Not an Array!";
+
+      if(category != "noCategory") catQuery = {jobCategory: category};
+      if(minSalary > 0) minSalQuery = {salaryMin: {$gte: parseInt(minSalary)}};
+      if(skillsArray.length > 0) skillsQuery = { skills: { $in: skillsArray}};
+
       const jobCollection = await jobDetails();
       console.log(years);
-      const jobsList = await jobCollection.find({$and: [{jobStatus: true},{ yearsOfExperience: { $lte: parseInt(years)} }, { skills: { $in: skillsArray}}]}).toArray();
-      // console.log(jobsList)
+      const jobsList = await jobCollection.find({$and: [{jobStatus: true},{ yearsOfExperience: { $lte: parseInt(years)} }, catQuery, minSalQuery, skillsQuery]}).toArray();
+      console.log(jobsList)
       return jobsList
     },
 

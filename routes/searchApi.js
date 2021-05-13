@@ -18,10 +18,11 @@ router.post('/general', async function(request, response) {
 	let searchData = request.body;
     let homeSearchBar = xss(searchData.homeSearchBar);
     let userTypeToggle = xss(searchData.userTypeToggle);
-
+    
     if(!homeSearchBar) throw 'No Object Listed for Search';
     if(!userTypeToggle) throw 'No Object type detected for Search';
     let partialMatch = [];
+    console.log(searchData);
     if(userTypeToggle == "User"){
         partialMatch = await data.users.getPartialNameMatch(homeSearchBar);
     }else if(userTypeToggle == "Company"){
@@ -29,16 +30,17 @@ router.post('/general', async function(request, response) {
     }else{
         throw 'Object Type Error: ' + userTypeToggle;
     }
-
+    
     response.render('general/search',{
         title: "Search Results for " + searchData.homeSearchBar,
+        //auth: request.session.authenticated,
         auth: false,
-        isPost: true,
         partialName:  searchData.homeSearchBar,
-        userType: searchData.userTypeToggle,
+        userType: request.session.currentUser,
+        notLoginPage:true,
         searchResults: partialMatch,
-        isUser: true
-
+        isUser: userTypeToggle == "User",
+        isFilter: false
     });
 });
 
@@ -52,15 +54,27 @@ router.post('/filter',  async function(request, response) {
     if(!yearsExp || isNaN(yearsExp)) throw 'Invalid field: Years of Experience';
     if(!skills || !Array.isArray(skills) || skills.length < 1) throw 'Invalid field: Skills Array';
     let listings = await data.jobDetails.searchJobByYearSkills(yearsExp, skills);
-    response.json(listings);
+    response.render('general/search',{
+        title: "Filtered Search Results",
+        //auth: request.session.authenticated,
+        auth: true,
+        //userType: request.session.currentUser,
+        userType: "company",
+        searchResults: listings,
+        notLoginPage:true,
+        isUser:  request.session.currentUser == "employee",
+        isFilter: true
+
+    });
 });
 
 router.get('/', async function(request, response) {
     response.render('general/search',{
         title: "Search Page",
+        //auth: request.session.authenticated,
         auth: true,
-        isPost: false,
-        notLoginPage:true
+        notLoginPage:true,
+        username: request.session.username
     });   
 });
 

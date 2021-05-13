@@ -2,15 +2,15 @@ function searchToggle(){
     var general = $('#searchBar');
     var filter = $('#filteredSearch');
 
-    var button = $('#filteredSearchReveal')
-    if(filter.css("display") == 'none'){
-        filter.css("display", "block");
-        general.css("display", "none");
-        button.prop("value", "Use General Search");
-    }else{
+    var button = $('#filteredSearchReveal');
+    if(filter.css("display") != 'none' || document.location.href.includes("/search/filter")){
         filter.css("display", "none");
         general.css("display", "block");
         button.prop("value", "Use Filtered Search");
+    }else{
+        filter.css("display", "block");
+        general.css("display", "none");
+        button.prop("value", "Use General Search");
     }
 }
 
@@ -41,5 +41,30 @@ function getSkills(){
         "Project Management",
         "Scrum",
         "Agile Development"       
-    ]
+    ];
+}
+
+function getJobCategories(){
+    return [
+        "IT",
+        "Developer",
+        "Analyst",
+        "Manager",
+        "Project Manager",
+        "Designer",
+        "Engingeer",
+        "Software Architect",
+        "Technical Architect",
+        "Mechanical Engineer",
+        "Electrical Engineer",
+        "Biomedical Engineer",
+        "Computer Engineer",
+        "Security Analyst",
+        "Data Scientist",
+        "Civil Engineer",
+        "Front-End Developer",
+        "Back-End Developer",
+        "Full Stack Developer",
+        "Software Engineer"
+    ];
 }

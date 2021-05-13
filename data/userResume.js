@@ -151,14 +151,20 @@ let exportedMethods = {
 
       return await this.getResumeById(id);
     },
-    async searchResumeByYearSkills(years,skillsArray)
+    async searchResumeByYearSkillsProjectNumber(years,skillsArray,projectNumber)
     {
       checkUndef(years, "years");
+      checkUndef(projectNumber, "projectNumber")
       checkUndef(skillsArray,"skillsArray");
-      const resumeCollection = await userResume()
-      const resumeList = await resumeCollection.find({$and: [{ skills: { $in: skillsArray}}, { yearsOfExperience: { $gte: years} }, { resumeActive : true}]}).toArray();
+      const resumeList = [null];
+      const resumeCollection = await userResume();
+      if(skillsArray.length < 1) {
+        const resumeList = await resumeCollection.find({$and: [{ resumeActive : true}, { yearsOfExperience: { $gte: years} }, { projects: {$size: parseInt(projectNumber)} } ]}).toArray();
+      }else{
+        const resumeList = await resumeCollection.find({$and: [{ resumeActive : true}, { yearsOfExperience: { $gte: years} }, { projects: {$size: parseInt(projectNumber)} }, { skills: { $in: skillsArray}}]}).toArray();
+      }
       // console.log(resumeList)
-      return resumeList
+      return resumeList;
     }
 
     // async removeProjectFromResume(projectId, resumeId)
