@@ -1,7 +1,6 @@
 const mongoCollections = require('../config/mongoCollections');
 const users= mongoCollections.users;
 const userResume = mongoCollections.userResume;
-const users = mongoCollections.users;
 const usersFunc = require('./users');
 const objectId = require('mongodb').ObjectID;
 

@@ -1,79 +1,119 @@
-<div class="container" id="companyView" style= "font-family: Verdana, Geneva, Tahoma, sans-serif;">
+<div class="container">
     <div class="row">
-        <div class="col-4">
-            <div class="card" style="width: 18rem;">
+        <div class="col-md-4">
+             <div class="card" style="width: 18rem;">
                 <div class="card-body">
                     <img id="card-image-top" src="https://png.pngtree.com/element_our/20200609/ourmid/pngtree-children-s-software-programming-image_2230761.jpg" alt="Card Image cap"/>
                     <div class="card-body">
-                        <h2 class="card-title d-flex justify-content-center" style="font-weight: bolder;">{{company.companyName}}</h2>
-                        <h4 class="card-title d-flex justify-content-center" style="color: rgb(155, 155, 155); font-size: medium;">{{company.location}}</h4>
-                        <h4 class="card-title d-flex justify-content-center" style="color: rgb(155, 155, 155); font-size: medium;">{{company.category}}</h4>
-                        <p class="card-text d-flex justify-content-center">Located in Vasai Road Station's North Lanes.</p>
+                        <h2 class="card-title d-flex justify-content-center" style="font-weight: 625;">{{company.companyName}}</h2>
+                        <h4 class="card-title d-flex justify-content-left" style="color: rgb(116, 116, 116); font-size: medium;">{{company.location}}</h4>
+                        <h4 class="card-title d-flex justify-content-left" style="color: rgb(116, 116, 116); font-size: medium;">{{company.category}}</h4>
+                        <h5 class="card-subtitle d-flex justify-content-left" style="color: rgb(116, 116, 116); font-size: medium;">{{company.hrEmail}}</h5>
+                        <br>
                         <a href="/logout" class="btn btn-outline-dark d-flex justify-content-center" role="button" aria-pressed="true">Logout</a>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="col-8">
-            <div class="card mb-3">
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-sm-3">
-                            <h6 class="mb-0">Company Name</h6>
-                        </div>
-                        <div class="col-sm-9 text-secondary">
-                            {{company.companyName}}
-                        </div>
-                    </div>
-                    <hr>
-                    <div class="row">
-                        <div class="col-sm-3">
-                            <h6 class="mb-0">Category</h6>
-                        </div>
-                        <div class="col-sm-9 text secondary">
-                            {{company.category}}
-                        </div>
-                    </div>
-                    <hr>
-                    <div class="row">
-                        <div class="col-sm-3">
-                            <h6 class="mb-0">HR Email</h6>
-                        </div>
-                        <div class="col-sm-9 text secondary">
-                            {{company.hrEmail}}
-                        </div>
-                    </div>
+        <div class="col-md-8">
+            <div class="row">
+                <div class="col-6 col-md-4">
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#companyInfoModal">
+                        Edit
+                    </button>
                 </div>
-            </div>
-            <div class="col-sm-4">
-                <div class="card-deck">
-                    {{#each company.jobDetails}}
-                        {{#if this.jobStatus}}
-                            <div class="col-auto mb-3">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <img class="card-img-top" src="/public/company.png" alt="card-image-cap">
+                <div class="container">
+                    <div class="card-deck">
+                        {{#each company.jobDetails}}
+                            {{#if this.jobStatus}}
+                            <div class="col-6   " style="padding-bottom: 50px;">
+                                    <div class="card">
+                                        <img style="border-radius: 50% ; padding: 30px 80px 20px 80px" class="card-img-top" src="https://png.pngtree.com/element_our/20200609/ourmid/pngtree-children-s-software-programming-image_2230761.jpg" alt="Card image cap">
                                         <div class="card-body">
-                                            <h3 class="card-title d-flex justify-content-center" style="font-weight: bolder;">{{this.jobTitle}}</h3>
-                                            <h5 class="card-title d-flex justify-content-center"><i class="fa fa-map-signs" aria-hidden="true"></i> {{this.jobLocation}} </h5>
-                                            <h5 class="card-title d-flex justify-content-center"><i class="fa fa-briefcase" aria-hidden="true"></i> {{this.jobDescription}} </h5>                                    
-                                            <h5 class="card-title d-flex justify-content-center"><i class="fa fa-money" aria-hidden="true"></i> {{this.salaryMin}} - {{this.salaryMax}} </h5>
-                                        </div>
-                                        <div class="time">
-                                            <ul class="tr-list job-meta">
-                                                {{#each this.skills}}
-                                                    <li>{{this}}</li>
-                                                {{/each}}
-                                            </ul>
+                                            <h5 class="card-title d-flex justify-content-left">{{this.jobTitle}}</h5>
+                                            <h6 class="card-subtitle d-flex justify-content-left" style="font-weight: lighter; color: lightcoral">{{../company.companyName}}</h6>
+                                            <h5 class="card-title d-flex justify-content-left" style="font-size: medium;">{{this.salaryMin}} - {{this.salaryMax}} </h5>
+                                            <p class="card-subtitle text-muted d-flex justify-content-left" style="font-size: medium;">{{this.jobLocation}}</p>
+                                            <p class="card-text d-flex justify-content-left">{{this.jobDescription}}</p>
+                                            {{#each this.skills}}
+                                                <span class="badge badge-pill badge-info" style="font-size: small;" >{{this}}</span>
+                                            {{/each}}
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        </div> 
-                    {{/if}}
-                {{/each}}
+                            {{/if}}
+                        {{/each}}
+                    </div>    
+                </div>
             </div>
         </div>
-    </div>
+    </div>   
 </div>
+
+
+{{!-- Modal to update company information --}}
+<div class="modal fade" id="companyInfoModal" tabindex="-1" role="dialog" aria-labelledby="personalInfo" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Edit Company Information</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form action="/profile/editPersonalInfo" method="POST">
+                <input type="hidden" name="userid" id="{{user._id}}" value="{{user._id}}"/>
+                <div class="form-group">
+                    <label for="firstName">Company Name</label>
+                    <input type="text" class="form-control" id="companyName" name="companyName" value={{company.companyName}}>
+                </div>
+                <div class="form-group">
+                    <label for="email">HR EMail</label>
+                    <input type="text" class="form-control" id="hrEmail" name="hrEmail" aria-describedby="mailHelp"
+                        value={{company.hrEmail}}>
+                </div>
+                <div class="form-group">
+                    <label for="phoneNumber">Company Category</label>
+                    <input type="text" class="form-control" id="category" name="category" value="{{company.category}}">
+                </div>
+                {{!-- <div class="fd-flex flex-column ml-3">
+                    <label for="dateOfBirth">Date of Birth</label>
+                    <input type='date' id="dateOfBirth" name="dateOfBirth" class="form-control btn btn-outline-primary" value="{{user.dob}}"
+                        onchange="readURL(this);" />
+                </div> --}}
+                {{!-- <div class="dropdown form-group d-flex flex-column">
+                                <label for="gender">Gender</label>
+                                <select style="width: 200px;" class="text-right btn btn-secondary dropdown-toggle"
+                                    type="button" id="gender" name="dropdownMenuButton"
+                                    data-toggle="dropdown">
+                                    <option disabled selected value> -- select an option -- </option>
+                                    <option value="male">Male</option>
+                                    <option value="female">Female</option>
+                                     <option value="other">Other</option>
+                                    <option value="prefernottosay">Prefer not to say</option>
+                                </select>
+                </div> --}}
+                {{!-- <div class="form-group">
+                    <label for="aboutMe">About Me</label>
+                    <input type="text" class="form-control" id="aboutMe" name="aboutMe" value="{{user.aboutMe}}">
+                </div> --}}
+                <div class="form-group">
+                    <label for="address">Location</label>
+                    <input type="text" class="form-control" id="location" name="location" value="{{company.location}}">
+                </div>
+                {{!-- <div class="form-group">
+                    <label for="resumeUrl">Resume URL</label>
+                    <input type='file' class="btn btn-outline-primary my-3" onchange="readURL(this);" id="resumeUrl" name="resumeUrl" />
+                </div> --}}
+      </div>
+      <div class="modal-footer">
+        {{!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> --}}
+        <button type="submit" class="btn btn-primary">Save Changes</button>
+      </div>
+      </form>
+    </div>
+  </div>
+</div>
+
 <script src="/public/js/company.js"></script>

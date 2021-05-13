@@ -115,7 +115,11 @@ li {
   padding-left: 14px;
 }
 
-.card-img-top{
-    width: min-content;
-    height: min-content;
-}
+/* .row {
+    display: flex;
+    flex-wrap: wrap;
+ }
+ 
+ .row > div[class*='col-'] {
+   display: flex;
+ } */

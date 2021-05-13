@@ -23,10 +23,14 @@ async function main()
     //Add job
     newJob = await job.addJob('Front End Dev', 'Mumbai','working on the ui',4,['Mongob', 'Nodejs'],'IT','55$','85$','Text on Qualifications',true)
     newJob1 = await job.addJob('Back End Dev', 'Banglore','Working on the Data Functions',2,["Java",'Mongob', 'Nodejs'],'IT','50$','83$','Text on Qualifications',true)
+    newJob2 = await job.addJob('Back End Dev', 'Banglore','Working on the Data Functions',2,["Java",'Mongob', 'Nodejs'],'IT','50$','83$','Text on Qualifications',true)
+    newJob3 = await job.addJob('Back End Dev', 'Banglore','Working on the Data Functions',2,["Java",'Mongob', 'Nodejs'],'IT','50$','83$','Text on Qualifications',true)
     console.log("Created Job   " + newJob)
     //Add job to company
     const addJobToCompany = await company.addJobToCompany(newCompany._id,newJob);
-    const addJobToCompany1 = await company.addJobToCompany(newCompany._id,newJob1);    
+    const addJobToCompany1 = await company.addJobToCompany(newCompany._id,newJob1);
+    const addJobToCompany2 = await company.addJobToCompany(newCompany._id,newJob2);
+    const addJobToCompany3 = await company.addJobToCompany(newCompany._id,newJob3);    
     // tempJob = {
     //   "jobTitle": "Back End Dev ",
     //   "jobLocation": "Banglore",
@@ -87,8 +91,8 @@ async function main()
     // Add workExperience to user
     const newWorkExperience = await workExperience.addWorkDesc('TechName','web dev','jobDes','04/03/2020','19/11/2020');
     const newWorkExperience1 = await workExperience.addWorkDesc('ADP','Front End Developer','Implemented and tested solutions with Mocha/Chai and Cypress in a CI/CD Agile environment','06/01/2020','08/07/2020');
-    const addWorkDesToUser = await users.addWorkDesToUser(newUser._id, newWorkExperience);
-    const addWorkDesToUser1 = await users.addWorkDesToUser( newUser._id, newWorkExperience1);
+    const addWorkDesToUser = await usersData.addWorkDesToUser(newUser._id, newWorkExperience);
+    const addWorkDesToUser1 = await usersData.addWorkDesToUser( newUser._id, newWorkExperience1);
 
     // updating work description
 
