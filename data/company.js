@@ -83,6 +83,7 @@ let exportedMethods = {
       checkUndef(newJob, "newJob");
 
       const companyCollection = await company();
+  
       const updateInfo = await companyCollection.updateOne(
         { _id: companyId },
         { $addToSet: { jobDetails: newJob } }
