@@ -13,6 +13,7 @@ const extractValue = (body, fields) =>
   const extractJobValue = (body, key="jobTitle") => {
     if (Array.isArray(body[key])) {
       const values = [];
+      const jobFields=[];
       for(const count in body[key]) {
         const value = jobFields.reduce((acc, value )=> {
           acc[value.propKey] = body[value.elementKey][count] || null

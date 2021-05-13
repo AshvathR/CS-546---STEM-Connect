@@ -97,55 +97,63 @@ div#filteredSearch {
   display: none;
 }
 
-.toggleHold {
-  display: inline-block;
+/**
+ * FilePond Custom Styles
+ */
+ .filepond--drop-label {
+  color: #4c4e53;
 }
 
-.switch {
-  position: relative;
-  display: inline-block;
-  width: 60px;
-  height: 34px;
+.filepond--label-action {
+  text-decoration-color: #babdc0;
 }
 
-.toggleHold {
-  opacity: 0;
-  width: 0;
-  height: 0;
+.filepond--panel-root {
+  border-radius: 2em;
+  background-color: #edf0f4;
+  height: 1em;
 }
-/* .switch input {
-} */
 
-.toggleHold .slider {
+.filepond--item-panel {
+  background-color: #595e68;
+}
+
+.filepond--drip-blob {
+  background-color: #7f8a9a;
+}
+
+.filepond--root {
+  /* min-height: 80px; */
+  width: 100%;
+  min-width: 270px;
+}
+
+.filepond--credits {
+  display: none;
+}
+
+.remove-Work {
   position: absolute;
-  cursor: pointer;
-  top: 0;
-  left: 0;
+  background-color: #595e68;
+  color: #fff;
+  padding: 4px;
+  display: inline-block;
+  top: -7px;
+  border-radius: 15px;
   right: 0;
-  bottom: 0;
-  background-color: rgb(60, 120, 207);
-  -webkit-transition: 0.4s;
-  transition: 0.4s;
+  cursor: pointer;
 }
 
-.toggleHold .slider:before {
-  position: absolute;
-  content: '';
-  height: 18px;
-  width: 18px;
-  left: 4px;
-  bottom: 4px;
-  background-color: white;
-  -webkit-transition: 0.4s;
-  transition: 0.4s;
+.remove-Work:hover {
+  background-color: rgb(226, 116, 116);
 }
 
-.toggleHold input:checked + .slider {
-  background-color: #cf943c;
+.filepond--root {
+  min-height: 78px;
 }
 
-.toggleHold input:focus + .slider {
-  box-shadow: 0 0 1px #cf943c;
+.toggleHold{
+    display: inline-block;
 }
 
 .toggleHold input:checked + .slider:before {
