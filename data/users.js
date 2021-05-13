@@ -45,6 +45,39 @@ let exportedMethods = {
     // return await this.getResumeById(newId);
   },
 
+  async updateUser(userId, updatedUser)
+  {
+    checkUndef(userId, "userID");
+    checkUndef(updatedUser, "updatedUser")
+
+    const user = await this.getUserById(userId);
+
+    if (updatedUser.resumeUrl)
+    {
+      let x = (user.resumeUrl).concat(updatedUser.resumeUrl)
+      updatedUser.resumeUrl = [...new Set(x)];
+    }
+
+    let userUpdateInfo =
+    {
+      email: updatedUser.email,
+      address: updatedUser.address,
+      name: updatedUser.name,
+      phoneNumber: updatedUser.phoneNumber,
+      aboutMe: updatedUser.aboutMe,
+      gender: updatedUser.gender,
+      dob: updatedUser.dob,
+      resumeUrl: updatedUser.resumeUrl
+    };
+
+    const userCollection = await users();
+    const updateInfo = await userCollection.updateOne( { _id: mongodb.ObjectID(userId) }, { $set: userUpdateInfo } );
+
+    if (!updateInfo.matchedCount && !updateInfo.modifiedCount) throw `Update Failed!`;
+
+    return await this.getUserById(userId);
+  },
+
   async addResumeToUser(userId, newResume) {
     checkUndef(userId, "userId");
     checkUndef(newResume, "newResume");
