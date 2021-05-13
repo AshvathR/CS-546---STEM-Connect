@@ -12,21 +12,21 @@
                     </div>
                     <div class="form-group">
                         <label for="username">User Name</label>
-                        <input type="text" class="form-control" id="username" name="username" aria-describedby="usernameHelp">
+                        <input type="text" class="form-control" id="username" name="username" aria-describedby="usernameHelp" required>
                     </div>
                     <div class="form-group">
                         <label for="email">Mail</label>
-                        <input type="text" class="form-control" id="email" name="email" aria-describedby="mailHelp">
+                        <input type="text" class="form-control" id="email" name="email" aria-describedby="mailHelp"required>
                     </div>
 
                     <div class="form-group">
                         <label for="Password">Password</label>
-                        <input type="password" class="form-control" id="password" name="password" placeholder="">
+                        <input type="password" class="form-control" id="password" name="password" placeholder=""required>
                     </div>
 
                     <div class="form-group">
                         <label for="ConfirmPassword">Repeat Password</label>
-                        <input type="password" class="form-control" id="ConfirmPassword" name="ConfirmPassword" placeholder="">
+                        <input type="password" class="form-control" id="ConfirmPassword" name="ConfirmPassword" placeholder="" required>
                     </div>
                 </div>
                 <div class="col-md-5 mx-3">
@@ -35,18 +35,18 @@
                         <div class="d-flex justify-content-between">
                             <div class="form-group">
                                 <label for="firstName">First Name</label>
-                                <input type="text" class="form-control" id="firstName" name="firstName" placeholder="">
+                                <input type="text" class="form-control" id="firstName" name="firstName" placeholder="" required>
                             </div>
                             <div class="form-group ml-3">
                                 <label for="lastName">Last Name</label>
-                                <input type="text" class="form-control" id="lastName" name="lastName" placeholder="">
+                                <input type="text" class="form-control" id="lastName" name="lastName" placeholder="" required>
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label for="phoneNumber">Phone Number</label>
                             <input type="number" class="form-control" id="phoneNumber" name="phoneNumber"
-                                placeholder="">
+                                placeholder="" required>
                         </div>
                         <div class="d-flex">
                                 <div class="dropdown form-group d-flex flex-column">
@@ -64,17 +64,17 @@
                             <div class="fd-flex flex-column ml-3">
                                 <label for="dob">Date of Birth</label>
                                 <input type='date' id="dob" name="dob" class="form-control btn btn-outline-primary"
-                                    onchange="readURL(this);" />
+                                    onchange="readURL(this);" required />
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="address">Address</label>
-                            <input type="text" class="form-control" id="address" name="address" placeholder="">
+                            <input type="text" class="form-control" id="address" name="address" placeholder="" required>
                         </div>
                         <div class="form-group">
                             <label for="aboutMe">About Me</label>
                             <textarea class="form-control" rows="5" id="aboutMe" name="aboutMe"
-                                placeholder=""></textarea>
+                                placeholder="" required></textarea>
                         </div>
                         <div class="d-flex flex-column" id="workInformation">
                             <h4 class="text-left py-1" for="profile">Upload Resume</h4>
@@ -86,65 +86,73 @@
                 </div>
             </div>
             {{!-- Profile End --}}
-                    <div class="col-md-12 d-flex justify-content-between align-items-start">
+        <div class="col-md-12 d-flex justify-content-between align-items-start">
             <div class="col-md-5 mx-3">
                 <div class="d-flex flex-column" id="resume">
                     <div class="d-flex flex-row">
-                        <h4 class="text-left py-4" for="profile">Resume</h4>
+                        <h4 class="text-left py-4" for="profile">Resume Information</h4>
                         <div class="custom-control custom-switch">
-                            <input type="checkbox" class="custom-control-input" id="resumeActive">
+                            <input type="checkbox" class="custom-control-input" id="resumeActive" required>
+                        </div>
+                    </div>
+                    <div id="education-wrapper" class="col-md-12 d-flex flex-column">
+                        <div class="d-flex mx-5 py-2">
+                            <button class="btn btn-primary" onclick="addMoreEducation()" type="button">Add Education Information</button>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="ConfirmPassword">Education</label>
-                        <input type="text" class="form-control" id="education" name="education" placeholder="">
+                        <label for="skills">Skills</label>
+                        <input type="text" class="form-control" id="skills" name="resume[skills]" placeholder="" required>
                     </div>
                     <div class="form-group">
-                        <label for="ConfirmPassword">Skill</label>
-                        <input type="text" class="form-control" id="skills" name="skills" placeholder="">
-                    </div>
-                    <div class="form-group">
-                        <label for="ConfirmPassword">Work Status</label>
-                        <input type="text" class="form-control" id="workStatus" name="workStatus" placeholder="">
+                        <label for="workStatus">Work Status</label>
+                        <input type="text" class="form-control" id="workStatus" name="resume[workStatus]" placeholder="" required>
                     </div>
                     <div class="form-group d-flex flex-column">
-                        <label for="ConfirmPassword">Resume Information</label>
+                        <label for="ConfirmPassword">Resume</label>
                         <div>
                             <input type='file' multiple class="btn btn-outline-primary my-3 filePond"
-                                onchange="readURL(this);" />
+                                onchange="readURL(this);" name="resume[resumeUrl]" />
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="ConfirmPassword">Years of Experience</label>
-                        <input type="number" class="form-control" id="yearsOfExperience" name="yearsOfExperience"
-                            placeholder="">
+                        <input type="number" class="form-control" id="yearsOfExperience" name="resume[year]"
+                            placeholder="" required>
                     </div>
-                </div>
-            </div>
-            <div class="col-md-5 mx-3">
-                <div class="form-group">
-                    <label for="ConfirmPassword">Description</label>
-                    <textarea class="form-control" rows="5" id="resumeDescription" name="resumeDescription"
-                        placeholder=""></textarea>
-                </div>
+                   
                 <div id="project-wrapper" class="col-md-12 d-flex flex-column">
                 <div class="d-flex mx-5 py-2">
                     <button class="btn btn-primary" onclick="addMoreProject()" type="button">Add Project Information</button>
                 </div>
-        </div>
+                </div>
             </div>
         </div>
-        <div id="work-information-wrapper" class="col-md-12 d-flex flex-column">
-        <div class="d-flex mx-5 py-2">
-            <button class="btn btn-primary" onclick="addMoreWorkInformation()" type="button">Add Work Information</button>
         </div>
+        <div class="d-flex align-items-center flex-column">
+            <div class="col-md-5 mx-3">
+                <div class="d-flex flex-column" id="resume">
+                    <div class="d-flex flex-row">
+                        <h4 class="text-left py-4" for="profile">Work Information</h4>
+                        <div class="custom-control custom-switch">
+                            <input type="checkbox" class="custom-control-input" id="resumeActive">
+                        </div>
+                    </div>
+                        <div id="work-information-wrapper" class="col-md-12 d-flex flex-column">
+                        <div class="d-flex mx-5 py-2">
+                            <button class="btn btn-primary" onclick="addMoreWorkInformation()" type="button">Add Work Information</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
+                        
        
     <div class="col-md-12 d-flex justify-content-end p-2 px-3">
         <button class="btn btn-outline-secondary mx-3 px-5" type="submit">Cancel</button>
         <button class="btn btn-primary px-5" type="submit">Save</button>
     </div>
-    </div>
+    
 </form>
 
 <script>
@@ -194,11 +202,11 @@ We want to preview images, so we need to register the Image Preview plugin
                             <div class="form-group">
                                 <label for="companyName">Company Name</label>
                                 <input type="text" class="form-control" id="companyName" name="workDes[companyName]"
-                                    placeholder="">
+                                    placeholder="" required>
                             </div>
                             <div class="form-group">
                                 <label for="jobTitle">Job Title</label>
-                                <input type="text" class="form-control" id="jobTitle" name="workDes[jobTitle]" placeholder="">
+                                <input type="text" class="form-control" id="jobTitle" name="workDes[jobTitle]" placeholder="" required>
                             </div>
                         </div>
                     </div>
@@ -208,20 +216,20 @@ We want to preview images, so we need to register the Image Preview plugin
                                 <label for="workStartDate">Start Date</label>
                                 <div>
                                     <input type='date' id="workStartDate" name="workDes[workStartDate]"
-                                        class="btn btn-outline-primary my-3" onchange="readURL(this);" />
+                                        class="btn btn-outline-primary my-3" onchange="readURL(this);" required/>
                                 </div>
                             </div>
                             <div class="fd-flex pl-2 flex-column">
                                 <label for="workEndDate">End Date</label>
                                 <div>
                                     <input type='date' id="workEndDate" name="workDes[workEndDate]" class="btn btn-outline-primary my-3"
-                                        onchange="readURL(this);" />
+                                        onchange="readURL(this);" required/>
                                 </div>
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="description">Job Description</label>
-                            <textarea class="form-control" rows="5" id="description" name="workDes[WorkDescription]"
+                            <textarea class="form-control" columns="5" id="description" name="workDes[WorkDescription]"
                                 placeholder=""></textarea>
                         </div>
                     </div>
@@ -235,41 +243,81 @@ We want to preview images, so we need to register the Image Preview plugin
     
     function addMoreProject() {
         let wrapper = $('#project-wrapper');
-        let html = `<div class="col-md-12 d-flex justify-content-between align-items-start">
-            <div class="col-md-5 mx-3">
-                <div class="d-flex flex-column" id="resume">
-                    <div class="d-flex flex-row">
+        let html = `<div class="col-md-12 py-2 d-flex justify-content-between align-items-center clone">
+                    <div class="col-md-5">
+                       <span class="remove-Work">remove</span>
                         <div class="d-flex" id="project">
                             <div class="d-flex flex-column">
                                 <div class="form-group">
                                     <label for="ConfirmPassword">Project Title</label>
-                                    <input type="text" class="form-control" id="projectTitle" name="projectTitle"
-                                        placeholder="">
+                                    <input type="text" class="form-control" id="projectTitle" name="project[projectTitle]"
+                                        placeholder="" required>
                                 </div>
+                                <div class="form-group">
+                        <label for="projectDesc">Project Description</label>
+                        <input type="text" class="form-control" id="projectDesc" name="project[projectDesc]" placeholder="" required>
+                    </div>
                                 <div class="d-flex">
                                     <div class="fd-flex flex-column">
                                         <label for="ConfirmPassword">Start Date</label>
                                         <div>
-                                            <input type='date' id="projectStartDate" name="projectStartDate"
-                                                class="btn btn-outline-primary my-3" onchange="readURL(this);" />
+                                            <input type='date' id="projectStartDate" name="project[startDate]"
+                                                class="btn btn-outline-primary my-3" onchange="readURL(this);" required />
                                         </div>
                                     </div>
                                     <div class="fd-flex pl-2 flex-column">
                                         <label for="ConfirmPassword">End Date</label>
                                         <div>
-                                            <input type='date' id="projectEndDate" name="projectEndDate"
-                                                class="btn btn-outline-primary my-3" onchange="readURL(this);" />
+                                            <input type='date' id="projectEndDate" name="project[endDate]"
+                                                class="btn btn-outline-primary my-3" onchange="readURL(this);" required />
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label for="projectDesc">Project Description</label>
-                        <input type="text" class="form-control" id="projectDesc" name="projectDesc" placeholder="">
-                    </div>
+                    
                 </div>`;
         wrapper.append(html);
     }
+ 
+
+     function addMoreEducation() {
+        let wrapper = $('#education-wrapper');
+        let html = `<div class="col-md-12 py-2 d-flex justify-content-between align-items-center clone">
+                    <div class="col-md-5">
+                       <span class="remove-Work">remove</span>
+                        <div class="d-flex" id="project">
+                            <div class="d-flex flex-column">
+                                <div class="form-group">
+                                        <label for="schoolName">School Name</label>
+                                        <input type="text" class="form-control" id="schoolName" name="School[schoolName]" value="{{this.schoolName}}" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="gpa">G.P.A</label>
+                                        <input type="number" class="form-control" id="gpa" name="School[gpa]" value="{{this.gpa}}" required>
+                                    </div>
+                            </div>
+                        </div>
+                    </div>
+                                                <div class="col-md-6">
+                                <div class="form-group">
+                                        <div class="fd-flex flex-column ml-3">
+                                            <label for="startDate">Start Date</label>
+                                            <input type='date' id="startDate" name="School[startDate]" class="form-control btn btn-outline-primary" value="{{this.startDate}}"
+                                                onchange="readURL(this);" required />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="fd-flex flex-column ml-3">
+                                            <label for="endDate">End Date</label>
+                                            <input type='date' id="endDate" name="School[endDate]" class="form-control btn btn-outline-primary" value="{{this.endDate}}"
+                                                onchange="readURL(this);" required />
+                                        </div>
+                                    </div>
+                            </div>
+                </div>`;
+        wrapper.append(html);
+    }
+   
 </script>

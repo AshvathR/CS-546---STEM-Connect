@@ -4,6 +4,7 @@ const data = require('../data');
 const user = data.users
 const resume = data.userResume
 const workExperience = data.workExperience;
+const projectFunc = data.projects;
 const xss = require('xss');
 const {projectFields, resumeFields, companyFields,workFields, userFields} = require('./constants');
 
@@ -53,12 +54,67 @@ router.post("/:type/form", async (req, res) => {
   // await data.jobDetails.addJob(jobDetailInfo)
   console.log(req.body)
   const workDes = req.body.workDes
+  const school = req.body.School
+  const project = req.body.project
 
   personalInfo = req.body
+  // Add Resume
   const newUser = await user.addUser(personalInfo.resumeUrl,personalInfo.email,personalInfo.address, personalInfo.firstName, personalInfo.lastName, personalInfo.phoneNumber, personalInfo.aboutMe,personalInfo.gender,personalInfo.dob,personalInfo.resumeUrl,
            'shubham', '$2b$16$XoxM9a/lLskO6Fx5wSpvauSwvGip7XexMvliIQiDSHHtElYEP3n3O')
 
-// Add Work Description
+// Add Education
+let education= []
+if(req.body.School) {
+  if(school != null && Array.isArray(school.schoolName))
+  {
+      for(i = 0; i < (school.schoolName).length; i++)
+      {
+          tempSchool = 
+          {
+            schoolName: school.schoolName[i],
+            startDate: school.startDate[i],
+            endDate: school.endDate[i],
+            gpa: school.gpa[i]
+          }
+        education.push(tempSchool)
+      }
+    }
+    else
+    {
+      tempSchool = 
+        {
+          schoolName: school.schoolName,
+          startDate: school.startDate,
+          endDate: school.endDate,
+          gpa: school.gpa
+        }
+      education.push(tempSchool)
+    }
+  }
+  const skills = (req.body.resume.skills).split(',')
+
+//Add Resume
+  const newResume = await resume.addResume(education,skills,'',req.body.resume.resumeUrl,req.body.resume.workStatus,req.body.resume.year,true)
+
+// Add project
+if(req.body.project) {
+  if(project != null && Array.isArray(project.projectTitle)){
+    for(i = 0; i < (project.projectTitle).length; i++){
+      const newProject = await projectFunc.addProject(project.projectTitle[i],project.projectDesc[i],project.startDate[i],project.endDate[i]);
+      const addProjectToUserResume = await resume.addProjectToUserResume(newResume._id,newProject)
+    }
+    }
+    else{
+      const newProject = await projectFunc.addProject(project.projectTitle,project.projectDesc,project.startDate,project.endDate);
+      const addProjectToUserResume = await resume.addProjectToUserResume(newResume._id,newProject)
+    }
+}
+
+//Add Resume to user
+const addResumeToUser = await user.addResumeToUser(newUser._id,newResume)
+  
+
+  // Add Work Description
   if(req.body.workDes) {
     if(workDes != null && Array.isArray(workDes.companyName)){
       for(i = 0; i < (workDes.companyName).length; i++){
@@ -71,8 +127,9 @@ router.post("/:type/form", async (req, res) => {
         const addWorkDesToUser = await user.addWorkDesToUser(newUser._id, newWorkExperience);
       }
   }
+
   
-  console.log(newUser)
+  // console.log(newUser)
   
   res.render("company/successScreen", {
     title: "STEMConnect",
