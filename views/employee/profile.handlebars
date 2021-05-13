@@ -247,7 +247,7 @@
                     </div>
                     <div class="form-group">
                         <label for="year">Year of Experience</label>
-                        <input type="text" class="form-control" id="year" name="resume[year]" value={{this.yearsOfExperience}}>
+                        <input type="number" class="form-control" id="year" name="resume[year]" value={{this.yearsOfExperience}}>
                     </div>
                     <div class="form-group">
                         <label for="mail">Skills</label>
@@ -279,12 +279,22 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                        <label for="startDate">Start Date</label>
-                                        <input type="text" class="form-control" id="endDate" name="resume[project][startDate]" value="{{this.startDate}}">
+                                        {{!-- <label for="startDate">Start Date</label>
+                                        <input type="text" class="form-control" id="endDate" name="resume[project][startDate]" value="{{this.startDate}}"> --}}
+                                        <div class="fd-flex flex-column ml-3">
+                                            <label for="startDate">Start Date</label>
+                                            <input type='date' id="startDate" name="resume[project][startDate]" class="form-control btn btn-outline-primary" value="{{this.startDate}}"
+                                                onchange="readURL(this);" />
+                                        </div>
                                     </div>
                                     <div class="form-group">
-                                        <label for="endDate">End Date</label>
-                                        <input type="text" class="form-control" id="endDate" name="resume[project][endDate]" value="{{this.endDate}}" >
+                                        {{!-- <label for="endDate">End Date</label>
+                                        <input type="text" class="form-control" id="endDate" name="resume[project][endDate]" value="{{this.endDate}}" > --}}
+                                        <div class="fd-flex flex-column ml-3">
+                                            <label for="endDate">End Date</label>
+                                            <input type='date' id="endDate" name="resume[project][endDate]" class="form-control btn btn-outline-primary" value="{{this.endDate}}"
+                                                onchange="readURL(this);" />
+                                        </div>
                                     </div>
                             </div>
                         </div>
@@ -309,7 +319,7 @@
                                     </div>
                                 {{!-- {{/if}} --}}
                             </div>
-                            <div class="col-md-6">
+                            {{!-- <div class="col-md-6">
                                 <div class="form-group">
                                         <label for="endDate">Start Date</label>
                                         <input type="text" class="form-control" id="endDate" name="resume[School][startDate]" value="{{this.startDate}}">
@@ -317,6 +327,26 @@
                                     <div class="form-group">
                                         <label for="endDate">End Date</label>
                                         <input type="text" class="form-control" id="endDate" name="resume[School][endDate]" value="{{this.endDate}}" >
+                                    </div>
+                            </div> --}}
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                        {{!-- <label for="startDate">Start Date</label>
+                                        <input type="text" class="form-control" id="endDate" name="resume[project][startDate]" value="{{this.startDate}}"> --}}
+                                        <div class="fd-flex flex-column ml-3">
+                                            <label for="startDate">Start Date</label>
+                                            <input type='date' id="startDate" name="resume[School][startDate]" class="form-control btn btn-outline-primary" value="{{this.startDate}}"
+                                                onchange="readURL(this);" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        {{!-- <label for="endDate">End Date</label>
+                                        <input type="text" class="form-control" id="endDate" name="resume[project][endDate]" value="{{this.endDate}}" > --}}
+                                        <div class="fd-flex flex-column ml-3">
+                                            <label for="endDate">End Date</label>
+                                            <input type='date' id="endDate" name="resume[School][endDate]" class="form-control btn btn-outline-primary" value="{{this.endDate}}"
+                                                onchange="readURL(this);" />
+                                        </div>
                                     </div>
                             </div>
                         </div>

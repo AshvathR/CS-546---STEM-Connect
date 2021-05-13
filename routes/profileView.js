@@ -85,7 +85,7 @@ router.post('/editResume', async (req,res)=> {
       }catch(e){
           console.log(e)
       }
-
+      res.redirect('/profile')
     // console.log(JSON.stringify(req.body.resume.resumeActive))
 
 })
@@ -112,6 +112,7 @@ router.post('/editPersonalInfo', async (req,res)=> {
 
     const newUser = await user.updateUser(personalInfo.userid, updatedUser)
     console.log(newUser)
+    res.redirect('/profile')
     // finduser = null
     // for (i = 0; i < userData.length; i++){
     //   if (req.body.username == userData[i].username){
