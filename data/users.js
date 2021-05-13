@@ -4,6 +4,7 @@ const userRes = require('./userResume')
 var mongodb = require('mongodb');
 const { userResume } = require('../config/mongoCollections');
 const loginInfo = require('./loginInfo'); 
+const { removeWorkDesc } = require('./workExperience');
 const bcrypt = require('bcryptjs');
 
 function checkUndef(variable, variableName)
@@ -35,14 +36,10 @@ let exportedMethods = {
       username: username,
       hashedPassword: hashedPassword
     };
-    // accountId = mongodb.ObjectId(accountId)
 
     const newInsertInformation = await userCollection.insertOne(newUser);
-    // const newId = newInsertInformation.insertedId;
-    // await loginInfo.addUserToAccount(accountId, newUser);
     console.log("Added User")
     return newUser
-    // return await this.getResumeById(newId);
   },
 
   async updateUser(userId, updatedUser)
@@ -84,7 +81,6 @@ let exportedMethods = {
     
     let currentResume = await userRes.getResumeById(newResume._id);
     const userCollection = await users();
-    // const resumeCollection = await userResume();
 
     const updateInfo = await userCollection.updateOne(
       { _id: userId },
@@ -113,7 +109,6 @@ let exportedMethods = {
     
     let currentUser = await this.getUserById(userId);
     const userCollection = await users();
-    // const resumeCollection = await userResume();
 
     const updateInfo = await userCollection.updateOne(
       { _id: userId },
@@ -171,23 +166,6 @@ let exportedMethods = {
       }
     }
     return false;
-  },
-
-  async removeResumeFromUser(resumeId)
-  {
-    checkUndef(resumeId);
-
-    const userCollection = await users();
-    const user = await userCollection.findOne({ resume: {$elemMatch : {_id: mongodb.ObjectID(id)} } });
-    let userId = user._id;
-
-    const updatedInfo = await userCollection.updateOne(
-      {_id: userId},
-      {$pull : {resume: {_id: resumeId } } }
-    );
-
-    if (!updatedInfo.matchedCount && !updatedInfo.modifiedCount) throw `Update Failed!`
-    return await this.getUserById(userId);
   },
 
   async checkUsernameandPassword(username, password){

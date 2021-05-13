@@ -151,11 +151,19 @@ div#filteredSearch {
 p {
   color: red;
 }
+
 v.job-info li {
   list-style: none;
   background-image: none;
   background-repeat: none;
   background-position: 0;
+}
+
+div.job-info li {
+    list-style:none;
+    background-image:none;
+    background-repeat:none;
+    background-position:0; 
 }
 
 ul {
