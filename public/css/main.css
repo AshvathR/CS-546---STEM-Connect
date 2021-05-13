@@ -9,6 +9,7 @@ img {
 input[type='file'] {
   display: inline-block;
 }
+
 #file {
   text-align: center;
 }
