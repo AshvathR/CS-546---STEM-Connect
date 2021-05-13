@@ -1,0 +1,135 @@
+
+<div class="container" id="profileView" style="font-family: Arial, Helvetica, sans-serif;">
+    <div class="row">
+        <div class="col-4">
+                <div class="card" style="width: 18rem;">
+                    <img class="card-img-top" src="https://png.pngtree.com/element_our/20200609/ourmid/pngtree-children-s-software-programming-image_2230761.jpg" alt="Card image cap">
+                    <div class="card-body ">
+                        <h2 class="card-title d-flex justify-content-center" style="font-weight: bolder;">{{user.name.firstName}}</h2>
+                        <h5 class="card-title d-flex justify-content-center" style="color: rgb(155, 155, 155); font-size: medium;">{{user.email}}</h5>
+                        <h5 class="card-title d-flex justify-content-center" style="color: rgb(155, 155, 155); font-size:medium">{{user.address}}</h5>
+                        <p class="card-text d-flex justify-content-center">{{user.aboutMe}}</p>
+                        
+                    </div>
+            </div>
+            <br>
+                    <a href="/logout" class="btn btn-outline-dark justify-content-center" role="button" aria-pressed="true">Click Here To
+                    Logout</a>
+        </div>
+            <div class="col-8">
+                <h2>Personal Information</h2>
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <h6 class="mb-0">Full Name</h6> 
+                            </div>
+                            <div class="col-sm-9 text-secondary">
+                            {{user.name.fullName}}
+                            </div>
+                        </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <h6 class="mb-0">Email</h6>
+                        </div>
+                        <div class="col-sm-9 text-secondary">
+                        {{user.email}}
+                        </div>
+                    </div>
+                    <hr>
+                        <div class="row">
+                            <div class="col-sm-3">
+                            <h6 class="mb-0">Phone</h6>
+                            </div>
+                            <div class="col-sm-9 text-secondary">
+                            {{user.phoneNumber}}
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-3">
+                            <h6 class="mb-0">Date Of Birth</h6>
+                            </div>
+                            <div class="col-sm-9 text-secondary">
+                            {{user.dob}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {{#each user.resume}}
+                    {{#if this.resumeActive}}
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                <h2 style="font-weight: bolder; color:gray">Resume</h2>
+                                <h5>{{this.description}}</h5>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <h6 style="font-weight: bolder;">Year of Experience</h6>
+                                        <h6>{{this.yearsOfExperience}}</h6>
+
+                                    </div>
+                                    <div class="col-md-6">
+                                        <h6 style="font-weight: bolder;">Skills</h6>
+                                        {{#each this.skills}}
+                                        <ul id="profileViewSkillsList">
+                                            <li>{{this}}</li>
+                                        </ul>
+                                        {{/each}}
+                                    </div>
+                                </div>
+                                <br>
+
+                                {{#if this.education}}
+                                <h3>Education</h3>
+                                {{#each this.education}}
+                                <h5 style="font-weight: bolder; color:gray">{{this.schoolName}}</h5>
+                                <div class="row">
+                                    
+                                    <div class="col-md-6">
+                                        <h6 style="font-weight: bolder;">School Name</h6>
+                                        <h6>{{this.schoolName}}</h6>
+                                        <h6 style="font-weight: bolder;">Start Date</h6>
+                                        <h6>{{this.startDate}}</h6>
+
+                                    </div>
+                                    <div class="col-md-6">
+                                        <h6 style="font-weight: bolder;">Gpa</h6>
+                                        <h6>{{this.gpa}}</h6>
+                                        <h6 style="font-weight: bolder;">End Date</h6>
+                                        <h6>{{this.endDate}}</h6>
+                                    </div>
+                                </div>
+                                <br>
+                                {{/each}}
+                                {{/if}}
+                                
+                                {{#if this.projects}}
+                                <h3>Projects</h3>
+                                {{#each this.projects}}
+                                <h5 style="font-weight: bolder; color:gray">{{this.projectTitle}}</h5>
+                                <div class="row">
+                                    
+                                    <div class="col-md-6">
+                                        <h6 style="font-weight: bolder;">Project Title</h6>
+                                        <h6>{{this.projectTitle}}</h6>
+                                        <h6 style="font-weight: bolder;">Start Date</h6>
+                                        <h6>{{this.startDate}}</h6>
+
+                                    </div>
+                                    <div class="col-md-6">
+                                        <h6 style="font-weight: bolder;">Project Description</h6>
+                                        <h6>{{this.description}}</h6>
+                                        <h6 style="font-weight: bolder;">End Date</h6>
+                                        <h6>{{this.endDate}}</h6>
+                                    </div>
+                                </div>
+                                <br>
+                                {{/each}}
+                                {{/if}}
+                            </div>
+                        </div>
+                    {{/if}}
+                {{/each}}
+            </div>
+{{!-- <script src="/public/js/company.js"></script> --}}

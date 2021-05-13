@@ -4,11 +4,24 @@
         var searchBar = $("#homeSearchBar");
         var form = $("#landingSearch");
         var checkbox = $("#userTypeToggle");
+        var userType = $("#getUserType");
 
+        checkbox.on("click", function(){
+            if(checkbox.prop('checked') == true){
+                userType.empty();
+                userType.css("margin-right", "5px");
+                userType.append("Company");
+            }else{
+                userType.empty();
+                userType.css("margin-right", "39px");
+                userType.append("User");
+            }
+        });  
 
         form.submit(function(e){
             if(searchBar.val().length < 1){
                 e.preventDefault();
+                $('#homeSearchBarErrorState').empty();
                 $('#homeSearchBarErrorState').append('<p class="validationMessage"> Error: Type in a name to search for a user or company?</p>')
             } else{
                 $('#homeSearchBarErrorState').empty();
@@ -73,6 +86,9 @@
                 
             }
         });
+    }
+    function searchBehavior(){
+
     }
     generalSearchBehavior()
 })(window.jQuery);

@@ -5,6 +5,7 @@ var mongodb = require('mongodb');
 const { userResume } = require('../config/mongoCollections');
 const loginInfo = require('./loginInfo'); 
 const { removeWorkDesc } = require('./workExperience');
+const bcrypt = require('bcryptjs');
 
 function checkUndef(variable, variableName)
 {
@@ -16,7 +17,7 @@ function checkUndef(variable, variableName)
 
 let exportedMethods = {
 
-  async addUser( profilePictureUrl, email,address, firstName, lastName, phoneNumber, aboutMe, gender, dob, resumeUrl, username, hashedPassword) {
+  async addUser(profilePictureUrl, email,address, firstName, lastName, phoneNumber, aboutMe, gender, dob, resumeUrl, username, hashedPassword) {
     const userCollection = await users();
 
     let newUser = {
@@ -57,6 +58,16 @@ let exportedMethods = {
       throw 'Update failed';
 
     return await this.getUserById(userId);
+  },
+
+  async findUserByResumeId(resumeId) {
+    checkUndef(resumeId, "resumeId");
+    
+    const userCollection = await users();
+    const user = await userCollection.find({  "resume._id": mongodb.ObjectId(resumeId) }).toArray();
+    
+    if (!user) throw 'User not found';
+    return user;
   },
 
   async addWorkDesToUser(userId, newWorkExperience) {
@@ -111,15 +122,17 @@ let exportedMethods = {
 
   async checkExistingUsername(username){
     checkUndef(username, "username");
+    // console.log(username)
     const allUsername = await this.getAllUsername();
     for(let current of allUsername ){
+      // console.log(current.username)
       let currentUsername = current.username.toLowerCase();
       username = username.toLowerCase();
       if(currentUsername === username){
-        return false;
+        return true;
       }
     }
-    return true;
+    return false;
   },
 
   async checkUsernameandPassword(username, password){
@@ -143,6 +156,18 @@ let exportedMethods = {
         return checkPassword;
       }
     }
+  },
+
+
+  async getUserID(username) {
+    checkUndef(username, "Username");
+    const userCollection = await users();
+    let user = await userCollection.findOne({  username: username });
+    // console.log(user);
+    if (!user){
+      user = await userCollection.findOne({email: username})
+    };
+    return user._id;
   },
 
   async removeUser (id)

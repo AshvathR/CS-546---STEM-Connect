@@ -15,7 +15,9 @@ function checkUndef(variable, variableName)
 
 let exportedMethods = {
 
-    async addJob (jobTitle, jobLocation, jobDescription, jobCategory, salaryMin, salaryMax, qualifications) {
+  
+    async addJob (jobTitle, jobLocation, jobDescription, jobCategory, salaryMin, salaryMax, qualifications, yearsOfExperience, skills,jobStatus) {
+
 
         const jobCollection = await jobDetails();
     
@@ -23,10 +25,13 @@ let exportedMethods = {
           jobTitle: jobTitle,
           jobLocation: jobLocation,
           jobDescription:jobDescription,
+          yearsOfExperience:yearsOfExperience,
+          skills: skills,
           jobCategory: jobCategory,
           salaryMin: salaryMin,
           salaryMax: salaryMax,
-          qualifications: qualifications
+          qualifications: qualifications,
+          jobStatus:jobStatus
         };
     
         const newInsertInformation = await jobCollection.insertOne(newJob);
@@ -87,6 +92,16 @@ let exportedMethods = {
 
       return true;
     },
+    async searchJobByYearSkills(years,skillsArray)
+    {
+      checkUndef(years, "years");
+      checkUndef(skillsArray,"skillsArray");
+      const jobCollection = await jobDetails();
+      console.log(years);
+      const jobsList = await jobCollection.find({$and: [{jobStatus: true},{ yearsOfExperience: { $lte: parseInt(years)} }, { skills: { $in: skillsArray}}]}).toArray();
+      // console.log(jobsList)
+      return jobsList
+    },
 
     async updateJob(id, updatedJob,companyId)
     {
@@ -101,10 +116,13 @@ let exportedMethods = {
         jobTitle: updatedJob.jobTitle,
         jobLocation: updatedJob.jobLocation,
         jobDescription: updatedJob.jobDescription,
+        yearsOfExperience: updatedJob.yearsOfExperience,
+        skills:updatedJob.skills,
         jobCategory: updatedJob.jobCategory,
         salaryMin: updatedJob.salaryMin,
         salaryMax: updatedJob.salaryMax,
-        qualifications: updatedJob.qualifications
+        qualifications: updatedJob.qualifications,
+        jobStatus: updatedJob.jobStatus
       }
 
       const jobCollection = await jobDetails();
@@ -122,10 +140,13 @@ let exportedMethods = {
           "jobDetails.$.jobTitle" : updatedJob.jobTitle,
           "jobDetails.$.jobLocation": updatedJob.jobLocation,
           "jobDetails.$.jobDescription": updatedJob.jobDescription,
+          "jobDetails.$.yearsOfExperience": updatedJob.yearsOfExperience,
+          "jobDetails.$.skills": updatedJob.skills,
           "jobDetails.$.jobCategory": updatedJob.jobCategory,
           "jobDetails.$.salaryMin": updatedJob.salaryMin,
           "jobDetails.$.salaryMax": updatedJob.salaryMax,
-          "jobDetails.$.qualifications": updatedJob.qualifications
+          "jobDetails.$.qualifications": updatedJob.qualifications,
+          "jobDetails.$.jobStatus": updatedJob.jobStatus
         }
       }, false, true);
 

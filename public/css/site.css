@@ -1,3 +1,87 @@
+body{
+    background-color: rgb(236, 238, 239);
+    padding-top: 50px;
+    padding-bottom: 50px;
+}
+img{
+    max-width: 100%;    
+}
+input[type=file]{
+    display: inline-block;
+}
+#file {
+    text-align: center;
+}
+label{
+    font-weight: 200;
+}
+button{
+    background-color: rgb(60, 120,207);
+    color: #ffffff;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 4px;
+}
+.bg-white{
+    background-color: #ffffff;
+    padding: 30px;
+}
+
+.profile-card  .box{
+    background-color: #ffffff;
+    padding: 30px;
+}
+.image-box{
+    text-align: center;
+}
+.image-box img{
+    width: 150px;
+    height: 150px;
+    object-fit: contain;
+    object-position: center;
+}
+.jobTitle{
+    font-size: 24px;
+    margin-top: 15px;
+    margin-bottom: 0px;
+}
+.complanyName{
+    font-size: 14px;
+    opacity: 0.65;
+    margin: 0;
+}
+.salaryRange{
+    margin-top: 15px;
+    color: rgb(205,102,95);
+}
+.address{
+    margin-top: 15px;
+}
+.map-pin{
+    width: 25px;
+}
+.description{
+    margin-top: 15px;
+   margin-bottom: 15px;
+    opacity: 0.75;
+}
+.tag{
+    border: 1px solid rgb(168,213,232);
+    color: rgb(168,213,232);
+    border-radius: 30px;
+    padding: 5px 10px;
+    font-size: 10px;
+}
+.upper, .lower {
+    opacity: 0;
+    visibility: hidden;
+}
+.search{
+    display: block;
+    background: rgb(116,182,102);
+    width: 100%;
+}
+
 input#homeSearchBar{
     width: 75%;
     height: 40px;
@@ -16,12 +100,12 @@ div#filteredSearch{
     display: inline-block;
 }
 
- .switch {
+.toggleHold .switch {
     position: relative;
     display: inline-block;
     width: 60px;
     height: 34px;
-  }
+ }
  
   .toggleHold .switch input { 
     opacity: 0;
@@ -78,7 +162,7 @@ div#filteredSearch{
     border-radius: 50%;
   }
 
-  .container {
+.container {
     display: block;
     position: relative;
     padding-left: 35px;
@@ -92,14 +176,14 @@ div#filteredSearch{
   }
   
   /* Hide the browser's default radio button */
-  .container input {
+  .container .input {
     position: absolute;
     opacity: 0;
     cursor: pointer;
   }
   
   /* Create a custom radio button */
-  .checkmark {
+.checkmark {
     position: absolute;
     top: 0;
     left: 0;
@@ -151,7 +235,7 @@ div#filteredSearch{
     background-image:none;
     background-repeat:none;
     background-position:0; 
-}
+ }
 
 ul
 {
