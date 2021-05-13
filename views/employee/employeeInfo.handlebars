@@ -4,15 +4,16 @@
             <div class="col-md-12 d-flex justify-content-between align-items-start">
                 <div class="col-md-5 mx-3">
                     <div class="d-flex align-items-center flex-column">
-                        <div id="file" style="height: 300px;"
-                            class="d-flex justify-content-start align-items-center flex-column form-group col-md-6">
-                            <h2 class="text-center py-2" for="profile">Profile image</h2>
+                        <div id="file"
+                            class=" d-flex justify-content-start align-items-center flex-column form-group col-md-6">
+                            <h2 class="text-center py-2" for="profile">Profile image emp</h2>
                             <br />
                             <img id="blah" style="height: 150px; width: 150px;"
                                 src="https://png.pngtree.com/element_our/20200609/ourmid/pngtree-children-s-software-programming-image_2230761.jpg"
                                 alt="your image" />
                             <br />
-                            <input type='file' class="btn btn-outline-primary my-3" onchange="readURL(this);" />
+                            <input type='file' class="btn btn-outline-primary my-3 filePond"
+                                onchange="readURL(this);" />
                         </div>
                     </div>
                     <div class="form-group">
@@ -56,17 +57,16 @@
                         </div>
                         <div class="d-flex">
                             <div class="dropdown form-group d-flex flex-column">
-                                <label for="ConfirmPassword">Gender</label>
-                                <button style="width: 200px;" class="text-right btn btn-secondary dropdown-toggle"
-                                    type="button" id="dropdownMenuButton" name="dropdownMenuButton"
-                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    Select
-                                </button>
-                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                    <a class="dropdown-item" href="#">Action</a>
-                                    <a class="dropdown-item" href="#">Another action</a>
-                                    <a class="dropdown-item" href="#">Something else here</a>
-                                </div>
+                                <label for="gender">Gender</label>
+                                <select style="width: 200px;" class="text-right btn btn-secondary dropdown-toggle"
+                                    type="button" id="gender" name="dropdownMenuButton"
+                                    data-toggle="dropdown">
+                                    <option disabled selected value> -- select an option -- </option>
+                                    <option value="male">Male</option>
+                                    <option value="female">Female</option>
+                                     <option value="other">Other</option>
+                                    <option value="prefernottosay">Prefer not to say</option>
+                                </select>
                             </div>
                             <div class="fd-flex flex-column ml-3">
                                 <label for="ConfirmPassword">Date of Birth</label>
@@ -81,8 +81,14 @@
                         <div class="d-flex flex-column" id="workInformation">
                             <h4 class="text-left py-1" for="profile">Upload Resume</h4>
                             <div>
-                                <input type='file' class="btn btn-outline-primary my-3" onchange="readURL(this);" />
+                                <input type='file' multiple class="btn btn-outline-primary my-3 filePond"
+                                    onchange="readURL(this);" />
                             </div>
+                        </div>
+                         <div class="form-group">
+                            <label for="ConfirmPassword">Description</label>
+                            <textarea class="form-control" rows="5" id="description" name="WorkDescription"
+                                placeholder=""></textarea>
                         </div>
                     </div>
                 </div>
@@ -117,8 +123,8 @@
                             <div class="fd-flex pl-2 flex-column">
                                 <label for="ConfirmPassword">End Date</label>
                                 <div>
-                                    <input type='date' id="endDate" name="workEndDate" class="btn btn-outline-primary my-3"
-                                        onchange="readURL(this);" />
+                                    <input type='date' id="endDate" name="workEndDate"
+                                        class="btn btn-outline-primary my-3" onchange="readURL(this);" />
                                 </div>
                             </div>
                         </div>
@@ -159,12 +165,9 @@
                     <div class="form-group d-flex flex-column">
                         <label for="ConfirmPassword">Resume</label>
                         <div>
-                            <input type='file' class="btn btn-outline-primary my-3" onchange="readURL(this);" />
+                            <input type='file' multiple class="btn btn-outline-primary my-3 filePond"
+                                onchange="readURL(this);" />
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="ConfirmPassword">Skill</label>
-                        <input type="text" class="form-control" id="skill" name="skill" placeholder="">
                     </div>
                     <div class="form-group">
                         <label for="ConfirmPassword">Years of Experience</label>
@@ -234,7 +237,31 @@
     </div>
 </form>
 
-<script src="/public/js/users.js"></script>
+
+<script>
+
+    /*
+We want to preview images, so we need to register the Image Preview plugin
+*/
+    FilePond.registerPlugin(
+        // encodes the file as base64 data
+        FilePondPluginFileEncode,
+
+        // validates the size of the file
+        FilePondPluginFileValidateSize,
+
+        // corrects mobile image orientation
+        FilePondPluginImageExifOrientation,
+
+        // previews dropped images
+        FilePondPluginImagePreview
+    );
+
+    // Select the file input and use create() to turn it into a pond
+    let data = document.getElementsByClassName("filePond");
+
+    for (let i = 0; i <= data.length - 1; i++) FilePond.create(data[i]);
+</script>
 <script>
     function readURL(input) {
         if (input.files && input.files[0]) {
@@ -249,9 +276,10 @@
     }
 
     function addMoreWorkInformation() {
-        let wrapper = document.getElementById('work-information-wrapper')
-        let html = `<div class="col-md-12 py-2 d-flex justify-content-between align-items-center">
+        let wrapper = $('#work-information-wrapper');
+        let html = `<div class="col-md-12 py-2 d-flex justify-content-between align-items-center clone">
                     <div class="col-md-5">
+                     <span class="remove-Work">remove</span>
                         <div class="d-flex flex-column" id="workInformation">
                             <div class="form-group">
                                 <label for="ConfirmPassword">Company Name</label>
@@ -288,13 +316,17 @@
                         </div>
                     </div>
                 </div>`;
-        wrapper.innerHTML += html
+        wrapper.append(html);
     }
+    $(document).on("click", ".clone .remove-Work", function (e) {
+        $(e.target).parent().parent().remove();
+    });
 
     function addMoreProject() {
-        let wrapper = document.getElementById('project-wrapper')
-        let html = `<div class="col-md-12 py-2 d-flex justify-content-between align-items-center">
+        let wrapper = $('#project-wrapper');
+        let html = `<div class="col-md-12 py-2 d-flex justify-content-between align-items-center clone">
                     <div class="col-md-5">
+                       <span class="remove-Work">remove</span>
                         <div class="d-flex" id="project">
                             <div class="d-flex flex-column">
                                 <div class="form-group">
@@ -329,6 +361,6 @@
                         </div>
                     </div>
                 </div>`;
-        wrapper.innerHTML += html
+        wrapper.append(html);
     }
 </script>
