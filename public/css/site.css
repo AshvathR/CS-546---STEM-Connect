@@ -165,6 +165,76 @@ div#filteredSearch {
   border-radius: 50%;
 }
 
+.hidden {
+  display: none;
+}
+
+.toggleHold {
+  display: inline-block;
+}
+
+.toggleHold .switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
+
+.toggleHold .switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.toggleHold .slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgb(60, 120, 207);
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+}
+
+.toggleHold .slider:before {
+  position: absolute;
+  content: '';
+  height: 18px;
+  width: 18px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+}
+
+.toggleHold input:checked + .slider {
+  background-color: #cf943c;
+}
+
+.toggleHold input:focus + .slider {
+  box-shadow: 0 0 1px #cf943c;
+}
+
+.toggleHold input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(22px);
+}
+
+/* Rounded sliders */
+.toggleHold .slider.round {
+  border-radius: 34px;
+  height: 26px;
+  width: 48px;
+}
+
+.toggleHold .slider.round:before {
+  border-radius: 50%;
+}
+
 .container {
   display: block;
   position: relative;
@@ -178,12 +248,12 @@ div#filteredSearch {
   user-select: none;
 }
 
-/* Hide the browser's default radio button (Created Error for all input inform text boxes) */
-/* .container input {
+/* Hide the browser's default radio button */
+.container .input {
   position: absolute;
   opacity: 0;
   cursor: pointer;
-} */
+}
 
 /* Create a custom radio button */
 .checkmark {
