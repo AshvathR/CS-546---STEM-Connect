@@ -313,8 +313,6 @@
                     {{#each this.education}}
                         <div class="row">
                             <div class="col-md-6">
-                                {{!-- {{#if this.projects}} --}}
-                                {{!-- <input type="hidden" name="resume[project][id]" id="{{this._id}}" value="{{this._id}}"/> --}}
                                     <div class="form-group">
                                         <label for="schoolName">School Name</label>
                                         <input type="text" class="form-control" id="schoolName" name="resume[School][schoolName]" value="{{this.schoolName}}">
@@ -323,22 +321,9 @@
                                         <label for="gpa">G.P.A</label>
                                         <input type="text" class="form-control" id="gpa" name="resume[School][gpa]" value="{{this.gpa}}" >
                                     </div>
-                                {{!-- {{/if}} --}}
                             </div>
-                            {{!-- <div class="col-md-6">
-                                <div class="form-group">
-                                        <label for="endDate">Start Date</label>
-                                        <input type="text" class="form-control" id="endDate" name="resume[School][startDate]" value="{{this.startDate}}">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="endDate">End Date</label>
-                                        <input type="text" class="form-control" id="endDate" name="resume[School][endDate]" value="{{this.endDate}}" >
-                                    </div>
-                            </div> --}}
                             <div class="col-md-6">
                                 <div class="form-group">
-                                        {{!-- <label for="startDate">Start Date</label>
-                                        <input type="text" class="form-control" id="endDate" name="resume[project][startDate]" value="{{this.startDate}}"> --}}
                                         <div class="fd-flex flex-column ml-3">
                                             <label for="startDate">Start Date</label>
                                             <input type='date' id="startDate" name="resume[School][startDate]" class="form-control btn btn-outline-primary" value="{{this.startDate}}"
@@ -346,8 +331,6 @@
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        {{!-- <label for="endDate">End Date</label>
-                                        <input type="text" class="form-control" id="endDate" name="resume[project][endDate]" value="{{this.endDate}}" > --}}
                                         <div class="fd-flex flex-column ml-3">
                                             <label for="endDate">End Date</label>
                                             <input type='date' id="endDate" name="resume[School][endDate]" class="form-control btn btn-outline-primary" value="{{this.endDate}}"

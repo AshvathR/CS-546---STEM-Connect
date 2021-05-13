@@ -122,25 +122,6 @@ async function main()
     console.log (e);
   }
 
-  try{
-    const searchResumeByYearSkills = await userResume.searchResumeByYearSkills(2,['web dev'])
-    // console.log(searchResumeByYearSkills)
-  } catch (e) {
-    console.log(e)
-  }
-  try{
-    const searchJobByYearSkills = await job.searchJobByYearSkills(2,['web dev'])
-    // console.log(searchJobByYearSkills)
-  } catch (e) {
-    console.log(e)
-  }
-  try{
-    const usersList = await usersData.findUserByResumeId('6098b6718364680b743e7026')
-    console.log(usersList)
-  } catch (e) {
-    console.log(e)
-  }
-
   
   console.log('Done seeding database');
 
