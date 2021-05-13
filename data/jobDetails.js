@@ -8,7 +8,7 @@ const companyFunc = require('./company')
 function checkUndef(variable, variableName)
 {
     if (variable === null || variable === undefined)
-    {
+    { 
         throw `${variableName || 'Provided Variable'} is not defined!`
     }
 }
@@ -16,7 +16,7 @@ function checkUndef(variable, variableName)
 let exportedMethods = {
 
   
-    async addJob (jobTitle, jobLocation, jobDescription, jobCategory, salaryMin, salaryMax, qualifications, yearsOfExperience, skills,jobStatus) {
+    async addJob (jobTitle, jobLocation, jobDescription, yearsOfExperience, skills, jobCategory, salaryMin, salaryMax, qualifications, jobStatus) {
 
 
         const jobCollection = await jobDetails();

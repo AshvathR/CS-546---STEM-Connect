@@ -21,7 +21,7 @@
                         <div class="col-sm-3">
                             <h6 class="mb-0">Company Name</h6>
                         </div>
-                        <div class="col-sm-9 text-secondary" style="color: black;">
+                        <div class="col-sm-9 text-secondary">
                             {{company.companyName}}
                         </div>
                     </div>
@@ -45,35 +45,26 @@
                     </div>
                 </div>
             </div>
-            <div class="col-8">
-                {{#each company.jobDetails}}
-                    {{#if this.jobStatus}}
-                        <div class="tr-job-posted section-padding">
-                            <div class="job-tab text-center">
-                                <div class="tab-content text-left">
-                                    <div role="tabpanel" class="tab-pane fade active show" id="hot-jobs">
-                                        <div class="row">
-                                            <div class="col-md-6 col-lg-6">
-                                                <div class="job-item">
-                                                    <div class="job-info">
-                                                        <div class="company-logo">
-                                                            <img src="public\company.png" class="img-fluid">
-                                                        </div>
-                                                        <span class="tr-title">
-                                                            {{this.jobTitle}}
-                                                            <span>Company Name</span>
-                                                        </span>
-                                                        <ul class="tr-list job-meta">
-                                                            <li style="font-size: medium;"><span><i class="fa fa-map-signs" aria-hidden="true"></i></span>  {{this.jobLocation}}</li>
-                                                            <li style="font-size: medium;"><span><i class="fa fa-briefcase" aria-hidden="true"></i></span>  {{this.jobCategory}}</li>
-                                                            <li style="font-size: medium;"><span><i class="fa fa-money" aria-hidden="true"></i></span>  {{this.salaryMin}} - {{this.salaryMax}}</li>
-                                                        </ul>
-                                                        <div class="job-description">
-                                                            <span><p class="d-flex justfy-content-center">{{this.jobDescription}}</p></span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
+            <div class="col-sm-4">
+                <div class="card-deck">
+                    {{#each company.jobDetails}}
+                        {{#if this.jobStatus}}
+                            <div class="col-auto mb-3">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <img class="card-img-top" src="/public/company.png" alt="card-image-cap">
+                                        <div class="card-body">
+                                            <h3 class="card-title d-flex justify-content-center" style="font-weight: bolder;">{{this.jobTitle}}</h3>
+                                            <h5 class="card-title d-flex justify-content-center"><i class="fa fa-map-signs" aria-hidden="true"></i> {{this.jobLocation}} </h5>
+                                            <h5 class="card-title d-flex justify-content-center"><i class="fa fa-briefcase" aria-hidden="true"></i> {{this.jobDescription}} </h5>                                    
+                                            <h5 class="card-title d-flex justify-content-center"><i class="fa fa-money" aria-hidden="true"></i> {{this.salaryMin}} - {{this.salaryMax}} </h5>
+                                        </div>
+                                        <div class="time">
+                                            <ul class="tr-list job-meta">
+                                                {{#each this.skills}}
+                                                    <li>{{this}}</li>
+                                                {{/each}}
+                                            </ul>
                                         </div>
                                     </div>
                                 </div>
@@ -85,124 +76,4 @@
         </div>
     </div>
 </div>
-{{!-- <br>
-<br>
-<br>
-<div class="container" id="companyView">
-    <div class="row">
-            <div class="col-md-12 d-flex justify-content-between align-items-start">
-                <div class="row">
-                <div class="col-md-6 mx-3">
-                    <div class="row">
-                    <div class="col-md-6">
-                            <img id="blah" style="height: 150px; width: 150px;"
-                                src="https://png.pngtree.com/element_our/20200609/ourmid/pngtree-children-s-software-programming-image_2230761.jpg"
-                                alt="your image" />
-                    </div>
-                        <div class="col-md-6">
-                        <div class="form-group">
-                        <label for="Username" class="no-margin">User Name</label>
-                        <p class="no-margin"><strong>User Name</strong></p>
-                    </div>
-                    <div class="form-group">
-                        <label for="HrInputEmail1" class="no-margin">HR Email</label>
-                        <p class="no-margin"><strong>youremail@email.com</strong></p>
-                    </div>
-
-                        </div>
-                    </div>
-                   
-
-                  
-
-                   
-                </div>
-                <div class="col-md-6 mx-3">
-                    <div class="d-flex px-4 flex-column" id="workInformation">
-                        <h4 class="text-left" for="profile">Company Information</h4>
-                        <div class="form-group">
-                                <label for="ConfirmPassword" class="no-margin">Company Name</label>
-                                <p class="no-margin"><strong>Company Name</strong></p>
-                            </div>
- <div class="form-group">
-                            <label for="ConfirmPassword" class="no-margin">Phone Number</label>
-                            <p class="no-margin"><strong>1234567890</strong></p>
-                        </div>
-                         <div class="form-group">
-                            <label for="ConfirmPassword" class="no-margin">Category</label>
-                            <p class="no-margin"><strong>Category</strong></p>
-                        </div>
-                        <div class="form-group">
-                            <label for="ConfirmPassword" class="no-margin">Address</label>
-                            <p class="no-margin">
-                                <strong>178  Armory Road <br/>
-                                KINGDOM CITY <br/>
-                                    Missouri<br/>
-                                    65262<br/>
-                                </strong>
-                            </p>
-                        </div>
-                        
-                    </div>
-                </div>
-                    </div>
-            </div>
-            {{!-- Profile End --}}
-                    <div class="col-sm-12 d-flex justify-content-between align-items-center">
-                <h4 class="text-left py-4" for="profile">New Job</h4>
-
-            </div>
-        <div class="col-sm-12">
-                    
-<div class="row">
-    <div class="col-md-6">
-                    
-                        <div class="form-group">
-                            <label for="ConfirmPassword" class="no-margin">Job Title</label>
-                            <p class="no-margin"><strong>Job Title</strong></p>
-                        </div>
-                        <div class="form-group">
-                            <label for="ConfirmPassword" class="no-margin">Job Location</label>
-                            <p class="no-margin"><strong>Job Location</strong></p>
-                        </div>
-                        <div class="form-group">
-                            <label for="ConfirmPassword" class="no-margin">Job Category</label>
-                            <p class="no-margin"><strong>Job Category</strong></p>
-                        </div>
-        <div class="row">
-        <div class="col-md-6">
-            <div class="form-group">
-                            <label for="ConfirmPassword" class="no-margin">Salary Min</label>
-                            <p class="no-margin"><strong>Salary Min</strong></p>
-                        </div>
-            </div>
-        <div class="col-md-6">
-            <div class="form-group">
-                            <label for="ConfirmPassword" class="no-margin">Salary Max</label>
-                            <p class="no-margin"><strong>Salary Max</strong></p>
-                        </div>
-            </div>
-        </div>
-                </div>
-    <div class="col-md-6">
-    <div class="form-group">
-                        <label class="no-margin" for="ConfirmPassword">Job Description</label>
-                        <p class="no-margin"><strong>Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Maecenas faucibus mollis interdum. Donec ullamcorper nulla non metus auctor fringilla. Aenean lacinia bibendum nulla sed consectetur.</strong></p>
-                    </div>
-                        <div class="form-group">
-                        <label class="no-margin" for="ConfirmPassword">Qualifications</label>
-                        <p class="no-margin"><strong>Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Maecenas faucibus mollis interdum. Donec ullamcorper nulla non metus auctor fringilla. Aenean lacinia bibendum nulla sed consectetur.</strong></p>
-                    </div>
-    </div>
-    </div>
-                </div>
-      
-           
-            
-        
-       
-    </div>
-    </div> --}}
-
-
 <script src="/public/js/company.js"></script>

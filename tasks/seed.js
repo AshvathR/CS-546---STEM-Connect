@@ -21,25 +21,32 @@ async function main()
     //Add company
     newCompany = await company.addCompany('Essential Tech', 'Mumbai','IT','hrMail@mail.com', 'mumbaiUser', '$2b$16$XoxM9a/lLskO6Fx5wSpvauSwvGip7XexMvliIQiDSHHtElYEP3n3O')
     //Add job
-    newJob = await job.addJob('Front End Dev', 'Mumbai','working on the ui','IT','35$','65$','Text on Qualifications')
-    newJob1 = await job.addJob("Back End Dec", "Bangalore", "Working on the Data Functions", "Software Development", "$55", "$85", "Masters in Computer Science");
+    newJob = await job.addJob('Front End Dev', 'Mumbai','working on the ui',4,['Mongob', 'Nodejs'],'IT','55$','85$','Text on Qualifications',true)
+    newJob1 = await job.addJob('Back End Dev', 'Banglore','Working on the Data Functions',2,["Java",'Mongob', 'Nodejs'],'IT','50$','83$','Text on Qualifications',true)
+    console.log("Created Job   " + newJob)
     //Add job to company
-    const newJobToCompany = await company.addJobToCompany(newCompany._id, newJob);
-    const newJobToCompany1 = await company.addJobToCompany(newCompany._id, newJob1);
-    // //Remove Job
-    // try
-    // {
-    //   // remove job in job sub doc
-    //   const removedJob = await job.removeJob(newJob1._id, newCompany._id);
-    //   console.log(removedJob);
+    const addJobToCompany = await company.addJobToCompany(newCompany._id,newJob);
+    const addJobToCompany1 = await company.addJobToCompany(newCompany._id,newJob1);    
+    // tempJob = {
+    //   "jobTitle": "Back End Dev ",
+    //   "jobLocation": "Banglore",
+    //   "jobDescription": "working on the DF",
+    //   "yearsOfExperience": 2,
+    //   "skills": ['Mongob', 'Nodejs'],
+    //   "jobCategory": "IT",
+    //   "salaryMin": "35$",
+    //   "salaryMax": "65$",
+    //   "qualifications": "Text on Qualifications",
+    //   "jobStatus": true
     // }
-    // catch(e)
-    // {
+    // //Update Job
+    // try{
+    //   // update job in job sub doc
+    //   const updatedJob = await job.updateJob(newJob._id, tempJob, newCompany._id)
+    // }catch(e){
     //   console.log (e);
     // }
-  }
-  catch(e)
-  {
+  }catch(e){
     console.log (e);
   }
   // try {

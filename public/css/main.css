@@ -109,9 +109,13 @@ ul
     margin:0px;
 }
 
-li
-{
-    background-repeat:no-repeat;
-    background-position:0px 5px; 
-    padding-left:14px;
+li {
+  background-repeat: no-repeat;
+  background-position: 0px 5px;
+  padding-left: 14px;
+}
+
+.card-img-top{
+    width: min-content;
+    height: min-content;
 }
