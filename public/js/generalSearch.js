@@ -55,7 +55,7 @@
                         var userList = responseMessage.match;
                         var list = [];
                         for (user of userList){
-                            list.push({label: user.name.fullName, value:'/user/' + user._id})
+                            list.push({label: user.name.fullName, value:'/profile/user/' + user._id})
                         }
                                     
                         searchBar.autocomplete({
@@ -70,7 +70,7 @@
                         var companyList = responseMessage.match;
                         var list = [];
                         for (company of companyList){
-                            list.push({label: company.companyName, value:'/company/' + company._id})
+                            list.push({label: company.companyName, value:'/profile/company/' + company._id})
                         }
 
                         searchBar.autocomplete({
