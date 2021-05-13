@@ -14,7 +14,7 @@ function errorCheckString(val){
   return true;
 }
 
-router.post('/signup', async (req,res) => {
+router.post('/', async (req,res) => {
     if(!req.session.authenticated){
       let username = req.body.username;
       let password = req.body.password;
@@ -23,46 +23,51 @@ router.post('/signup', async (req,res) => {
       let hashedPassword;
       if(userType === "company"){
         if(password === re_password && errorCheckString(password) && errorCheckString(re_password)){
-          hashedPassword = await bcrypt.hash(plainTextPassword, saltRounds);
+          hashedPassword = await bcrypt.hash(password, saltRounds);
         }
         else{
           res.status(401);
-          res.render("employee/login",{currentTitle : "Login", currentHeader : "Login Form", hasErrors : true});
+          res.render("general/signup",{currentTitle : "Login", currentHeader : "Login Form", hasErrors : true});
         }
         let checkUsernameExists = await companyData.checkExistingUsername(username);
-        if(checkUsernameExists && errorCheckString(username)){
+        if(!checkUsernameExists && errorCheckString(username)){
           req.session.username = username;
           req.session.hashedPassword = hashedPassword;
-          req.session.authenticated
+          req.session.currentUser = userType;
+          req.session.authenticated = true;
+          res.redirect('/profile/create');
         }
         else{
           res.status(401);
-          res.render("employee/login",{currentTitle : "Login", currentHeader : "Login Form", hasErrors : true});
+          res.render("general/signup",{currentTitle : "Login", currentHeader : "Login Form", hasErrors : true});
         }
       }
       else{
         if(password === re_password && errorCheckString(password) && errorCheckString(re_password)){
-          hashedPassword = await bcrypt.hash(plainTextPassword, saltRounds);
+          hashedPassword = await bcrypt.hash(password, saltRounds);
         }
         else{
           res.status(401);
-          res.render("employee/login",{currentTitle : "Login", currentHeader : "Login Form", hasErrors : true});
+          res.render("general/signup",{currentTitle : "Login", currentHeader : "Login Form", hasErrors : true});
         }
         let checkUsernameExists = await usersData.checkExistingUsername(username);
-        if(checkUsernameExists && errorCheckString(username)){
+        if(!checkUsernameExists && errorCheckString(username)){
           req.session.username = username;
           req.session.hashedPassword = hashedPassword;
-          req.session.authenticated
+          req.session.currentUser = userType;
+          req.session.authenticated = true
+          res.redirect('/profile/create');
         }
         else{
           res.status(401);
-          res.render("employee/login",{currentTitle : "Login", currentHeader : "Login Form", hasErrors : true});
+          res.render("general/signup",{currentTitle : "Login", currentHeader : "Login Form", hasErrors : true});
         }
       }
     }
+    
   });
 
-  router.get('/signup', async (req,res) => {
+  router.get('/', async (req,res) => {
     res.render('general/signup', { title: "Sign Up" ,  auth: false, notLoginPage:false});
   });
 

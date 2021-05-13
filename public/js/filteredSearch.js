@@ -1,22 +1,42 @@
 (function($) {
-    var filterSlider = $('#yearsExpSlider');
-    var filterInput = $('#yearsExpInput');
+    var yearsExpSlider = $('#yearsExpSlider');
+    var yearsExpInput = $('#yearsExpInput');
+    var minSalarySlider = $('#minSalarySlider');
+    var minSalaryInput = $('#minSalaryInput');
+    var projectNumberSlider = $('#projectNumberSlider');
+    var projectNumberInput = $('#projectNumberInput');
+    
+    var categoryInput = $('#categoryLookUp');
+
     var skillsInput = $('#skillsLookUp');
     var skillsList = $('#skillsLookUp');
     var selectedSkills = $('#insertedSkills');
     var skillsDiv = $('#skillsList');
     var form = $('#filteredSearchForm');
-    function linkSliderAndInput(){
-        filterSlider.val(0);
-        filterInput.val(filterSlider.val());
-        filterSlider.on("input", function(){
-            filterInput.val($(this).val());
+    
+    var revealMinimumSalary = $('#revealMinSalary');
+    var removeMinimumSalary = $('#removeMinSalary');
+    var minSalaryFilter = $('minimumSalaryFilter');
 
+    var revealProjectNumber = $('#revealProjectNumber');
+    var removeProjectNumber = $('#removeProjectNumber');
+    var projectNumberFilter = $('#projectNumberFilter');
+
+    var revealJobCategory = $('#revealCategory');
+    var removeJobCategory = $('#removeCategory');
+    var jobCategoryFilter = $('#categoryInputFilter')
+
+
+
+
+    function linkSliderAndInput(slider, input){
+        slider.val(0);
+        input.val(filterSlider.val());
+        slider.on("input", function(){
+            input.val($(this).val());
         });
-
-        filterInput.change(function(){
-            filterSlider.val($(this).val());
-            
+        input.change(function(){
+            slider.val($(this).val()); 
         });
     }
 
@@ -38,12 +58,39 @@
                 return false;
             }
         });
+    }
 
+    function optionalFilterReveal(reveal, remove, filter, inputArray){
+        for(input of inputArray){
+            input.prop("disabled", true);
+        }
+        
+        reveal.click(function(){
+            filter.css("display", "block");
+            for(input of inputArray){
+                input.prop("disabled", false);
+            }
+            reveal.css("display", "none");
+        });
+
+        remove.click(function(){
+            filter.css("display", "none");
+            for(input of inputArray){
+                input.prop("disabled", true);
+            }
+            reveal.css("display", "block");
+        });
     }
 
 
-    linkSliderAndInput();
+
+    linkSliderAndInput(yearsExpSlider, yearsExpInput);
+    linkSliderAndInput(minSalarySlider, minSalaryInput);
+    linkSliderAndInput(projectNumberSlider, projectNumberInput);
     skillsAddition();
+    optionalFilterReveal(revealMinimumSalary, removeMinimumSalary, minSalaryFilter, [minSalarySlider, minSalaryInput]);
+    optionalFilterReveal(revealProjectNumber, removeProjectNumber, projectNumberFilter, [projectNumberSlider, projectNumberInput]);
+    optionalFilterReveal(revealJobCategory, removeJobCategory, jobCategoryFilter, [categoryInput]);
 
 
     form.submit(function(e){

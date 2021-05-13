@@ -16,7 +16,7 @@ function checkUndef(variable, variableName)
 
 let exportedMethods = {
 
-  async addUser({profilePictureUrl, email,address, firstName, lastName, phoneNumber, aboutMe, gender, dob, resumeUrl, username, hashedPassword}) {
+  async addUser(profilePictureUrl, email,address, firstName, lastName, phoneNumber, aboutMe, gender, dob, resumeUrl, username, hashedPassword) {
     const userCollection = await users();
 
     let newUser = {
@@ -43,6 +43,39 @@ let exportedMethods = {
     console.log("Added User")
     return newUser
     // return await this.getResumeById(newId);
+  },
+
+  async updateUser(userId, updatedUser)
+  {
+    checkUndef(userId, "userID");
+    checkUndef(updatedUser, "updatedUser")
+
+    const user = await this.getUserById(userId);
+
+    if (updatedUser.resumeUrl)
+    {
+      let x = (user.resumeUrl).concat(updatedUser.resumeUrl)
+      updatedUser.resumeUrl = [...new Set(x)];
+    }
+
+    let userUpdateInfo =
+    {
+      email: updatedUser.email,
+      address: updatedUser.address,
+      name: updatedUser.name,
+      phoneNumber: updatedUser.phoneNumber,
+      aboutMe: updatedUser.aboutMe,
+      gender: updatedUser.gender,
+      dob: updatedUser.dob,
+      resumeUrl: updatedUser.resumeUrl
+    };
+
+    const userCollection = await users();
+    const updateInfo = await userCollection.updateOne( { _id: mongodb.ObjectID(userId) }, { $set: userUpdateInfo } );
+
+    if (!updateInfo.matchedCount && !updateInfo.modifiedCount) throw `Update Failed!`;
+
+    return await this.getUserById(userId);
   },
 
   async addResumeToUser(userId, newResume) {
@@ -127,8 +160,10 @@ let exportedMethods = {
 
   async checkExistingUsername(username){
     checkUndef(username, "username");
+    // console.log(username)
     const allUsername = await this.getAllUsername();
     for(let current of allUsername ){
+      // console.log(current.username)
       let currentUsername = current.username.toLowerCase();
       username = username.toLowerCase();
       if(currentUsername === username){
@@ -182,7 +217,8 @@ let exportedMethods = {
   async getUserID(username) {
     checkUndef(username, "Username");
     const userCollection = await users();
-    const user = await userCollection.findOne({  username: username });
+    let user = await userCollection.findOne({  username: username });
+    // console.log(user);
     if (!user){
       user = await userCollection.findOne({email: username})
     };

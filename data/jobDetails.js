@@ -16,7 +16,7 @@ function checkUndef(variable, variableName)
 let exportedMethods = {
 
   
-    async addJob ({jobTitle, jobLocation, jobDescription, jobCategory, salaryMin, salaryMax, qualifications, yearsOfExperience, skills,jobStatus}) {
+    async addJob (jobTitle, jobLocation, jobDescription, jobCategory, salaryMin, salaryMax, qualifications, yearsOfExperience, skills,jobStatus) {
 
 
         const jobCollection = await jobDetails();
@@ -74,14 +74,27 @@ let exportedMethods = {
 
       return true;
     },
-    async searchJobByYearSkills(years,skillsArray)
+    async searchJobByYearCategorySalarySkills(years, category, minSalary, skillsArray)
     {
       checkUndef(years, "years");
       checkUndef(skillsArray,"skillsArray");
+      checkUndef(category, "category");
+      checkUndef(minSalary, "minSalary");
+      let catQuery ={};
+      let minSalQuery = {};
+      let skillsQuery = {};
+
+      if (isNaN(minSalary)) throw "Invalid salary: Not a number!";
+      if(!Array.isArray(skillsArray)) throw "Invalid skills: Not an Array!";
+
+      if(category != "noCategory") catQuery = {jobCategory: category};
+      if(minSalary > 0) minSalQuery = {salaryMin: {$gte: parseInt(minSalary)}};
+      if(skillsArray.length > 0) skillsQuery = { skills: { $in: skillsArray}};
+
       const jobCollection = await jobDetails();
       console.log(years);
-      const jobsList = await jobCollection.find({$and: [{jobStatus: true},{ yearsOfExperience: { $lte: parseInt(years)} }, { skills: { $in: skillsArray}}]}).toArray();
-      // console.log(jobsList)
+      const jobsList = await jobCollection.find({$and: [{jobStatus: true},{ yearsOfExperience: { $lte: parseInt(years)} }, catQuery, minSalQuery, skillsQuery]}).toArray();
+      console.log(jobsList)
       return jobsList
     },
 
@@ -98,7 +111,7 @@ let exportedMethods = {
         jobTitle: updatedJob.jobTitle,
         jobLocation: updatedJob.jobLocation,
         jobDescription: updatedJob.jobDescription,
-        yearsOfExperience:updatedJob.yearsOfExperience,
+        yearsOfExperience: updatedJob.yearsOfExperience,
         skills:updatedJob.skills,
         jobCategory: updatedJob.jobCategory,
         salaryMin: updatedJob.salaryMin,
@@ -122,10 +135,13 @@ let exportedMethods = {
           "jobDetails.$.jobTitle" : updatedJob.jobTitle,
           "jobDetails.$.jobLocation": updatedJob.jobLocation,
           "jobDetails.$.jobDescription": updatedJob.jobDescription,
+          "jobDetails.$.yearsOfExperience": updatedJob.yearsOfExperience,
+          "jobDetails.$.skills": updatedJob.skills,
           "jobDetails.$.jobCategory": updatedJob.jobCategory,
           "jobDetails.$.salaryMin": updatedJob.salaryMin,
           "jobDetails.$.salaryMax": updatedJob.salaryMax,
-          "jobDetails.$.qualifications": updatedJob.qualifications
+          "jobDetails.$.qualifications": updatedJob.qualifications,
+          "jobDetails.$.jobStatus": updatedJob.jobStatus
         }
       }, false, true);
 

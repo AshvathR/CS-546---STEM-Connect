@@ -1,41 +1,51 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="/">STEMConnect</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navigation">
-        <ul class="navbar-nav" id="navv-bar">
-            <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
-            <li class="nav-item"><a class="nav-link" href="/search">Filtered Search</a></li>
-            <li class="nav-item"><a class="nav-link" href="/search">Profile</a></li>
-            <li class="nav-item"><a class="nav-link" href="/search">{{listingType}} Builder</a></li>
-            <li class="nav-item"><a class="nav-link" href="/aboutUS">About Us</a></li>
-        </ul>
-    </div>
+    {{#if auth}}
+        {{> navigationAuthPartial }}
+    {{else}}
+        {{> navigationUnauthPartial }}
+    {{/if}}
 </nav>
 <main>
-    <h1 class = "first">Log In</h1>
+    <h1 class = "first">Sign Up</h1>
         <div class = "divForm">
-            <form action="/sigup" method="POST" class="signup-form">
+            <form action="/signup" method="POST" class="signup-form">
             <label id = "form">
                 Username:
                 <br>
                 <input type="text" id="username" name="username" placeholder="Username" value="{{signup.username}}" class="full-width-input"/>
+                <span class="error-username" id="error-username"></span>
                 <br>
                 Password:
                 <br>
                 <input type="password" id="password" name="password" placeholder="Password" value="{{signup.password}}" class="full-width-input"/>
-                <span id = "errorPassword"> </span> 
+                <span class="error-password" id="error-password" ></span> 
                 <br>
                 Confirm Password:
                 <br>
-                <input type="password" id="reEnterPassword" name="reEnterPassword" placeholder="Confirm Password"  class="full-width-input"/>
-                <span id = "errorRePassword"> </span> 
+                <input type="password" id="reEnterPassword" name="reEnterPassword" placeholder="Confirm Password" value="{{signup.reEnterPassword}}" class="full-width-input"/>
+                <span class="error-reEnterPassword" id="error-reEnterPassword" ></span>
+                <br>
+                <br>
+                <label class="container"> 
+                <p>Sign up as</p>
+                </label>
+               
+                <div>
+                    <input type="radio" id="usertype" checked="checked" value="employee" name="usertype"> 
+                    <label for="employee"> Employee </label>
+                    
+                </div>
+ 
+                <div>
+                    <input type="radio"  value="company" name="usertype"> 
+                    <label for="company"> Company</label>
+                </div>
             </label>
+            
             <br>
             <br>
             <button class="btnSignUp" type="TO BE DECIDED">Sign Up</button></a>
             </form>
         </div>
-        <script src="/public/login.js"></script>
+        <script src="/public/js/login.js"></script>
 </main>

@@ -15,7 +15,7 @@ function checkUndef(variable, variableName)
 let exportedMethods = {
 
   
-    async addResume({education, skills, description, userResumeUrl, workStatus,yearsOfExperience, resumeActive}) {
+    async addResume(education, skills, description, userResumeUrl, workStatus,yearsOfExperience, resumeActive) {
 
 
         const resumeCollection = await userResume();
@@ -60,7 +60,6 @@ let exportedMethods = {
 
       const resumeCollection = await userResume();
       const resume = await resumeCollection.findOne({ _id: objectId(id) });
-
       if (!resume) throw `Resume with the given ID: ${id} not found!`;
       return resume;
     },
@@ -107,6 +106,7 @@ let exportedMethods = {
       checkUndef(userId, "userId");
       checkUndef(updatedResume, "updatedResume");
 
+
 // Data Functions for Search Page
     
       const resume = await this.getResumeById(id);
@@ -125,15 +125,17 @@ let exportedMethods = {
       const resumeCollection = await userResume();
       const updateInfo = resumeCollection.updateOne( { _id: objectId(id) }, { $set: resumeUpdateInfo } );
 
-      if (!updateInfo.matchedCount && !updateInfo.modifiedCount) throw `Update Failed!`
+      console.log("reached")
+
+      // if (!updateInfo.matchedCount && !updateInfo.modifiedCount) throw `Update Failed!`
 
       const userCollection = await users();
 
       const resumeUpdate = await userCollection.updateOne
       (
         {
-          _id: userId,
-          "resume._id": id
+          _id: objectId(userId),
+          "resume._id": objectId(id)
         },
         {
           $set:
@@ -148,17 +150,24 @@ let exportedMethods = {
           }
         }, false, true
       );
+      console.log("reached end")
 
       return await this.getResumeById(id);
     },
-    async searchResumeByYearSkills(years,skillsArray)
+    async searchResumeByYearSkillsProjectNumber(years,skillsArray,projectNumber)
     {
       checkUndef(years, "years");
+      checkUndef(projectNumber, "projectNumber")
       checkUndef(skillsArray,"skillsArray");
-      const resumeCollection = await userResume()
-      const resumeList = await resumeCollection.find({$and: [{ skills: { $in: skillsArray}}, { yearsOfExperience: { $gte: years} }, { resumeActive : true}]}).toArray();
+      const resumeList = [null];
+      const resumeCollection = await userResume();
+      if(skillsArray.length < 1) {
+        const resumeList = await resumeCollection.find({$and: [{ resumeActive : true}, { yearsOfExperience: { $gte: years} }, { projects: {$size: parseInt(projectNumber)} } ]}).toArray();
+      }else{
+        const resumeList = await resumeCollection.find({$and: [{ resumeActive : true}, { yearsOfExperience: { $gte: years} }, { projects: {$size: parseInt(projectNumber)} }, { skills: { $in: skillsArray}}]}).toArray();
+      }
       // console.log(resumeList)
-      return resumeList
+      return resumeList;
     }
 
     // async removeProjectFromResume(projectId, resumeId)

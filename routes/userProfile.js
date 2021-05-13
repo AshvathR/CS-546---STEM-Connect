@@ -71,7 +71,13 @@ router.get('/:id', async (req, res) => {
 
 router.get('/', async(req,res)=> {
     res.render('employee/employeeInfo', { title: "Employee Details" ,  auth: true, notLoginPage: true});
-})
+});
+
+router.get('/resume/:id', async (req, res) => {
+  let user = await data.userResume.getResumeById(req.params.id);
+  res.json(user);
+});
+
 
 
 module.exports = router;

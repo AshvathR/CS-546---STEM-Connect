@@ -15,13 +15,13 @@ async function main()
 {
   try{
   const db = await dbConnection();
-  // await db.dropDatabase();
+  await db.dropDatabase();
 
   try {
     //Add company
-    newCompany = await company.addCompany('Essential Tech', 'Mumbai','IT','hrMail@mail.com', 'mumbaiUser', '123_Mumbai')
+    newCompany = await company.addCompany('Essential Tech', 'Mumbai','IT','hrMail@mail.com', 'mumbaiUser', '$2b$16$XoxM9a/lLskO6Fx5wSpvauSwvGip7XexMvliIQiDSHHtElYEP3n3O')
     //Add job
-    newJob = await job.addJob('Front End Dev', 'Mumbai','working on the ui',4,['Mongob', 'Nodejs'],'IT','35$','65$','Text on Qualifications',true)
+    newJob = await job.addJob('Front End Dev', 'Mumbai','working on the ui',4,['Mongob', 'Nodejs'],'IT','35$','65$','Text on Qualifications',false)
     console.log("Created Job   " + newJob)
     //Add job to company
     const addJobToCompany = await company.addJobToCompany(newCompany._id,newJob)
@@ -40,7 +40,7 @@ async function main()
     //Update Job
     try{
       // update job in job sub doc
-      const updatedJob = await job.updateJob(newJob._id, tempJob,newCompany._id)
+      const updatedJob = await job.updateJob(newJob._id, tempJob, newCompany._id)
     }catch(e){
       console.log (e);
     }
@@ -73,9 +73,9 @@ async function main()
     //Add user
     const newUser = await usersData.addUser('asada.jpeg','shubham@shubham.shubham',' 123 address, deep, NYC', 'Shubham', 'Warghade', '123456789', 'I am batman!','M','05/07/1997','https:/',
            'shubham', '$2b$16$XoxM9a/lLskO6Fx5wSpvauSwvGip7XexMvliIQiDSHHtElYEP3n3O')//password - '123_Shubham' hashedpassword -'$2b$16$XoxM9a/lLskO6Fx5wSpvauSwvGip7XexMvliIQiDSHHtElYEP3n3O'
-    //Add Resume
-    const resume =  await Resume.addResume([['SchoolName','startDate','endDate','gpa'],['SchoolName2','startDate','endDate','gpa']],['web dev','Analytics','mongodb'],'hey this is my first resume','resume.pdf','Employed',2,true)
-    const resume2 =  await Resume.addResume([['SchoolName','startDate','endDate','gpa'],['SchoolName2','startDate','endDate','gpa']],['web dev','tableau','expressjs','reactjs'],'hey this is my second resume','resume.pdf','Employed',5,false)
+    //Add Resume                                                                                                                
+    const resume =  await Resume.addResume([{schoolName:'Stevens Institute of Technology',startDate:'31/08/2020',endDate:'25/05/2022',gpa:4},{schoolName:'Mumbai University',startDate:'june 2016',endDate:'july 2019',gpa:'4'}],['web dev','Analytics','mongodb'],'hey this is my first resume','resume.pdf','Employed',2,true)
+    const resume2 =  await Resume.addResume([{schoolName:'Stevens Institute of Technology',startDate:'31/08/2020',endDate:'25/05/2022',gpa:4},{schoolName:'Mumbai University',startDate:'june 2016',endDate:'july 2019',gpa:'4'}],['web dev','tableau','expressjs','reactjs'],'hey this is my second resume','resume.pdf','Employed',5,true)
     //Add Project to resume
     const newProject =  await project.addProject('Customer Analytics', 'description on the project','04/03/2020','04/03/2020')
     const addProjectToUserResume = await userResume.addProjectToUserResume(resume._id,newProject)
