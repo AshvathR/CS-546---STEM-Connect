@@ -84,12 +84,22 @@ let exportedMethods = {
       let minSalQuery = {};
       let skillsQuery = {};
 
-      if (isNaN(minSalary)) throw "Invalid salary: Not a number!";
-      if(!Array.isArray(skillsArray)) throw "Invalid skills: Not an Array!";
+      if(isNaN(years)) throw "Invalid year: Not a number!";
 
-      if(category != "noCategory") catQuery = {jobCategory: category};
-      if(minSalary > 0) minSalQuery = {salaryMin: {$gte: parseInt(minSalary)}};
-      if(skillsArray.length > 0) skillsQuery = { skills: { $in: skillsArray}};
+      if(category != "noCategory"){ 
+        catQuery = {jobCategory: category};
+      }
+
+      if(minSalary != -1){
+        if (isNaN(minSalary)) throw "Invalid salary: Not a number!";
+        if(minSalary > 0) minSalQuery = {salaryMin: {$gte: parseInt(minSalary)}};
+      }
+      
+      if(skillsArray != "noSkills"){
+        if(!Array.isArray(skillsArray)) throw "Invalid skills: Not an Array!";
+
+        if(skillsArray.length > 0) skillsQuery = { skills: { $in: skillsArray}};
+      }
 
       const jobCollection = await jobDetails();
       console.log(years);

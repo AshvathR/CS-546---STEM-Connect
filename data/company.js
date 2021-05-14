@@ -49,9 +49,15 @@ let exportedMethods = {
     },
 
     async getPartialNameMatch(partialName){
-      if(!partialName || partialName.length  < 5) throw 'Invalid Lookup';
+      if(!partialName) throw 'Invalid Lookup';
       const userCollection = await company();
-      let match = new RegExp('^' + partialName);
+      let match ="";
+      try{
+        match = new RegExp(('^' + partialName), 'i');
+      } catch{
+        throw "Invalid Name Format";
+      }
+      if (match == "") throw "Invalid Lookup";
       const partialMatchList = await userCollection.find({ companyName: match}, {projection: {_id: 1, companyName: 1}}).toArray();
       return partialMatchList;
     },

@@ -230,10 +230,18 @@ div#filteredSearch{
      
   }
 
-  #categoryInputFilter{
+  input#categoryInputFilter{
     display: none;
   }
 
-  #minimumSalaryFilter{
+  input#minimumSalaryFilter{
     display: none;
+  }
+
+  input#projectNumberFilter {
+    display: none;
+  }
+
+  button#revealProjectNumber {
+    margin-bottom: 10px;
   }

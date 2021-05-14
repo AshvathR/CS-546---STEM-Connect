@@ -120,7 +120,12 @@ let exportedMethods = {
   async getPartialNameMatch(partialName){
     if(!partialName) throw 'Invalid Lookup';
     const userCollection = await users();
-    let match = new RegExp('^' + partialName);
+    let match ="";
+    try{
+      match = new RegExp(('^' + partialName), 'i');
+    } catch{
+      throw "Invalid Name Format";
+    }
     const partialMatchList = await userCollection.find({ "name.fullName": match}, {projection: {_id: 1, "name.fullName": 1}}).toArray();
     return partialMatchList;
   },
