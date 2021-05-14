@@ -176,15 +176,28 @@ let exportedMethods = {
       checkUndef(years, "years");
       checkUndef(projectNumber, "projectNumber")
       checkUndef(skillsArray,"skillsArray");
-      const resumeList = [null];
+      let skillsQuery = {};
+      let projectQuery = {};
+
+      
       const resumeCollection = await userResume();
-      if(skillsArray.length < 1) {
-        const resumeList = await resumeCollection.find({$and: [{ resumeActive : true}, { yearsOfExperience: { $gte: years} }, { projects: {$size: parseInt(projectNumber)} } ]}).toArray();
-      }else{
-        const resumeList = await resumeCollection.find({$and: [{ resumeActive : true}, { yearsOfExperience: { $gte: years} }, { projects: {$size: parseInt(projectNumber)} }, { skills: { $in: skillsArray}}]}).toArray();
+
+      if(isNaN(years)) throw "Invalid year: Not a number!";
+
+      if(projectNumber != -1){
+        if(isNaN(projectNumber)) throw "Invalid project number: Not a number!";
+        //if(projectNumber > 0) projectQuery = { $where: "this.projects.length > " + parseInt(projectNumber) };
       }
-      // console.log(resumeList)
-      return resumeList
+      
+      if(skillsArray != "noSkills"){
+        if(!Array.isArray(skillsArray)) throw "Invalid skills: Not an Array!";
+
+        if(skillsArray.length > 0) skillsQuery = { skills: { $in: skillsArray}};
+      }
+      const resumeList = await resumeCollection.find({$and: [{ resumeActive : true}, { yearsOfExperience: { $gte: years} }, skillsQuery, projectQuery]}).toArray();
+      //console.log(resumeList)
+      return resumeList;
+
     }
 }
 

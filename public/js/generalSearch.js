@@ -26,6 +26,7 @@
             } else{
                 $('#homeSearchBarErrorState').empty();
                 if(checkbox.prop(('checked'))) $('#hiddenInput').prop("disabled", true);
+                $('#searchResults').prepend("<h2>Results</h2>");
             }
         })
 
@@ -33,7 +34,7 @@
             e.preventDefault();
             var searchEntry = $(this).val().trim();
 
-            if (searchEntry.length > 4) {
+            if (searchEntry.length > 2) {
                 var path = "";
                 if(checkbox.prop('checked')){
                     path = 'autoCompleteCompany';
@@ -60,7 +61,7 @@
                                     
                         searchBar.autocomplete({
                             source: list,
-                            minLength: 5,
+                            minLength: 2,
                             select: function(event, ui){
                                 window.location.href = ui.item.value;
                                 return false;
@@ -75,7 +76,7 @@
 
                         searchBar.autocomplete({
                             source: list,
-                            minLength: 5,
+                            minLength: 2,
                             select: function(event, ui){
                                 window.location.href = ui.item.value;
                                 return false;
@@ -87,9 +88,9 @@
             }
         });
     }
-    function searchBehavior(){
 
-    }
-    generalSearchBehavior()
+
+
+    generalSearchBehavior();
 })(window.jQuery);
 
