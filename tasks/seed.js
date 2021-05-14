@@ -25,8 +25,8 @@ async function main()
     const newJob = await job.addJob('Front End Dev', 'Mumbai','working on the ui',4,['Mongob', 'Nodejs'],'IT','55$','85$','Text on Qualifications',true)
     const newJob1 = await job.addJob('Back End Dev', 'Banglore','Working on the Data Functions',2,["Java",'Mongob', 'Nodejs'],'IT','50$','83$','Text on Qualifications',true)
 
-    const newJob2 = await job.addJob('Front End Dev', 'Mumbai','working on the ui',4,['Mongob', 'Nodejs'],'IT','55$','85$','Text on Qualifications',true)
-    const newJob3 = await job.addJob('Back End Dev', 'Banglore','Working on the Data Functions',2,["Java",'Mongob', 'Nodejs'],'IT','50$','83$','Text on Qualifications',true)
+    const newJob2 = await job.addJob('Front End Dev', 'Mumbai','working on the ui',3,['Mongob', 'Nodejs'],'IT','55$','85$','Text on Qualifications',true)
+    const newJob3 = await job.addJob('Back End Dev', 'Banglore','Working on the Data Functions',1,["Java",'Mongob', 'Nodejs'],'IT','50$','83$','Text on Qualifications',true)
 
     //Add job to company
     const addJobToCompany = await companyFunc.addJobToCompany(newCompany._id, newJob);
@@ -48,8 +48,8 @@ async function main()
     // }
     // //Update Job
     try{
-      const removeJob = await job.removeJob(newJob1._id);
-      console.log(removeJob);
+      const removeCompany = await companyFunc.removeCompany(newCompany1._id);
+      console.log(removeCompany);
     }catch(e){
       console.log (e);
     }
@@ -147,12 +147,12 @@ async function main()
 
     // updating work description
 
-    try {
-      const removeResume = await userResume.removeResume(resume._id, newUser._id);
-      console.log(removeResume);
-    } catch (e) {
-      console.log(e)
-    }
+    // try {
+    //   const removeResume = await userResume.removeResume(resume._id, newUser._id);
+    //   console.log(removeResume);
+    // } catch (e) {
+    //   console.log(e)
+    // }
     
     tempProject =
     {

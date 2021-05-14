@@ -65,8 +65,11 @@ let exportedMethods = {
 
     async removeCompany (id)
     {
+      checkUndef(id, "id");
+      
       const companyCollection = await companyCol();
       let company = null;
+      let x = [];
 
       try
       {
@@ -75,14 +78,26 @@ let exportedMethods = {
       catch(e)
       {
         console.log(e);
-        return;
+      }
+
+      for (let i = 0; i < (company.jobDetails).length; i++)
+      {
+        x[i] = company.jobDetails[i]._id;
       }
 
       const deletionInfo = await companyCollection.removeOne({ _id: objectId(id) });
-      if (deletionInfo.deletedCount === 0)
-      {
-        throw `Could not delete the company with given ID: ${id}`;
+      if (deletionInfo.deletedCount === 0) throw `Could not delete the company with ID of ${id}`;
+
+      if (x.length == 0){
+        return true;
       }
+      else {
+        for (let i = 0; i < x.length; i++)
+        {
+          const removeJobs = await jobDetails.removeJob(x[i], id);
+        }
+        return true;
+     }
     },
 
     async addJobToCompany(companyId, newJob) {

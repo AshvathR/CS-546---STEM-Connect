@@ -86,7 +86,6 @@ let exportedMethods = {
       {
         x[i] = resume.projects[i]._id;
       }
-      console.log(x);
 
       const deletionInfo = await resumeCollection.removeOne({ _id: objectId(resumeId) });
       if (deletionInfo.deletedCount == 0) throw `Could not delete resume with the ID of ${resumeId}`;
@@ -103,12 +102,18 @@ let exportedMethods = {
         }, false, true
       );
 
-      for (let i = 0; i < x.length; i++)
+      if (x.length == 0)
       {
-        const removeProject = await projectFunc.removeProject( x[i], resumeId, userId);
+        return true;
       }
-      
-      return true;
+      else
+      {
+        for (let i = 0; i < x.length; i++)
+        {
+          const removeProject = await projectFunc.removeProject( x[i], resumeId, userId);
+        }
+        return true;
+     }
     },
 
     async getAllResumes()
