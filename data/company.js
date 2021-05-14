@@ -13,7 +13,7 @@ function checkUndef(variable, variableName)
 }
 
 let exportedMethods = {
-  async addCompany(companyName, location, category, hrEmail, username, hashedPassword) {
+  async addCompany(companyName, location, category, hrEmail, username, hashedPassword, profilePictureUrl) {
 
         const companyCollection = await companyCol();
     
@@ -24,7 +24,8 @@ let exportedMethods = {
           hrEmail: hrEmail,//array_of_skills
           jobDetails:[],
           username: username,
-          hashedPassword: hashedPassword
+          hashedPassword: hashedPassword,
+          profilePictureUrl: profilePictureUrl 
         };
     
         const newInsertInformation = await companyCollection.insertOne(newCompany);
