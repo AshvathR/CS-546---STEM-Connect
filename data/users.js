@@ -4,7 +4,7 @@ const userRes = require('./userResume')
 var mongodb = require('mongodb');
 const { userResume } = require('../config/mongoCollections');
 const loginInfo = require('./loginInfo'); 
-const { removeWorkDesc } = require('./workExperience');
+const workExp = require('./workExperience');
 const bcrypt = require('bcryptjs');
 
 function checkUndef(variable, variableName)
@@ -209,6 +209,8 @@ let exportedMethods = {
     
     const userCollection = await users();
     let user = null;
+    let x = [];
+    let y = [];
 
     try
     {
@@ -219,9 +221,37 @@ let exportedMethods = {
       console.log(e);
     }
 
+    for (let i = 0; i < (user.workExperience).length; i++)
+    {
+      x[i] = user.workExperience[i]._id;
+    }
+
+    for (let i = 0; i < (user.resume).length; i++)
+    {
+      y[i] = user.resume[i]._id;
+    }
+
     const deletionInfo = await userCollection.removeOne({ _id: mongodb.ObjectID(userId) });
     if (deletionInfo.deletedCount == 0) throw `Could not delete the user with ID: ${userId}`;
-    else return true
+
+    if (!x.length || !y.length)
+    {
+      return true;
+    } 
+    else
+    {
+      for (let i = 0; i < x.length; i++)
+      {
+        const removeWorkExp = await workExp.removeWorkDesc(x[i], userId);
+      }
+
+      for (let j = 0; j < y.length; j++)
+      {
+        const removeResume = await userRes.removeResume(y[i], userId);
+      }
+      
+      return true;
+    }
   }
 }
 module.exports = exportedMethods
