@@ -30,6 +30,7 @@ router.post('/', async (req,res) => {
         let checkUsernameExists = await companyData.checkExistingUsername(username);
         if(!checkUsernameExists && errorCheckString(username)){
           req.session.username = username;
+          console.log(req.session.username)
           req.session.email = req.body.email;
           req.session.currentUser = userType;
           res.redirect('/profile/create');
@@ -50,6 +51,7 @@ router.post('/', async (req,res) => {
         let checkUsernameExists = await usersData.checkExistingUsername(username);
         if(!checkUsernameExists && errorCheckString(username)){
           req.session.username = username;
+          console.log(req.session.username);
           req.session.email = req.body.email;
           // req.session.password = password;
           // req.session.hashedPassword = hashedPassword;
@@ -66,6 +68,7 @@ router.post('/', async (req,res) => {
   });
 
   router.post('/signupFromLogin', async (req,res) => {
+    console.log("Reached Here")
     res.redirect('/signup');
   });
 
