@@ -1,4 +1,5 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<div class="container" id="searchContainer">
+<nav class="navbar navbar-expand-lg navbar-light bg-light justify-center">
         {{#if auth}}
         {{> navigationAuthPartial }}
         {{else}}
@@ -18,9 +19,13 @@
     <div id="filteredSearch">
         {{> filteredSearchPartial }}
     </div>
+    <div class="text-center">
     <button type="submit" onclick="searchToggle()" id="filteredSearchReveal">Filtered Search</button>      
+    </div>
     {{else}}
+    <div class="text-center">
         <button type="submit" onclick="document.location.href='/login'" id="loginRedirectSearch">Filtered Search</button>
+        </div>
     {{/if}}
 
     </div>
