@@ -51,7 +51,7 @@ let exportedMethods = {
 
     async getPartialNameMatch(partialName){
       if(!partialName) throw 'Invalid Lookup';
-      const userCollection = await company();
+      const userCollection = await companyCol();
       let match ="";
       try{
         match = new RegExp(('^' + partialName), 'i');
@@ -128,8 +128,6 @@ let exportedMethods = {
     {
       checkUndef(companyId, "companyId");
       checkUndef(updatedCompany, "updatedCompany");
-
-      let company = await this.getCompanyById(companyId);
       
       let companyUpdateInfo =
       {
