@@ -3,16 +3,17 @@ function searchToggle(){
     var filter = $('#filteredSearch');
 
     var button = $('#filteredSearchReveal');
-    if(filter.css("display") != 'none' || document.location.href.includes("/search/filter")){
+    
+    if(filter.css("display") != 'none'){
         filter.css("display", "none");
         general.css("display", "block");
         button.prop("value", "Use Filtered Search");
-    }else{
+    } else{
         filter.css("display", "block");
         general.css("display", "none");
         button.prop("value", "Use General Search");
     }
-}
+};
 
 function getSkills(){
     return [
@@ -42,7 +43,7 @@ function getSkills(){
         "Scrum",
         "Agile Development"       
     ];
-}
+};
 
 function getJobCategories(){
     return [
@@ -67,4 +68,8 @@ function getJobCategories(){
         "Full Stack Developer",
         "Software Engineer"
     ];
-}
+};
+    
+
+
+

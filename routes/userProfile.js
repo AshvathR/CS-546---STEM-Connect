@@ -7,30 +7,55 @@ const workExperience = data.workExperience;
 const projectFunc = data.projects;
 const xss = require('xss');
 const {projectFields, resumeFields, companyFields,workFields, userFields} = require('./constants');
+const multer = require('multer');
+const bcrypt = require('bcryptjs');
+const saltRounds = 16;
 
-const extractValue = (body, fields) =>
-  fields.reduce((acc, { propKey, elementKey }) => {
-    const value = body[elementKey];
-    return { ...acc, [propKey]: value || null };
-  }, {});
+// const extractValue = (body, fields) =>
+//   fields.reduce((acc, { propKey, elementKey }) => {
+//     const value = body[elementKey];
+//     return { ...acc, [propKey]: value || null };
+//   }, {});
 
-const extractJobValue = (body, fields, key="jobTitle") => {
-  if (Array.isArray(body[key])) {
-    const values = [];
-    for(const count in body[key]) {
-      const value = fields.reduce((acc, value )=> {
-        acc[value.propKey] = body[value.elementKey][count] || null
-        return acc;
-      }, {})
-      values.push(value);
-    }
-    return values;
-  } else {
-    return [extractValue(body, fields)]
-  }
+// const extractJobValue = (body, fields, key="jobTitle") => {
+//   if (Array.isArray(body[key])) {
+//     const values = [];
+//     for(const count in body[key]) {
+//       const value = fields.reduce((acc, value )=> {
+//         acc[value.propKey] = body[value.elementKey][count] || null
+//         return acc;
+//       }, {})
+//       values.push(value);
+//     }
+//     return values;
+//   } else {
+//     return [extractValue(body, fields)]
+//   }
 
-}
+// }
 
+
+let profilePictureUrl;
+const storage = multer.diskStorage({
+    //destination for files
+    destination: function (request, file, callback) {
+      callback(null, './public/uploads/employeeImages/profilePictures');
+    },
+  
+    //add back the extension
+    filename: function (request, file, callback) { 
+        profilePictureUrl =  request.session.username + "_profilePicture_.jpeg" 
+      callback(null, profilePictureUrl);
+    },
+  });
+  
+  //upload parameters for multer
+  const upload = multer({
+    storage: storage,
+    limits: {
+      fieldSize: 1024 * 1024 * 3,
+    },
+  });
 
 router.get("/:type/form", async (req, res) => {
   res.render("employee/employeeInfo", {
@@ -42,7 +67,7 @@ router.get("/:type/form", async (req, res) => {
 });
 
 
-router.post("/:type/form", async (req, res) => {
+router.post("/:type/form", upload.single('profilePicture'), async (req, res) => {
   // const companyInfo = extractValue(req.body, companyFields);
   // const resumeInfo = extractValue(req.body, resumeFields);
   // const projectInfo = extractValue(req.body, projectFields);
@@ -58,9 +83,10 @@ router.post("/:type/form", async (req, res) => {
   const project = req.body.project
 
   personalInfo = req.body
-  // Add Resume
-  const newUser = await user.addUser(personalInfo.resumeUrl,personalInfo.email,personalInfo.address, personalInfo.firstName, personalInfo.lastName, personalInfo.phoneNumber, personalInfo.aboutMe,personalInfo.gender,personalInfo.dob,personalInfo.resumeUrl,
-           'shubham', '$2b$16$XoxM9a/lLskO6Fx5wSpvauSwvGip7XexMvliIQiDSHHtElYEP3n3O')
+  const hashedPassword = await bcrypt.hash(req.body.password, saltRounds);
+  // Add User
+  const newUser = await user.addUser(`CS_546_group23_final_project/public/uploads/employeeImages/profilePictures/${profilePictureUrl}`,personalInfo.email,personalInfo.address, personalInfo.firstName, personalInfo.lastName, personalInfo.phoneNumber, personalInfo.aboutMe,personalInfo.gender,personalInfo.dob,personalInfo.resumeUrl,
+           personalInfo.username, hashedPassword)
 
 // Add Education
 let education= []

@@ -66,7 +66,7 @@ let profilePictureUrl;
 const storage = multer.diskStorage({
     //destination for files
     destination: function (request, file, callback) {
-      callback(null, './public/uploads/CompanyImages');
+      callback(null, './public/uploads/CompanyImages/profilePictures');
     },
   
     //add back the extension

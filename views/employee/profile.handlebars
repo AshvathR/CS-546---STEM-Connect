@@ -28,7 +28,7 @@
                         <h2>Personal Information</h2>
                     </div>
                     <div class="col-md-4">
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#personalInfoModal">Edit
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#personalInfoModal">Edit Personal Information
                         </button>
                     </div>
                 </div> 
@@ -71,7 +71,9 @@
                         </div>
                     </div>
                 </div>
-                <button type="button" class="btn btn-primary" data-id="this._id" data-toggle="modal" data-target="#resumeModal">Edit
+                <button type="button" class="btn btn-primary" data-id="this._id" data-toggle="modal" data-target="#resumeModal">Edit Resume
+                                    </button>
+                <button type="button" class="btn btn-primary" data-id="this._id" data-toggle="modal" data-target="#addResume">Add Resume
                                     </button>
                 {{#each user.resume}}
                     {{#if this.resumeActive}}
@@ -82,8 +84,14 @@
                                     <h2 style="font-weight: bolder; color:gray">Resume</h2>
                                 </div>
                                 <div class="col-md-4">
-                                    <button type="button" class="btn btn-primary" data-id="this._id" data-toggle="modal" data-target="#resumeModal">Edit
-                                    </button>
+                                    {{!-- <button type="button" class="btn btn-primary" data-id="this._id" data-toggle="modal" data-target="#resumeModal">Edit
+                                    </button> --}}
+                                    <form action="/profile/deleteResume" method="post">
+                                        <input type="hidden" name="resumeid" id="{{this._id}}" value="{{this._id}}"/>
+                                        <input type="hidden" name="userid" id="{{../user._id}}" value="{{../user._id}}"/>
+                                        <button class="btn btn-danger" type="submit">Delete Resume</button>
+                                    </form>
+                                    
                                 </div>
                                 </div>
                                 <h5>{{this.description}}</h5>
@@ -255,7 +263,7 @@
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Edit Personal Information</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Edit Resume Information</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -379,6 +387,98 @@
     </div>
   </div>
 </div>
+
+<!-- Modal Add Resume Information-->
+<div class="modal fade" id="addResume" tabindex="-1" role="dialog" aria-labelledby="addResume" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Edit Personal Information</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form action="/user/new/form/" method="post">
+            <div class="row m-5">
+                    {{!-- Profile End --}}
+                <div class="col-md-12 d-flex justify-content-between align-items-start">
+                    <div class="col-md-5 mx-3">
+                        <div class="d-flex flex-column" id="resume">
+                            <div class="d-flex flex-row">
+                                <h4 class="text-left py-4" for="profile">Resume Information</h4>
+                                <div class="custom-control custom-switch">
+                                    <input type="checkbox" class="custom-control-input" id="resumeActive" required>
+                                </div>
+                            </div>
+                            <div id="education-wrapper" class="col-md-12 d-flex flex-column">
+                                <div class="d-flex mx-5 py-2">
+                                    <button class="btn btn-primary" onclick="addMoreEducation()" type="button">Add Education Information</button>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="skills">Skills</label>
+                                <input type="text" class="form-control" id="skills" name="resume[skills]" placeholder="" required>
+                            </div>
+                            <div class="dropdown form-group d-flex flex-column">
+                                        <label for="workStatus">Work Status</label>
+                                        <select style="width: 200px;" class="text-right btn btn-secondary dropdown-toggle"
+                                            type="button" id="workStatus" name="resume[workStatus]"
+                                            data-toggle="dropdown">
+                                            <option disabled selected value> -- select an option -- </option>
+                                            <option value="Employed">Employed</option>
+                                            <option value="Unemployed">Unemployed</option>
+                                        </select>
+                            </div>
+                            <div class="form-group d-flex flex-column">
+                                <label for="ConfirmPassword">Resume</label>
+                                <div>
+                                    <input type='file' multiple class="btn btn-outline-primary my-3 filePond"
+                                        onchange="readURL(this);" name="resume[resumeUrl]" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="ConfirmPassword">Years of Experience</label>
+                                <input type="number" class="form-control" id="yearsOfExperience" name="resume[year]"
+                                    placeholder="" required>
+                            </div>
+                        
+                        <div id="project-wrapper" class="col-md-12 d-flex flex-column">
+                        <div class="d-flex mx-5 py-2">
+                            <button class="btn btn-primary" onclick="addMoreProject()" type="button">Add Project Information</button>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+                </div>
+                <div class="d-flex align-items-center flex-column">
+                    <div class="col-md-5 mx-3">
+                        <div class="d-flex flex-column" id="resume">
+                            <div class="d-flex flex-row">
+                                <h4 class="text-left py-4" for="profile">Work Information</h4>
+                                <div class="custom-control custom-switch">
+                                    <input type="checkbox" class="custom-control-input" id="resumeActive">
+                                </div>
+                            </div>
+                                <div id="work-information-wrapper" class="col-md-12 d-flex flex-column">
+                                <div class="d-flex mx-5 py-2">
+                                    <button class="btn btn-primary" onclick="addMoreWorkInformation()" type="button">Add Work Information</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                                
+            
+            <div class="col-md-12 d-flex justify-content-end p-2 px-3">
+                <a href="/logout" class="btn btn-primary px-5 mx-3"> Cancel </a>
+                <button class="btn btn-primary px-5" type="submit">Save</button>
+            </div>
+            
+        </form>
+    </div>
+  </div>
+</div>
 <script data-main="js/app.js" src="js/require.js"></script>
 <script>
     function readURL(input) {
@@ -391,6 +491,132 @@
 
             reader.readAsDataURL(input.files[0]);
         }
+    }
+function addMoreWorkInformation() {
+       let wrapper = $('#work-information-wrapper');
+        let html = `<div class="col-md-12 py-2 d-flex justify-content-between align-items-center clone">
+                    <div class="col-md-5">
+                     <span class="remove-Work">remove</span>
+                        <div class="d-flex flex-column" id="workInformation">
+                            <div class="form-group">
+                                <label for="companyName">Company Name</label>
+                                <input type="text" class="form-control" id="companyName" name="workDes[companyName]"
+                                    placeholder="" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="jobTitle">Job Title</label>
+                                <input type="text" class="form-control" id="jobTitle" name="workDes[jobTitle]" placeholder="" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-5 d-flex flex-column mx-3">
+                        <div class="d-flex flex-row">
+                            <div class="d-flex flex-column">
+                                <label for="workStartDate">Start Date</label>
+                                <div>
+                                    <input type='date' id="workStartDate" name="workDes[workStartDate]"
+                                        class="btn btn-outline-primary my-3" onchange="readURL(this);" required/>
+                                </div>
+                            </div>
+                            <div class="fd-flex pl-2 flex-column">
+                                <label for="workEndDate">End Date</label>
+                                <div>
+                                    <input type='date' id="workEndDate" name="workDes[workEndDate]" class="btn btn-outline-primary my-3"
+                                        onchange="readURL(this);" required/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="description">Job Description</label>
+                            <textarea class="form-control" columns="5" id="description" name="workDes[WorkDescription]"
+                                placeholder=""></textarea>
+                        </div>
+                    </div>
+                </div>`;
+        wrapper.append(html);
+    }
+    $(document).on("click", ".clone .remove-Work", function (e) {
+        $(e.target).parent().parent().remove();
+    });
+
+    
+    function addMoreProject() {
+        let wrapper = $('#project-wrapper');
+        let html = `<div class="col-md-12 py-2 d-flex justify-content-between align-items-center clone">
+                    <div class="col-md-5">
+                       <span class="remove-Work">remove</span>
+                        <div class="d-flex" id="project">
+                            <div class="d-flex flex-column">
+                                <div class="form-group">
+                                    <label for="ConfirmPassword">Project Title</label>
+                                    <input type="text" class="form-control" id="projectTitle" name="project[projectTitle]"
+                                        placeholder="" required>
+                                </div>
+                                <div class="form-group">
+                        <label for="projectDesc">Project Description</label>
+                        <input type="text" class="form-control" id="projectDesc" name="project[projectDesc]" placeholder="" required>
+                    </div>
+                                <div class="d-flex">
+                                    <div class="fd-flex flex-column">
+                                        <label for="ConfirmPassword">Start Date</label>
+                                        <div>
+                                            <input type='date' id="projectStartDate" name="project[startDate]"
+                                                class="btn btn-outline-primary my-3" onchange="readURL(this);" required />
+                                        </div>
+                                    </div>
+                                    <div class="fd-flex pl-2 flex-column">
+                                        <label for="ConfirmPassword">End Date</label>
+                                        <div>
+                                            <input type='date' id="projectEndDate" name="project[endDate]"
+                                                class="btn btn-outline-primary my-3" onchange="readURL(this);" required />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>`;
+        wrapper.append(html);
+    }
+ 
+
+     function addMoreEducation() {
+        let wrapper = $('#education-wrapper');
+        let html = `<div class="col-md-12 py-2 d-flex justify-content-between align-items-center clone">
+                    <div class="col-md-5">
+                       <span class="remove-Work">remove</span>
+                        <div class="d-flex" id="project">
+                            <div class="d-flex flex-column">
+                                <div class="form-group">
+                                        <label for="schoolName">School Name</label>
+                                        <input type="text" class="form-control" id="schoolName" name="School[schoolName]" value="{{this.schoolName}}" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="gpa">G.P.A</label>
+                                        <input type="number" class="form-control" id="gpa" name="School[gpa]" value="{{this.gpa}}" required>
+                                    </div>
+                            </div>
+                        </div>
+                    </div>
+                                                <div class="col-md-6">
+                                <div class="form-group">
+                                        <div class="fd-flex flex-column ml-3">
+                                            <label for="startDate">Start Date</label>
+                                            <input type='date' id="startDate" name="School[startDate]" class="form-control btn btn-outline-primary" value="{{this.startDate}}"
+                                                onchange="readURL(this);" required />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="fd-flex flex-column ml-3">
+                                            <label for="endDate">End Date</label>
+                                            <input type='date' id="endDate" name="School[endDate]" class="form-control btn btn-outline-primary" value="{{this.endDate}}"
+                                                onchange="readURL(this);" required />
+                                        </div>
+                                    </div>
+                            </div>
+                </div>`;
+        wrapper.append(html);
     }
 </script>
 {{!-- <script src="/public/js/company.js"></script> --}}

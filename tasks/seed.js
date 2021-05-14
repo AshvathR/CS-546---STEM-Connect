@@ -84,6 +84,7 @@ async function main()
     const newUser1 = await usersData.addUser("whatever.jpeg", "deep@deep.com", "248 newyork ave NJ", "deep", "rane", "9876543210", "you know who i am", "m", "06/01/1997", "localhost:3000", "dsr", "$2b$16$XoxM9a/lLskO6Fx5wSpvauSwvGip7XexMvliIQiDSHHtElYEP3n3O");
     
     //Add Resume                                                                                                                
+
     const resume =  await Resume.addResume([{schoolName:'Stevens Institute of Technology',startDate:'31/08/2020',endDate:'25/05/2022',gpa:4},{schoolName:'Mumbai University',startDate:'june 2016',endDate:'july 2019',gpa:'4'}],['web dev','Analytics','mongodb'],'hey this is my first resume','resume.pdf','Employed',2,true)
     const resume1 =  await Resume.addResume([{schoolName:'Stevens Institute of Technology',startDate:'31/08/2020',endDate:'25/05/2022',gpa:4},{schoolName:'Mumbai University',startDate:'june 2016',endDate:'july 2019',gpa:'4'}],['web dev','tableau','expressjs','reactjs'],'hey this is my second resume','resume.pdf','Employed',5,true)
 
@@ -172,6 +173,7 @@ async function main()
     console.log (e);
   }
 
+
   // try{
   //   const searchResumeByYearSkills = await userResume.searchResumeByYearSkills(2,['web dev'])
   //   // console.log(searchResumeByYearSkills)
@@ -190,6 +192,7 @@ async function main()
   // } catch (e) {
   //   console.log(e)
   // }
+
 
   
   console.log('Done seeding database');

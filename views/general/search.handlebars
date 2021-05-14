@@ -25,7 +25,14 @@
 
     </div>
     <div id="searchResults">
-        <ul>
+        {{#if isPost}}
+            {{#if resultsFound}}
+                <h2>Search Results</h2>
+            {{else}}
+                <p>No results found for given names or filters. Please try again</p>
+            {{/if}}
+        {{/if}}     
+        <ul id="searchResultsExists">
         {{#if isFilter}}
             {{#each searchResults}}
                 {{#if ../isUser}}

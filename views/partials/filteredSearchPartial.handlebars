@@ -16,32 +16,32 @@
         <p>Optional Filter Categories</p>
         {{#if isUser}}
         <div id="jobCategory">
-            <button id="revealCategory">Filter by Job Category</button>
+            <button type="button" id="revealCategory">Filter by Job Category</button>
             <div id="categoryInputFilter">
                 <label for="categoryLookUp">Job Category</label>
                 <input id="categoryLookUp" name="categoryLookup" type="text" placeholder="Job category"/>
-                <button id="removeCategory">Remove Job Filter</button>
+                <button type="button" id="removeCategory">Remove Job Filter</button>
             </div>
         </div>
         <div id="minSalary">
-            <button id="revealMinSalary">Filter by Minimum Salary</button>
+            <button type="button" id="revealMinSalary">Filter by Minimum Salary</button>
             <div id="minimumSalaryFilter" class="min-max-slider" data-legendnum="2">
                 <label for="minSalary">Years Experience
                     <input id="minSalarySlider" class="min" name="minSalary" type="range" step="1000" min="20000" max="500000" value="" />
                     <input id="minSalaryInput" name="minSalary" type="number" min="20000" max="500000"/>
                 </label>
-                <button id="removeMinSalary">Remove Salary Filter</button>
+                <button type="button" id="removeMinSalary">Remove Salary Filter</button>
             </div>
         </div>
         {{else}}
         <div id="projectNumber">
-            <button id="revealProjectNumber">Filter by Number of Personal Projects</button>
+            <button type="button" id="revealProjectNumber">Filter by Number of Personal Projects</button>
             <div id="projectNumberFilter" class="min-max-slider" data-legendnum="2">
-                <label for="projectNumber">Years Experience
+                <label for="projectNumber">Number of Personal Projects on Resume
                     <input id="projectNumberSlider" class="min" name="projectNumber" type="range" step="1" min="0" max="20" value="" />
                     <input id="projectNumberInput" name="projectNumber" type="number" min="1" max="20"/>
                 </label>
-                <button id="removeProjectNumber">Remove Salary Filter</button>
+                <button type="button" id="removeProjectNumber">Remove Personal Project Filter</button>
             </div>
         </div>
         {{/if}}

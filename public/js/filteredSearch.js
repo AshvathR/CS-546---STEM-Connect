@@ -16,7 +16,7 @@
     
     var revealMinimumSalary = $('#revealMinSalary');
     var removeMinimumSalary = $('#removeMinSalary');
-    var minSalaryFilter = $('minimumSalaryFilter');
+    var minSalaryFilter = $('#minimumSalaryFilter');
 
     var revealProjectNumber = $('#revealProjectNumber');
     var removeProjectNumber = $('#removeProjectNumber');
@@ -26,12 +26,14 @@
     var removeJobCategory = $('#removeCategory');
     var jobCategoryFilter = $('#categoryInputFilter')
 
-
+    var projectNumberBool = false;
+    var jobCategoryBool = false;
+    var minSalaryBool = false;
 
 
     function linkSliderAndInput(slider, input){
         slider.val(0);
-        input.val(filterSlider.val());
+        input.val(slider.val());
         slider.on("input", function(){
             input.val($(this).val());
         });
@@ -60,17 +62,18 @@
         });
     }
 
-    function optionalFilterReveal(reveal, remove, filter, inputArray){
+    function optionalFilterReveal(reveal, remove, filter, inputArray, bool){
         for(input of inputArray){
             input.prop("disabled", true);
         }
-        
+        filter.css("display","none");
         reveal.click(function(){
             filter.css("display", "block");
             for(input of inputArray){
                 input.prop("disabled", false);
             }
             reveal.css("display", "none");
+            bool = true;
         });
 
         remove.click(function(){
@@ -79,6 +82,7 @@
                 input.prop("disabled", true);
             }
             reveal.css("display", "block");
+            bool = false;
         });
     }
 
@@ -88,22 +92,30 @@
     linkSliderAndInput(minSalarySlider, minSalaryInput);
     linkSliderAndInput(projectNumberSlider, projectNumberInput);
     skillsAddition();
-    optionalFilterReveal(revealMinimumSalary, removeMinimumSalary, minSalaryFilter, [minSalarySlider, minSalaryInput]);
-    optionalFilterReveal(revealProjectNumber, removeProjectNumber, projectNumberFilter, [projectNumberSlider, projectNumberInput]);
-    optionalFilterReveal(revealJobCategory, removeJobCategory, jobCategoryFilter, [categoryInput]);
+    optionalFilterReveal(revealMinimumSalary, removeMinimumSalary, minSalaryFilter, [minSalarySlider, minSalaryInput], minSalaryBool);
+    optionalFilterReveal(revealProjectNumber, removeProjectNumber, projectNumberFilter, [projectNumberSlider, projectNumberInput], projectNumberBool);
+    optionalFilterReveal(revealJobCategory, removeJobCategory, jobCategoryFilter, [categoryInput], jobCategoryBool);
 
+    if($('#searchResultsExists li').length > 0){
+        $('#searchResults').prepend("<h2>Results</h2>");
+    };
 
     form.submit(function(e){
-        console.log("Here");
-        if(selectedSkills.children().length == 0){
+        
+        if(selectedSkills.children().length == 0 && projectNumberBool && (minSalaryBool || jobCategoryBool)){
             e.preventDefault();
+            console.log('test');
             $('#filteredSearchBarErrorState').empty();
-            $('#filteredSearchBarErrorState').append('<p class="validationMessage"> Error: At least one skill is required for filtered search</p>')
+            $('#filteredSearchBarErrorState').append('<p class="validationMessage"> Error: Need minimum of 1 additional filter to use the filtered search!</p>')
         } else{
             $('#homeSearchBarErrorState').empty();
-            filterInput.prop('disabled', true);
+            if (yearsExpInput) yearsExpInput.prop('disabled', true);
+            if (minSalaryInput) minSalaryInput.prop('disabled', true);
+            skillsInput.prop('disabled', true);
+            if (projectNumberInput) projectNumberInput.prop('disabled', true);
+        
         }
-    })
-
+    });
+    
 
 })(window.jQuery);
