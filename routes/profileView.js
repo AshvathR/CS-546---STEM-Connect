@@ -208,11 +208,15 @@ router.post('/editPersonalInfo', async (req,res)=> {
 
 router.get('/create', async(req,res)=>{
     console.log(req.session.currentUser)
+    let user ={
+        username : req.session.username,
+        email : req.session.email
+    }
     if(req.session.currentUser == 'employee'){
-        res.render('employee/employeeInfo', { title: "Employee Details" , auth: true, notLoginPage: true});
+        res.render('employee/employeeInfo', { title: "Employee Details" , employee:user, auth: true, notLoginPage: true});
     }
     else{
-        res.render('company/companyInfo', { title: "Company Details" , auth: true, notLoginPage: true});
+        res.render('company/companyInfo', { title: "Company Details" , company: user, auth: true, notLoginPage: true});
     }
 })
 
