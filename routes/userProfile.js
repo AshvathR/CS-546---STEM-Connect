@@ -172,31 +172,56 @@ if(req.body.School) {
 if(req.body.project) {
   if(project != null && Array.isArray(project.projectTitle)){
     for(i = 0; i < (project.projectTitle).length; i++){
-      const newProject = await projectFunc.addProject(project.projectTitle[i],project.projectDesc[i],project.startDate[i],project.endDate[i]);
-      const addProjectToUserResume = await resume.addProjectToUserResume(newResume._id,newProject)
+      try{
+        const newProject = await projectFunc.addProject(project.projectTitle[i],project.projectDesc[i],project.startDate[i],project.endDate[i]);
+        const addProjectToUserResume = await resume.addProjectToUserResume(newResume._id,newProject)
+    }catch(e)
+    {
+        console.log(e)
+    }
     }
     }
     else{
-      const newProject = await projectFunc.addProject(project.projectTitle,project.projectDesc,project.startDate,project.endDate);
-      const addProjectToUserResume = await resume.addProjectToUserResume(newResume._id,newProject)
+      try{
+        const newProject = await projectFunc.addProject(project.projectTitle,project.projectDesc,project.startDate,project.endDate);
+        const addProjectToUserResume = await resume.addProjectToUserResume(newResume._id,newProject)
+    }catch(e)
+    {
+        console.log(e)
+    }
     }
 }
 
 //Add Resume to user
-const addResumeToUser = await user.addResumeToUser(newUser._id,newResume)
+try{
+  const addResumeToUser = await user.addResumeToUser(req.session._id,newResume)
+} catch(e){
+  console.log(e)
+}
   
 
   // Add Work Description
   if(req.body.workDes) {
     if(workDes != null && Array.isArray(workDes.companyName)){
       for(i = 0; i < (workDes.companyName).length; i++){
-        const newWorkExperience = await workExperience.addWorkDesc(workDes.companyName[i],workDes.jobTitle[i],workDes.WorkDescription[i],workDes.workStartDate[i],workDes.workEndDate[i]);
-        const addWorkDesToUser = await user.addWorkDesToUser(newUser._id, newWorkExperience);
+        try{
+          const newWorkExperience = await workExperience.addWorkDesc(workDes.companyName[i],workDes.jobTitle[i],workDes.WorkDescription[i],workDes.workStartDate[i],workDes.workEndDate[i]);
+          const addWorkDesToUser = await user.addWorkDesToUser(newUser._id, newWorkExperience);
+        }catch(e)
+        {
+          console.log(e)
+        }
       }
       }
       else{
-        const newWorkExperience = await workExperience.addWorkDesc(workDes.companyName,workDes.jobTitle,workDes.WorkDescription,workDes.workStartDate,workDes.workEndDate);
-        const addWorkDesToUser = await user.addWorkDesToUser(newUser._id, newWorkExperience);
+        try{
+          const newWorkExperience = await workExperience.addWorkDesc(workDes.companyName,workDes.jobTitle,workDes.WorkDescription,workDes.workStartDate,workDes.workEndDate);
+          const addWorkDesToUser = await user.addWorkDesToUser(newUser._id, newWorkExperience);
+        }catch(e)
+        {
+          console.log(e)
+        }
+
       }
   }
 

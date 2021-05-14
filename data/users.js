@@ -83,7 +83,7 @@ let exportedMethods = {
     const userCollection = await users();
 
     const updateInfo = await userCollection.updateOne(
-      { _id: userId },
+      { _id: mongodb.ObjectID(userId) },
       { $addToSet: { resume: currentResume } }
     );
 
@@ -111,7 +111,7 @@ let exportedMethods = {
     const userCollection = await users();
 
     const updateInfo = await userCollection.updateOne(
-      { _id: userId },
+      { _id: mongodb.ObjectID(userId) },
       { $addToSet: { workExperience: newWorkExperience } }
     );
 
