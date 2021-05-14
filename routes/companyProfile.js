@@ -6,6 +6,8 @@ const jobData = data.jobDetails
 const xss = require('xss');
 const {projectFields, resumeFields, companyFields} = require('./constants');
 const multer = require('multer');
+const bcrypt = require('bcryptjs');
+const saltRounds = 16;
 
 // const extractValue = (body, fields) =>
 //   fields.reduce((acc, { propKey, elementKey }) => {
@@ -60,16 +62,17 @@ const multer = require('multer');
 //     notLoginPage: true,
 //   });
 // });
-
+let profilePictureUrl;
 const storage = multer.diskStorage({
     //destination for files
     destination: function (request, file, callback) {
-      callback(null, './public/uploads/images');
+      callback(null, './public/uploads/CompanyImages');
     },
   
     //add back the extension
-    filename: function (request, file, callback) {
-      callback(null, Date.now() + file.originalname);
+    filename: function (request, file, callback) { 
+        profilePictureUrl =  request.session.username + "_profilePicture_.jpeg" 
+      callback(null, profilePictureUrl);
     },
   });
   
@@ -84,13 +87,16 @@ const storage = multer.diskStorage({
 
 router.post('/create/new', upload.single('profilePicture'), async(req,res)=>{
     let htmlValue = req.body;
+    const hashedPassword = await bcrypt.hash(htmlValue.password, saltRounds);
     const newCompany = await companyData.addCompany(htmlValue.companyName, 
         htmlValue.address,
         htmlValue.category,
         htmlValue.hrEmail,
         htmlValue.username, 
-        req.session.hashedPassword)
-
+        hashedPassword,
+        `CS_546_group23_final_project/public/uploads/images/${profilePictureUrl}`)
+    req.session._id = newCompany._id;
+    req.session.currentUser ='company';
     if(Array.isArray(htmlValue.jobLocation)){
         for(let i=0; i<htmlValue.jobLocation.length; i++){
             let tempskillArray = htmlValue.skills[i].split(", ");
