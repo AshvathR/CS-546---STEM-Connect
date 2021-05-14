@@ -203,22 +203,24 @@ let exportedMethods = {
     return user._id;
   },
 
-  async removeUser (id)
+  async removeUser (userId)
   {
+    checkUndef(userId, "userId");
+    
     const userCollection = await users();
     let user = null;
 
     try
     {
-      user = await this.getUserById(id);
+      user = await this.getUserById(userId);
     }
     catch (e)
     {
       console.log(e);
     }
 
-    const deletionInfo = await userCollection.removeOne({ _id: id });
-    if (deletionInfo.deletedCount == 0) throw `Could not delete the user with ID: ${id}`;
+    const deletionInfo = await userCollection.removeOne({ _id: mongodb.ObjectID(userId) });
+    if (deletionInfo.deletedCount == 0) throw `Could not delete the user with ID: ${userId}`;
     else return true
   }
 }

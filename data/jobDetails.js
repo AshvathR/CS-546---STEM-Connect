@@ -15,7 +15,7 @@ function checkUndef(variable, variableName)
 
 let exportedMethods = {
 
-    async addJob (jobTitle, jobLocation, jobDescription, jobCategory, salaryMin, salaryMax, qualifications, yearsOfExperience, skills,jobStatus) {
+    async addJob (jobTitle, jobLocation, jobDescription, yearsOfExperience, skills, jobCategory, salaryMin, salaryMax, qualifications, jobStatus) {
 
 
         const jobCollection = await jobDetails();
@@ -59,6 +59,7 @@ let exportedMethods = {
     async removeJob(jobId, companyId)
     {
       checkUndef(jobId, "jobId");
+      checkUndef(companyId, 'companyId');
 
       const jobCollection = await jobDetails();
       let job = null;
@@ -72,7 +73,7 @@ let exportedMethods = {
         console.log(e);
       }
       
-      const deletionInfo = await jobCollection.removeOne({ _id: objectId(jobId)} );
+      const deletionInfo = await jobCollection.removeOne( { _id: objectId(jobId) } );
       if (deletionInfo.deletedCount == 0)
         throw `Could not delete job with id of ${jobId}`;
       
@@ -81,11 +82,11 @@ let exportedMethods = {
       const jobRemove = await companyCollection.updateOne
       (
         {
-          _id: companyId,
-          "jobDetails._id": jobId
+          _id: objectId(companyId),
+          "jobDetails._id": objectId(jobId)
         },
         {
-          $pull: { jobDetails: { _id: jobId } }
+          $pull: { jobDetails: { _id: objectId(jobId) } }
         }, false, true
       );
 

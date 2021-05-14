@@ -77,27 +77,27 @@ let exportedMethods = {
 
       const projectRemove = await resumeCollection.updateOne(
         {
-          _id: resumeId,
-          "projects._id": projectId
+          _id: objectId(resumeId),
+          "projects._id": objectId(projectId)
         },
         {
-          $pull : { projects: { _id: projectId } }
+          $pull : { projects: { _id: objectId(projectId) } }
         }, false, true
       );
 
-      const currentResume = await resumeFunc.getResumeById(resumeId);
+      // const currentResume = await resumeFunc.getResumeById(resumeId);
 
       const userCollection = await users();
 
       const projectRemoveFromUser = await userCollection.updateOne(
         {
-          _id: userId,
-          "resume._id": resumeId
+          _id: objectId(userId),
+          "resume._id": objectId(resumeId)
         },
         {
           $pull:
           {
-            projects: { _id: projectId }
+            projects: { _id: objectId(projectId) }
           }
         }, false, true
       );
@@ -131,8 +131,8 @@ let exportedMethods = {
 
       const tempProject = await resumeCollection.updateOne(
       {
-        _id: resumeId,
-        "projects._id": id
+        _id: objectId(resumeId),
+        "projects._id": objectId(id)
       },
       {
         $set:
@@ -150,8 +150,8 @@ let exportedMethods = {
 
       const temperProject = await userCollection.updateOne(
       {
-        _id: userId,
-        "resume._id": resumeId
+        _id: objectId(userId),
+        "resume._id": objectId(resumeId)
       },
       {
         $set:

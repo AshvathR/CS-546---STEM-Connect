@@ -72,11 +72,11 @@ async function removeWorkDesc(workDescId, userId)
 
   const workDescRemove = await userCollection.updateOne(
     {
-      _id: userId,
-      "workExperience._id": workDescId
+      _id: objectId(userId),
+      "workExperience._id": objectId(workDescId)
     },
     {
-      $pull: { workExperience: { _id: workDescId } }
+      $pull: { workExperience: { _id: objectId(workDescId) } }
     }, false, true
   );
   

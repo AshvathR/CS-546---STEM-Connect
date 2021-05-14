@@ -3,6 +3,7 @@ const users= mongoCollections.users;
 const userResume = mongoCollections.userResume;
 const usersFunc = require('./users');
 const objectId = require('mongodb').ObjectID;
+const projectFunc = require("./projects");
 
 function checkUndef(variable, variableName)
 {
@@ -70,6 +71,7 @@ let exportedMethods = {
       
       const resumeCollection = await userResume();
       let resume = null;
+      let x = [];
 
       try
       {
@@ -78,8 +80,13 @@ let exportedMethods = {
       catch(e)
       {
         console.log(e);
-        return;
       }
+
+      for (let i = 0; i < (resume.projects).length; i++)
+      {
+        x[i] = resume.projects[i]._id;
+      }
+      console.log(x);
 
       const deletionInfo = await resumeCollection.removeOne({ _id: objectId(resumeId) });
       if (deletionInfo.deletedCount == 0) throw `Could not delete resume with the ID of ${resumeId}`;
@@ -88,13 +95,18 @@ let exportedMethods = {
 
       const resumeRemove = await userCollection.updateOne(
         {
-          _id: userId,
-          "resume._id": resumeId
+          _id: objectId(userId),
+          "resume._id": objectId(resumeId)
         },
         {
-          $pull: { resume: { _id: resumeId } }
+          $pull: { resume: { _id: objectId(resumeId) } }
         }, false, true
       );
+
+      for (let i = 0; i < x.length; i++)
+      {
+        const removeProject = await projectFunc.removeProject( x[i], resumeId, userId);
+      }
       
       return true;
     },
@@ -173,23 +185,6 @@ let exportedMethods = {
       }
       // console.log(resumeList)
       return resumeList
-    },
-
-    async removeProjectFromResume(projectId)
-    {
-      checkUndef(projectId, "projectId");
-
-      const resumeCollection = await userResume();
-      const resume = await resumeCollection.findOne( { project: { $elemMatch: {_id: projectId } } });
-      let resumeId = resume._id;
-
-      const updateInfo = await resumeCollection.updateOne(
-        { _id: resumeId },
-        { $pull: { projects : { _id: projectId } } }
-      );
-      
-      if (!updateInfo.matchedCount && !updateInfo.modifiedCount) throw `Update Failed`
-      return await this.getResumeById(resumeID);
     }
 }
 
