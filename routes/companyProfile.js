@@ -66,12 +66,12 @@ let profilePictureUrl;
 const storage = multer.diskStorage({
     //destination for files
     destination: function (request, file, callback) {
-      callback(null, './public/uploads/CompanyImages/profilePictures');
+      callback(null, './public/uploads/companyFiles/profilePictures');
     },
   
     //add back the extension
     filename: function (request, file, callback) { 
-        profilePictureUrl =  request.session.username + "_profilePicture_.jpeg" 
+        profilePictureUrl =  request.session.username + "_profilePicture.jpeg" 
       callback(null, profilePictureUrl);
     },
   });
@@ -94,7 +94,7 @@ router.post('/create/new', upload.single('profilePicture'), async(req,res)=>{
         htmlValue.hrEmail,
         htmlValue.username, 
         hashedPassword,
-        `CS_546_group23_final_project/public/uploads/images/${profilePictureUrl}`)
+        `/public/uploads/companyFiles/profilePictures/${profilePictureUrl}`)
     req.session._id = newCompany._id;
     req.session.currentUser ='company';
     if(Array.isArray(htmlValue.jobLocation)){

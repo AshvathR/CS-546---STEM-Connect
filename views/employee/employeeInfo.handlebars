@@ -1,13 +1,13 @@
 <form action="/user/new/form/" method="post" enctype="multipart/form-data">
     <div class="row m-5">
-        <div class="col-md-12 mx-3">
-            <div class="col-md-12 d-flex justify-content-between align-items-start">
+        <div class="col-md-12">
+            <div class="row d-flex justify-content-between align-items-start">
                 <div class="col-md-5 mx-3">
                     <div class="d-flex align-items-center flex-column">
                         <div id="file"
                             class="d-flex justify-content-start align-items-center flex-column form-group col-md-6">
                             <h2 class="text-center py-2" for="profile">Profile image</h2>
-                            <input type='file' class="form-control-file " id="profilePicture" name="profilePicture" />
+                            <input type='file' class="form-control-file " id="profilePicture" name="profilePicture"  />
                         </div>
                     </div>
                     <div class="form-group">
@@ -79,15 +79,15 @@
                         <div class="d-flex flex-column" id="workInformation">
                             <h4 class="text-left py-1" for="profile">Upload Resume</h4>
                             <div>
-                                <input type='file' multiple class="btn btn-outline-primary my-3 filePond" onchange="readURL(this);" />
+                                <input type='file' class="form-control-file"  name="uploadResume" id="uploadResume" accept=".pdf">
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
             {{!-- Profile End --}}
-        <div class="col-md-12 d-flex justify-content-between align-items-start">
-            <div class="col-md-5 mx-3">
+        <div class="row d-flex justify-content-between align-items-start">
+            <div class="col-md-5">
                 <div class="d-flex flex-column" id="resume">
                     <div class="d-flex flex-row">
                         <h4 class="text-left py-4" for="profile">Resume Information</h4>
@@ -95,8 +95,8 @@
                             <input type="checkbox" class="custom-control-input" id="resumeActive">
                         </div>
                     </div>
-                    <div id="education-wrapper" class="col-md-12 d-flex flex-column">
-                        <div class="d-flex mx-5 py-2">
+                    <div id="education-wrapper" class=" d-flex flex-column">
+                        <div class="d-flex  py-2">
                             <button class="btn btn-primary" onclick="addMoreEducation()" type="button">Add Education Information</button>
                         </div>
                     </div>
@@ -114,51 +114,56 @@
                                     <option value="Unemployed">Unemployed</option>
                                 </select>
                     </div>
-                    <div class="form-group d-flex flex-column">
-                        <label for="ConfirmPassword">Resume</label>
-                        <div>
-                            <input type='file' multiple class="btn btn-outline-primary my-3 filePond"
-                                onchange="readURL(this);" name="resume[resumeUrl]" />
-                        </div>
-                    </div>
                     <div class="form-group">
                         <label for="ConfirmPassword">Years of Experience</label>
                         <input type="number" class="form-control" id="yearsOfExperience" name="resume[year]"
                             placeholder="" required>
                     </div>
                    
-                <div id="project-wrapper" class="col-md-12 d-flex flex-column">
-                <div class="d-flex mx-5 py-2">
+                <div id="project-wrapper" class=" d-flex flex-column">
+                <div class="d-flex py-2">
                     <button class="btn btn-primary" onclick="addMoreProject()" type="button">Add Project Information</button>
                 </div>
                 </div>
+        </div>
+        </div>
             </div>
         </div>
+        <div class="col-md-12">
+        <br/>
+            <hr>
+            <br/>
         </div>
-        <div class="d-flex align-items-center flex-column">
-            <div class="col-md-5 mx-3">
+            <div class="col-md-12">
+            <div class="d-flex  flex-column">
+            <div class="">
+            
                 <div class="d-flex flex-column" id="resume">
-                    <div class="d-flex flex-row">
+                    
                         <h4 class="text-left py-4" for="profile">Work Information</h4>
-                        <div class="custom-control custom-switch">
-                            <input type="checkbox" class="custom-control-input" id="resumeActive">
-                        </div>
-                    </div>
-                        <div id="work-information-wrapper" class="col-md-12 d-flex flex-column">
-                        <div class="d-flex mx-5 py-2">
+                        
+                    
+                        <div id="work-information-wrapper" class="d-flex flex-column">
+                        <div class="d-flex py-2">
+                        <div class="d-flex py-2">
                             <button class="btn btn-primary" onclick="addMoreWorkInformation()" type="button">Add Work Information</button>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-                        
-       
-    <div class="col-md-12 d-flex justify-content-end p-2 px-3">
+            </div>
+            </div>
+          <div class="col-md-12">
+        <br/>
+            <hr>
+            <br/>
+        </div>
+        <div class="col-md-12 d-flex justify-content-center p-2 px-3">
         <a href="/logout" class="btn btn-primary px-5 mx-3"> Cancel </a>
         <button class="btn btn-primary px-5" type="submit">Save</button>
     </div>
-    
+    </div>
 </form>
 
 <script>
@@ -198,6 +203,8 @@ We want to preview images, so we need to register the Image Preview plugin
             reader.readAsDataURL(input.files[0]);
         }
     }
+
+
 
     function addMoreWorkInformation() {
        let wrapper = $('#work-information-wrapper');

@@ -1,56 +1,72 @@
+<div id="filterContainer"> 
 <form action="/search/filter" method="POST" id="filteredSearchForm">
-    <h2>STEMConnect Filtered Search</h2>
+    <h4>STEMConnect Filtered Search</h4>
     <p>Please enter the number of years you have worked in industry and the skills required </p>
         <div class="min-max-slider" data-legendnum="2">
-            <label for="yearExp">Years Experience
-                <input id="yearsExpSlider" class="min" name="yearsExp" type="range" step="1" min="0" max="30" value="" />
-                <input id="yearsExpInput" name="yearsExp" type="number" min="0" max="30"/>
-            </label>
+            <div class="form-group">
+            <label for="yearExp">Years Experience</label>
+                <input id="yearsExpSlider" class="min" name="yearsExp" type="range" step="1" min="0" max="30" value="" class="form-control"/>
+                <input id="yearsExpInput" name="yearsExp" type="number" min="0" max="30"/ class="form-control">
+            
+                </div>
         </div>  
+    <div class="form-group">
         <label for="skillsLookUp">Skills</label>
-        <input id="skillsLookUp" name="skillsLookup" type="text" placeholder="Skills"/>
+        <input  class="form-control" id="skillsLookUp" name="skillsLookup" type="text" placeholder="Skills"/>
+        </div>
         <div id="skillsList">
             <h4 id="skillsHeading"></h4>
             <ul id="insertedSkills"></ul>
         </div>
+    <br/>
+    <br/>
         <p>Optional Filter Categories</p>
         {{#if isUser}}
         <div id="jobCategory">
-            <button type="button" id="revealCategory">Filter by Job Category</button>
+            <button id="revealCategory">Filter by Job Category</button>
             <div id="categoryInputFilter">
                 <label for="categoryLookUp">Job Category</label>
                 <input id="categoryLookUp" name="categoryLookup" type="text" placeholder="Job category"/>
-                <button type="button" id="removeCategory">Remove Job Filter</button>
+                <button id="removeCategory">Remove Job Filter</button>
             </div>
         </div>
         <div id="minSalary">
-            <button type="button" id="revealMinSalary">Filter by Minimum Salary</button>
+            <button id="revealMinSalary">Filter by Minimum Salary</button>
             <div id="minimumSalaryFilter" class="min-max-slider" data-legendnum="2">
                 <label for="minSalary">Years Experience
                     <input id="minSalarySlider" class="min" name="minSalary" type="range" step="1000" min="20000" max="500000" value="" />
                     <input id="minSalaryInput" name="minSalary" type="number" min="20000" max="500000"/>
                 </label>
-                <button type="button" id="removeMinSalary">Remove Salary Filter</button>
+                <button id="removeMinSalary">Remove Salary Filter</button>
             </div>
         </div>
         {{else}}
         <div id="projectNumber">
-            <button type="button" id="revealProjectNumber">Filter by Number of Personal Projects</button>
-            <div id="projectNumberFilter" class="min-max-slider" data-legendnum="2">
-                <label for="projectNumber">Number of Personal Projects on Resume
-                    <input id="projectNumberSlider" class="min" name="projectNumber" type="range" step="1" min="0" max="20" value="" />
-                    <input id="projectNumberInput" name="projectNumber" type="number" min="1" max="20"/>
-                </label>
-                <button type="button" id="removeProjectNumber">Remove Personal Project Filter</button>
+            <button id="revealProjectNumber">Filter by Number of Personal Projects</button>
+            <br/>
+            <div id="projectNumberFilter" class="my-3 min-max-slider" data-legendnum="2">
+                <div class="form-group">
+                <label for="projectNumber">Number of Personal Projects on Resume</label>
+                    <input id="projectNumberSlider" class="min" name="projectNumber" type="range" step="1" min="0" max="20" value=""  class="form-control"/>
+                    <input id="projectNumberInput" name="projectNumber" type="number" min="1" max="20" class="form-control"/>
+                
+                    </div>
+                <br/>
+                <button id="removeProjectNumber">Remove Personal Project Filter</button>
+                <br/>
             </div>
+            <div class="my-3">
+            <button type="submit">Search</button>
+                </div>
+        <br/>
+        <div id="filteredSearchBarErrorState"></div>       
+        <br/>
         </div>
         {{/if}}
 
 
 
-        <button type="submit">Search</button>
-        <br/>
-        <div id="filteredSearchBarErrorState"></div>       
-        <br/>
+        
     </form>
+</div>
 <script src="/public/js/filteredSearch.js"></script>
