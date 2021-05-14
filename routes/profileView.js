@@ -84,6 +84,14 @@ router.post('/editResume', async (req,res)=> {
     // console.log(temp)
     // console.log(project)
 
+    if( req.body.resume.resumeActive == null){
+        req.body.resume.resumeActive = false
+    } else if( req.body.resume.resumeActive == "true"){
+        req.body.resume.resumeActive = true
+    } else if ( req.body.resume.resumeActive == "false"){
+        req.body.resume.resumeActive = false
+    }
+
     let resumeUpdateInfo =
       {
         education: education,
@@ -130,26 +138,6 @@ router.post('/editPersonalInfo', async (req,res)=> {
     const newUser = await user.updateUser(personalInfo.userid, updatedUser)
     console.log(newUser)
     res.redirect('/profile')
-    // finduser = null
-    // for (i = 0; i < userData.length; i++){
-    //   if (req.body.username == userData[i].username){
-    //     finduser = userData[i]
-    //     break
-    //   }
-    // }
-    // temp = false
-    // if (finduser !== null) {
-    //   temp = await bcrypt.compare(req.body.password,finduser.hashedPassword)
-    //   if (temp == true) {
-    //     req.session.user = req.body.username;
-    //   }
-    //   if (temp == false)
-    //   {
-    //     res.status(401).render("login", {error: " Invalid Entry of Username and Password"})
-    //   }
-    // } else {
-    //   res.status(401).render("login", {error: " Invalid Entry of Username and Password"})
-    // }
   });
 
 router.get('/create', async(req,res)=>{
