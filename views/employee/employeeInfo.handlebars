@@ -104,9 +104,15 @@
                         <label for="skills">Skills</label>
                         <input type="text" class="form-control" id="skills" name="resume[skills]" placeholder="" required>
                     </div>
-                    <div class="form-group">
-                        <label for="workStatus">Work Status</label>
-                        <input type="text" class="form-control" id="workStatus" name="resume[workStatus]" placeholder="" required>
+                    <div class="dropdown form-group d-flex flex-column">
+                                <label for="workStatus">Work Status</label>
+                                <select style="width: 200px;" class="text-right btn btn-secondary dropdown-toggle"
+                                    type="button" id="workStatus" name="resume[workStatus]"
+                                    data-toggle="dropdown">
+                                    <option disabled selected value> -- select an option -- </option>
+                                    <option value="Employed">Employed</option>
+                                    <option value="Unemployed">Unemployed</option>
+                                </select>
                     </div>
                     <div class="form-group d-flex flex-column">
                         <label for="ConfirmPassword">Resume</label>
