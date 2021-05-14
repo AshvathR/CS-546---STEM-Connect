@@ -7,7 +7,7 @@
                         <div id="file"
                             class="d-flex justify-content-start align-items-center flex-column form-group col-md-6">
                             <h2 class="text-center py-2" for="profile">Profile image</h2>
-                            <input type='file' class="form-control-file " id="profilePicture" name="profilePicture" />
+                            <input type='file' class="form-control-file " id="profilePicture" name="profilePicture"  />
                         </div>
                     </div>
                     <div class="form-group">
@@ -79,7 +79,7 @@
                         <div class="d-flex flex-column" id="workInformation">
                             <h4 class="text-left py-1" for="profile">Upload Resume</h4>
                             <div>
-                                <input type='file' multiple class="btn btn-outline-primary my-3 filePond" onchange="readURL(this);" />
+                                <input type='file' class="form-control-file"  name="uploadResume" id="uploadResume" accept=".pdf">
                             </div>
                         </div>
                     </div>
@@ -113,13 +113,6 @@
                                     <option value="Employed">Employed</option>
                                     <option value="Unemployed">Unemployed</option>
                                 </select>
-                    </div>
-                    <div class="form-group d-flex flex-column">
-                        <label for="ConfirmPassword">Resume</label>
-                        <div>
-                            <input type='file' multiple class="btn btn-outline-primary my-3 filePond"
-                                onchange="readURL(this);" name="resume[resumeUrl]" />
-                        </div>
                     </div>
                     <div class="form-group">
                         <label for="ConfirmPassword">Years of Experience</label>
@@ -198,6 +191,8 @@ We want to preview images, so we need to register the Image Preview plugin
             reader.readAsDataURL(input.files[0]);
         }
     }
+
+
 
     function addMoreWorkInformation() {
        let wrapper = $('#work-information-wrapper');

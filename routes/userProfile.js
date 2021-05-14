@@ -36,16 +36,28 @@ const saltRounds = 16;
 
 
 let profilePictureUrl;
+let resumeUrl;
 const storage = multer.diskStorage({
     //destination for files
+    
     destination: function (request, file, callback) {
-      callback(null, './public/uploads/employeeImages/profilePictures');
+      console.log(file)
+      if(file.fieldname == 'profilePicture')
+        callback(null, './public/uploads/employeeFiles/profilePictures');
+      else
+        callback(null, './public/uploads/employeeFiles/resume');
     },
   
     //add back the extension
     filename: function (request, file, callback) { 
-        profilePictureUrl =  request.session.username + "_profilePicture_.jpeg" 
-      callback(null, profilePictureUrl);
+      if(file.fieldname == 'profilePicture'){
+        profilePictureUrl =  request.session.username + "_profilePicture.jpeg" 
+        callback(null, profilePictureUrl);
+      }
+      else{
+        resumeUrl = request.session.username + "_resume.pdf" 
+        callback(null, resumeUrl);
+      }
     },
   });
   
@@ -57,6 +69,29 @@ const storage = multer.diskStorage({
     },
   });
 
+
+
+  // const resumeStorage = multer.diskStorage({
+  //   //destination for files
+  //   destination: function (request, file, callback) {
+  //     callback(null, './public/uploads/employeeImages/resume');
+  //   },
+  
+  //   //add back the extension
+  //   filename: function (request, file, callback) { 
+  //       resumeUrl =  request.session.username + "_resume_.pdf" 
+  //     callback(null, resumeUrl);
+  //   },
+  // });
+  
+  // //upload parameters for multer
+  // const uploadResume = multer({
+  //   storage: resumeStorage,
+  //   limits: {
+  //     fieldSize: 1024 * 1024 * 3,
+  //   },
+  // });
+
 router.get("/:type/form", async (req, res) => {
   res.render("employee/employeeInfo", {
     title: "STEMConnect",
@@ -66,8 +101,9 @@ router.get("/:type/form", async (req, res) => {
   });
 });
 
+let multipleUpload = upload.fields([{ name: 'profilePicture' }, {name:'uploadResume'}]) 
 
-router.post("/:type/form", upload.single('profilePicture'), async (req, res) => {
+router.post("/:type/form", multipleUpload, async (req, res) => {
   // const companyInfo = extractValue(req.body, companyFields);
   // const resumeInfo = extractValue(req.body, resumeFields);
   // const projectInfo = extractValue(req.body, projectFields);
@@ -85,8 +121,18 @@ router.post("/:type/form", upload.single('profilePicture'), async (req, res) => 
   personalInfo = req.body
   const hashedPassword = await bcrypt.hash(req.body.password, saltRounds);
   // Add User
-  const newUser = await user.addUser(`CS_546_group23_final_project/public/uploads/employeeImages/profilePictures/${profilePictureUrl}`,personalInfo.email,personalInfo.address, personalInfo.firstName, personalInfo.lastName, personalInfo.phoneNumber, personalInfo.aboutMe,personalInfo.gender,personalInfo.dob,personalInfo.resumeUrl,
-           personalInfo.username, hashedPassword)
+  const newUser = await user.addUser(`/public/uploads/employeeFiles/profilePictures/${profilePictureUrl}`,
+            personalInfo.email,
+            personalInfo.address, 
+            personalInfo.firstName, 
+            personalInfo.lastName, 
+            personalInfo.phoneNumber, 
+            personalInfo.aboutMe,
+            personalInfo.gender,
+            personalInfo.dob,
+            `/public/uploads/employeeFiles/resume/${resumeUrl}`,
+            personalInfo.username, 
+            hashedPassword)
 
 // Add Education
 let education= []
@@ -120,7 +166,7 @@ if(req.body.School) {
   const skills = (req.body.resume.skills).split(',')
 
 //Add Resume
-  const newResume = await resume.addResume(education,skills,'',req.body.resume.resumeUrl,req.body.resume.workStatus,req.body.resume.year,true)
+  const newResume = await resume.addResume(education,skills,'',`CS_546_group23_final_project/public/uploads/employeeImages/resume/${resumeUrl}`,req.body.resume.workStatus,req.body.resume.year,true)
 
 // Add project
 if(req.body.project) {
