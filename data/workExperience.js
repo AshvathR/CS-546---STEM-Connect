@@ -1,6 +1,7 @@
 const mongoCollections = require('../config/mongoCollections');
 const workExperience = mongoCollections.workExperience;
 const users = mongoCollections.users;
+const userFunc = require("./users");
 const objectId = require("mongodb").ObjectID;
 
 function checkUndef(variable, variableName)
@@ -22,14 +23,10 @@ async function addWorkDesc(companyName, jobTitle, jobDescription,startDate, endD
     startDate:startDate,
     endDate: endDate          
   };
-  // jobExperienceId = mongodb.ObjectId(jobExperienceId)
     
   const newInsertInformation = await workExperienceCollection.insertOne(newWork);
- // const newId = newInsertInformation.insertedId;
-  // await loginInfo.addUserToAccount(jobExperienceId, newJob);
   console.log("Added workExperience")
-  return newWork
-  // return await thusis.getResumeById(newId);
+  return newWork;
 }
 
 async function getAllWorkDesc()
@@ -50,18 +47,39 @@ async function getWorkDescById(id)
   return workDesc;
 }
 
-async function removeWorkDesc(id)
+async function removeWorkDesc(workDescId, userId)
 {
-  checkUndef(id, "id");
+  checkUndef(workDescId, "workDescId");
+  checkUndef(userId, "userId");
 
   const workExperienceCollection = await workExperience();
-  const deletionInfo = await workExperienceCollection.removeOne({ _id: objectId(id)} );
+  let workDesc = null;
 
-  if (deletionInfo.deletedCount == 0)
+  try
   {
-    throw `Could not delete work description with id of ${id}`;
+    workDesc = await this.getWorkDescById(workDescId);
+  }
+  catch(error)
+  {
+    console.log(e);
   }
 
+  const deletionInfo = await workExperienceCollection.removeOne({ _id: objectId(workDescId)} );
+  if (deletionInfo.deletedCount == 0)
+    throw `Could not delete work description with id of ${workDescId}`;
+
+  const userCollection = await users();
+
+  const workDescRemove = await userCollection.updateOne(
+    {
+      _id: objectId(userId),
+      "workExperience._id": objectId(workDescId)
+    },
+    {
+      $pull: { workExperience: { _id: objectId(workDescId) } }
+    }, false, true
+  );
+  
   return true;
 }
 
@@ -86,7 +104,6 @@ async function updateWorkDesc(id, userId, updatedWorkDesc)
   const updateInfo = await workExperienceCollection.updateOne({ _id: objectId(id) }, { $set: workDescInfo });
 
   if (!updateInfo.matchedCount && !updateInfo.modifiedCount) throw `Update Failed`;
-  else console.log(`Work Description Updated Successfully`);
 
   const userCollection = await users();
 

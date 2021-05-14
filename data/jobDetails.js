@@ -8,23 +8,22 @@ const companyFunc = require('./company')
 function checkUndef(variable, variableName)
 {
     if (variable === null || variable === undefined)
-    {
+    { 
         throw `${variableName || 'Provided Variable'} is not defined!`
     }
 }
 
 let exportedMethods = {
 
-  
-    async addJob (jobTitle, jobLocation, jobDescription, jobCategory, salaryMin, salaryMax, qualifications, yearsOfExperience, skills,jobStatus) {
+    async addJob (jobTitle, jobLocation, jobDescription, yearsOfExperience, skills, jobCategory, salaryMin, salaryMax, qualifications, jobStatus) {
 
 
         const jobCollection = await jobDetails();
     
         const newJob = {
-          jobTitle: jobTitle,//array_of_objects
-          jobLocation: jobLocation,//array_of_objects,sub document
-          jobDescription:jobDescription,//array_of_object,sub document
+          jobTitle: jobTitle,
+          jobLocation: jobLocation,
+          jobDescription:jobDescription,
           yearsOfExperience:yearsOfExperience,
           skills: skills,
           jobCategory: jobCategory,
@@ -33,11 +32,8 @@ let exportedMethods = {
           qualifications: qualifications,
           jobStatus:jobStatus
         };
-        // userId = mongodb.ObjectId(userId)
     
         const newInsertInformation = await jobCollection.insertOne(newJob);
-        // const newId = newInsertInformation.insertedId;
-        // await users.addResumeToUser(userId, newResume);
         console.log("Added newJob")
         return newJob
     },
@@ -60,17 +56,39 @@ let exportedMethods = {
       return job;
     },
 
-    async removeJob(id)
+    async removeJob(jobId, companyId)
     {
-      checkUndef(id, "id");
+      checkUndef(jobId, "jobId");
+      checkUndef(companyId, 'companyId');
 
       const jobCollection = await jobDetails();
-      const deletionInfo = await jobCollection.removeOne({ _id: objectId(id)} );
-
-      if (deletionInfo.deletedCount == 0)
+      let job = null;
+      
+      try
       {
-        throw `Could not delete job with id of ${id}`;
+        job = await this.getJobById(jobId);
       }
+      catch (e)
+      {
+        console.log(e);
+      }
+      
+      const deletionInfo = await jobCollection.removeOne( { _id: objectId(jobId) } );
+      if (deletionInfo.deletedCount == 0)
+        throw `Could not delete job with id of ${jobId}`;
+      
+      const companyCollection = await company();
+
+      const jobRemove = await companyCollection.updateOne
+      (
+        {
+          _id: objectId(companyId),
+          "jobDetails._id": objectId(jobId)
+        },
+        {
+          $pull: { jobDetails: { _id: objectId(jobId) } }
+        }, false, true
+      );
 
       return true;
     },
@@ -134,8 +152,8 @@ let exportedMethods = {
       const updateInfo = await jobCollection.updateOne({ _id: objectId(id) }, { $set: jobUpdateInfo });
 
       if(!updateInfo.matchedCount && !updateInfo.modifiedCount) throw `Update Field!`;
+      const companyCollection = await company()
       // Update job in company doc
-      const companyCollection = await company();
 
       const updateJob = await companyCollection.updateOne({
         _id : objectId(companyId),

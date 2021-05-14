@@ -1,37 +1,38 @@
-<form action="/company/new/form/" method="post">
+<form action="/company/create/new" method="post" enctype="multipart/form-data">
     <div class="row m-5">
         <div class="col-md-12 mx-3">
             <div class="d-flex align-items-center flex-column">
-                <div id="file" style="height: 300px;"
+                <div id="file"
                     class="d-flex justify-content-start align-items-center flex-column form-group col-md-6">
                     <h2 class="text-center py-2" for="profile">Profile image</h2>
                     <br />
                     <img id="blah" style="height: 150px; width: 150px;"
                         src="https://png.pngtree.com/element_our/20200609/ourmid/pngtree-children-s-software-programming-image_2230761.jpg"
                         alt="your image" />
-                    <br />
-                    <input type='file' class="btn btn-outline-primary my-3" onchange="readURL(this);" />
+                    <br /> 
+                    {{!-- btn btn-outline-primary my-3 filePond --}}
+                    <input type='file' class="form-control-file " id="profilePicture" name="profilePicture"/>
                 </div>
             </div>
             <div class="col-md-12 d-flex justify-content-between align-items-start">
                 <div class="col-md-5 mx-3 my-4">
                     <div class="form-group">
                         <label for="userName">User Name</label>
-                        <input type="text" class="form-control" id="userName" name="userName" placeholder="">
+                        <input type="text" class="form-control" id="username" name="username" placeholder="" value="{{company.username}}">
                     </div>
                     <div class="form-group">
                         <label for="HrInputEmail1">HR Email</label>
-                        <input type="email" class="form-control" id="hrEmail" name="hrEmail" placeholder="">
+                        <input type="email" class="form-control" id="hrEmail" name="hrEmail" placeholder="" value="{{company.email}}">
                     </div>
 
                     <div class="form-group">
                         <label for="Password">Password</label>
-                        <input type="password" class="form-control" id="password" name="password" placeholder="">
+                        <input type="password" class="form-control" id="password" name="password" placeholder="" value="{{company.password}}">
                     </div>
 
                     <div class="form-group">
                         <label for="ConfirmPassword">Repeat Password</label>
-                        <input type="password" class="form-control" id="ConfirmPassword" name="ConfirmPassword"
+                        <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" value="{{company.confirmPassword}}"
                             placeholder="">
                     </div>
                 </div>
@@ -56,7 +57,7 @@
                             <input type="text" class="form-control" id="category" name="category" placeholder="">
                         </div>
                         <div class="form-group">
-                            <label for="ConfirmPassword">Address</label>
+                            <label for="address">Address</label>
                             <input type="text" class="form-control" id="address" name="address" placeholder="">
                         </div>
                     </div>
@@ -82,18 +83,23 @@
                                 <input type="text" class="form-control" id="JobCategory" name="jobCategory"
                                     placeholder="">
                             </div>
+                            <div class="form-group">
+                                <label for="yearsOfExperience">Years of Experience</label>
+                                <input type="number" class="form-control" id="yearsOfExperience" name="yearsOfExperience"
+                                    placeholder="">
+                            </div>
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="SalaryMin">Salary Min</label>
-                                        <input type="text" class="form-control" id="SalaryMin" name="salaryMin"
+                                        <input type="text" class="form-control" id="salaryMin" name="salaryMin"
                                             placeholder="">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="SalaryMax">Salary Max</label>
-                                        <input type="text" class="form-control" id="SalaryMax" name="salaryMax"
+                                        <input type="text" class="form-control" id="salaryMax" name="salaryMax"
                                             placeholder="">
                                     </div>
                                 </div>
@@ -108,8 +114,12 @@
                         </div>
                         <div class="form-group">
                             <label for="jobQualification">Qualification</label>
-                            <textarea class="form-control" rows="5" id="jobQualification" name="jobQualification"
+                            <textarea class="form-control"  id="jobQualification" name="jobQualification"
                                 placeholder=""></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="skills">Skills</label>
+                            <input type="text" class="form-control" id="skills" name="skills" placeholder="">
                         </div>
                     </div>
                 </div>
@@ -119,13 +129,37 @@
             </div>
         </div>
         <div class="col-md-12 d-flex justify-content-end p-2 px-3">
-            <button class="btn btn-outline-secondary mx-3 px-5" type="submit">Cancel</button>
+            <a href="/logout" class="btn btn-primary px-5 mx-3"> Cancel </a>
             <button class="btn btn-primary px-5" type="submit">Save</button>
         </div>
     </div>
 </form>
 
-<script src="/public/js/company.js"></script>
+<script>
+
+    /*
+    We want to preview images, so we need to register the Image Preview plugin
+    */
+    FilePond.registerPlugin(
+        // encodes the file as base64 data
+        FilePondPluginFileEncode,
+
+        // validates the size of the file
+        FilePondPluginFileValidateSize,
+
+        // corrects mobile image orientation
+        FilePondPluginImageExifOrientation,
+
+        // previews dropped images
+        FilePondPluginImagePreview
+    );
+
+    // Select the file input and use create() to turn it into a pond
+    let data = document.getElementsByClassName("filePond");
+
+    for (let i = 0; i <= data.length - 1; i++) FilePond.create(data[i]);
+</script>
+
 <script>
     function readURL(input) {
         if (input.files && input.files[0]) {
@@ -139,35 +173,49 @@
         }
     }
 
+      $(document).on("click", ".clone .remove-Work", function (e) {
+        $(e.target).parent().parent().remove();
+    });
+
+
     function addMoreDetails() {
-        let wrapper = document.getElementById('job-wrapper')
+        let wrapper = $('#job-wrapper');
         let html = `<div class="col-md-12 d-flex justify-content-between mt-5 align-items-center">
                     <div class="col-md-5 mx-3">
-                        <div class="d-flex flex-column" id="workInformation"> 
+                        <div class="d-flex flex-column" id="workInformation">
                             <div class="form-group">
                                 <label for="JobTitle">Job Title</label>
                                 <input type="text" class="form-control" id="JobTitle" name="jobTitle" placeholder="">
                             </div>
                             <div class="form-group">
                                 <label for="JobLocation">Job Location</label>
-                                <input type="text" class="form-control" id="JobLocation" name="jobLocation" placeholder="">
+                                <input type="text" class="form-control" id="JobLocation" name="jobLocation"
+                                    placeholder="">
                             </div>
 
                             <div class="form-group">
                                 <label for="JobCategory">Job Category</label>
-                                <input type="text" class="form-control" id="JobCategory" name="jobCategory" placeholder="">
+                                <input type="text" class="form-control" id="JobCategory" name="jobCategory"
+                                    placeholder="">
+                            </div>
+                            <div class="form-group">
+                                <label for="yearsOfExperience">Years of Experience</label>
+                                <input type="number" class="form-control" id="yearsOfExperience" name="yearsOfExperience"
+                                    placeholder="">
                             </div>
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="SalaryMin">Salary Min</label>
-                                        <input type="text" class="form-control" id="SalaryMin" name="salaryMin" placeholder="">
+                                        <input type="text" class="form-control" id="salaryMin" name="salaryMin"
+                                            placeholder="">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="SalaryMax">Salary Max</label>
-                                        <input type="text" class="form-control" id="SalaryMax" name="salaryMax" placeholder="">
+                                        <input type="text" class="form-control" id="salaryMax" name="salaryMax"
+                                            placeholder="">
                                     </div>
                                 </div>
                             </div>
@@ -177,15 +225,19 @@
                         <div class="form-group">
                             <label for="jobDescription">Job Description</label>
                             <textarea class="form-control" rows="5" id="jobDescription" name="jobDescription"
-                                placeholder="" ></textarea>
+                                placeholder=""></textarea>
                         </div>
                         <div class="form-group">
                             <label for="jobQualification">Qualification</label>
-                            <textarea class="form-control" rows="5" id="jobQualification" name="jobQualification"
-                                placeholder="" ></textarea>
+                            <textarea class="form-control"  id="jobQualification" name="jobQualification"
+                                placeholder=""></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="skills">Skills</label>
+                            <input type="text" class="form-control" id="skills" name="skills" placeholder="">
                         </div>
                     </div>
                 </div>`;
-        wrapper.innerHTML += html
+        wrapper.append(html);
     }
 </script>

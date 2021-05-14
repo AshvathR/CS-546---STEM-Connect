@@ -3,6 +3,7 @@ const users= mongoCollections.users;
 const userResume = mongoCollections.userResume;
 const usersFunc = require('./users');
 const objectId = require('mongodb').ObjectID;
+const projectFunc = require("./projects");
 
 function checkUndef(variable, variableName)
 {
@@ -21,15 +22,14 @@ let exportedMethods = {
         const resumeCollection = await userResume();
     
         const newResume = {
-          education: education,//array_of_objects
+          education: education,
           // workExperience: [],//array_of_objects,sub document (Removed Because wrong Cardinality)
-          projects: [],//array_of_object,sub document
-          skills: skills,//array_of_skills
-          workStatus:workStatus,
-          yearsOfExperience: yearsOfExperience,
-          description:description,
-          resumeActive:resumeActive,
-          userResumeUrl:userResumeUrl
+          projects: [],
+          skills: skills,
+          workStatus: workStatus,
+          description: description,
+          resumeActive: resumeActive,
+          userResumeUrl: userResumeUrl
         };
     
         const newInsertInformation = await resumeCollection.insertOne(newResume);
@@ -60,36 +60,55 @@ let exportedMethods = {
 
       const resumeCollection = await userResume();
       const resume = await resumeCollection.findOne({ _id: objectId(id) });
-
       if (!resume) throw `Resume with the given ID: ${id} not found!`;
       return resume;
     },
 
-    async removeResume(id)
+    async removeResume(resumeId, userId)
     {
-      checkUndef(id, 'id');
+      checkUndef(resumeId, 'resumeId');
+      checkUndef(userId, 'userId');
       
       const resumeCollection = await userResume();
       let resume = null;
+      let x = [];
 
       try
       {
-        resume = await this.getResumeById(id);
+        resume = await this.getResumeById(resumeId);
       }
       catch(e)
       {
         console.log(e);
-        return;
       }
 
-      let temp = resume._id;
+      for (let i = 0; i < (resume.projects).length; i++)
+      {
+        x[i] = resume.projects[i]._id;
+      }
+      console.log(x);
 
-      const deletionInfo = await resumeCollection.removeOne({ _id: objectId(id) });
-      if (deletionInfo.deletedCount == 0) throw `Could not delete resume with the ID of ${id}`;
+      const deletionInfo = await resumeCollection.removeOne({ _id: objectId(resumeId) });
+      if (deletionInfo.deletedCount == 0) throw `Could not delete resume with the ID of ${resumeId}`;
 
-      await usersFunc.removeResumeFromUser(temp)
-      obj = {"resumeId": temp, "deleted": true};
-      return obj;
+      const userCollection = await users();
+
+      const resumeRemove = await userCollection.updateOne(
+        {
+          _id: objectId(userId),
+          "resume._id": objectId(resumeId)
+        },
+        {
+          $pull: { resume: { _id: objectId(resumeId) } }
+        }, false, true
+      );
+
+      for (let i = 0; i < x.length; i++)
+      {
+        const removeProject = await projectFunc.removeProject( x[i], resumeId, userId);
+      }
+      
+      return true;
     },
 
     async getAllResumes()
@@ -101,15 +120,16 @@ let exportedMethods = {
       return resumeList;
     },
 
-    async updateResume(id, userId, updatedResume)
+    async updateResume(resumeId, userId, updatedResume)
     {
-      checkUndef(id, "id");
+      checkUndef(resumeId, "resumeId");
       checkUndef(userId, "userId");
       checkUndef(updatedResume, "updatedResume");
 
+
 // Data Functions for Search Page
     
-      const resume = await this.getResumeById(id);
+      const resume = await this.getResumeById(resumeId);
 
       let resumeUpdateInfo =
       {
@@ -123,17 +143,17 @@ let exportedMethods = {
       }
 
       const resumeCollection = await userResume();
-      const updateInfo = resumeCollection.updateOne( { _id: objectId(id) }, { $set: resumeUpdateInfo } );
+      const updateInfo = resumeCollection.updateOne( { _id: objectId(resumeId) }, { $set: resumeUpdateInfo } );
 
-      if (!updateInfo.matchedCount && !updateInfo.modifiedCount) throw `Update Failed!`
+      // if (!updateInfo.matchedCount && !updateInfo.modifiedCount) throw `Update Failed!`
 
       const userCollection = await users();
 
       const resumeUpdate = await userCollection.updateOne
       (
         {
-          _id: userId,
-          "resume._id": id
+          _id: objectId(userId),
+          "resume._id": objectId(resumeId)
         },
         {
           $set:
@@ -149,7 +169,7 @@ let exportedMethods = {
         }, false, true
       );
 
-      return await this.getResumeById(id);
+      return await this.getResumeById(resumeId);
     },
     async searchResumeByYearSkillsProjectNumber(years,skillsArray,projectNumber)
     {
@@ -174,46 +194,11 @@ let exportedMethods = {
 
         if(skillsArray.length > 0) skillsQuery = { skills: { $in: skillsArray}};
       }
-
-      
       const resumeList = await resumeCollection.find({$and: [{ resumeActive : true}, { yearsOfExperience: { $gte: years} }, skillsQuery, projectQuery]}).toArray();
-  
-       console.log(resumeList)
+      //console.log(resumeList)
       return resumeList;
+
     }
-
-    // async removeProjectFromResume(projectId, resumeId)
-    // {
-    //   checkUndef(projectId, "projectId");
-
-    //   const resumeCollection = await userResume();
-    //   // const resume = await resumeCollection.findOne({ project: { $elemMatch: {_id: projectId } } });
-    //   // let resumeId = resume._id;
-
-    //   // const updateInfo = await resumeCollection.updateOne(
-    //   //   { _id: resumeId },
-    //   //   { $pull: { project : { _id: projectId } } }
-    //   // );
-
-    //   // if (!updateInfo.matchedCount && !updateInfo.modifiedCount) throw `Update Failed`
-    //   // return await this.getResumeById(resumeID);
-
-    //   const updateInfo = await resumeCollection.updateOne
-    //   (
-    //     {
-    //       _id: resumeId
-    //     },
-    //     {
-    //       $pull:
-    //       {
-    //         projects: { _id: projectId }
-    //       }
-    //     }
-    //   );
-
-    //   if (!updateInfo.matchedCount && !updateInfo.modifiedCount) throw `Deletion Failed!`;
-    //   return await this.getResumeById(resumeId);
-    // }
 }
 
 module.exports = exportedMethods

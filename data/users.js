@@ -4,6 +4,7 @@ const userRes = require('./userResume')
 var mongodb = require('mongodb');
 const { userResume } = require('../config/mongoCollections');
 const loginInfo = require('./loginInfo'); 
+const { removeWorkDesc } = require('./workExperience');
 const bcrypt = require('bcryptjs');
 
 function checkUndef(variable, variableName)
@@ -35,14 +36,43 @@ let exportedMethods = {
       username: username,
       hashedPassword: hashedPassword
     };
-    // accountId = mongodb.ObjectId(accountId)
 
     const newInsertInformation = await userCollection.insertOne(newUser);
-    // const newId = newInsertInformation.insertedId;
-    // await loginInfo.addUserToAccount(accountId, newUser);
     console.log("Added User")
     return newUser
-    // return await this.getResumeById(newId);
+  },
+
+  async updateUser(userId, updatedUser)
+  {
+    checkUndef(userId, "userID");
+    checkUndef(updatedUser, "updatedUser")
+
+    const user = await this.getUserById(userId);
+
+    if (updatedUser.resumeUrl)
+    {
+      let x = (user.resumeUrl).concat(updatedUser.resumeUrl)
+      updatedUser.resumeUrl = [...new Set(x)];
+    }
+
+    let userUpdateInfo =
+    {
+      email: updatedUser.email,
+      address: updatedUser.address,
+      name: updatedUser.name,
+      phoneNumber: updatedUser.phoneNumber,
+      aboutMe: updatedUser.aboutMe,
+      gender: updatedUser.gender,
+      dob: updatedUser.dob,
+      resumeUrl: updatedUser.resumeUrl
+    };
+
+    const userCollection = await users();
+    const updateInfo = await userCollection.updateOne( { _id: mongodb.ObjectID(userId) }, { $set: userUpdateInfo } );
+
+    if (!updateInfo.matchedCount && !updateInfo.modifiedCount) throw `Update Failed!`;
+
+    return await this.getUserById(userId);
   },
 
   async addResumeToUser(userId, newResume) {
@@ -51,7 +81,6 @@ let exportedMethods = {
     
     let currentResume = await userRes.getResumeById(newResume._id);
     const userCollection = await users();
-    // const resumeCollection = await userResume();
 
     const updateInfo = await userCollection.updateOne(
       { _id: userId },
@@ -80,7 +109,6 @@ let exportedMethods = {
     
     let currentUser = await this.getUserById(userId);
     const userCollection = await users();
-    // const resumeCollection = await userResume();
 
     const updateInfo = await userCollection.updateOne(
       { _id: userId },
@@ -145,23 +173,6 @@ let exportedMethods = {
     return false;
   },
 
-  async removeResumeFromUser(resumeId)
-  {
-    checkUndef(resumeId);
-
-    const userCollection = await users();
-    const user = await userCollection.findOne({ resume: {$elemMatch : {_id: mongodb.ObjectID(id)} } });
-    let userId = user._id;
-
-    const updatedInfo = await userCollection.updateOne(
-      {_id: userId},
-      {$pull : {resume: {_id: resumeId } } }
-    );
-
-    if (!updatedInfo.matchedCount && !updatedInfo.modifiedCount) throw `Update Failed!`
-    return await this.getUserById(userId);
-  },
-
   async checkUsernameandPassword(username, password){
     username = username.toLowerCase();
     let usernameExists = await this.checkExistingUsername(username);
@@ -197,22 +208,24 @@ let exportedMethods = {
     return user._id;
   },
 
-  async removeUser (id)
+  async removeUser (userId)
   {
+    checkUndef(userId, "userId");
+    
     const userCollection = await users();
     let user = null;
 
     try
     {
-      user = await this.getUserById(id);
+      user = await this.getUserById(userId);
     }
     catch (e)
     {
       console.log(e);
     }
 
-    const deletionInfo = await userCollection.removeOne({ _id: id });
-    if (deletionInfo.deletedCount == 0) throw `Could not delete the user with ID: ${id}`;
+    const deletionInfo = await userCollection.removeOne({ _id: mongodb.ObjectID(userId) });
+    if (deletionInfo.deletedCount == 0) throw `Could not delete the user with ID: ${userId}`;
     else return true
   }
 }

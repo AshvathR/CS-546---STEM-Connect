@@ -1,1 +1,1 @@
-# CS_546_group23_final_project
+# STEM-Connect

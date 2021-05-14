@@ -17,24 +17,22 @@ function errorCheckString(val){
 router.post('/', async (req,res) => {
     if(!req.session.authenticated){
       let username = req.body.username;
-      let password = req.body.password;
-      let re_password = req.body.reEnterPassword;
       let userType = req.body.usertype;
       let hashedPassword;
       if(userType === "company"){
-        if(password === re_password && errorCheckString(password) && errorCheckString(re_password)){
-          hashedPassword = await bcrypt.hash(password, saltRounds);
-        }
-        else{
-          res.status(401);
-          res.render("general/signup",{currentTitle : "Login", currentHeader : "Login Form", hasErrors : true});
-        }
+        // if(password === re_password && errorCheckString(password) && errorCheckString(re_password)){
+        //   hashedPassword = await bcrypt.hash(password, saltRounds);
+        // }
+        // else{
+        //   res.status(401);
+        //   res.render("general/signup",{currentTitle : "Login", currentHeader : "Login Form", hasErrors : true});
+        // }
         let checkUsernameExists = await companyData.checkExistingUsername(username);
         if(!checkUsernameExists && errorCheckString(username)){
           req.session.username = username;
-          req.session.hashedPassword = hashedPassword;
+          console.log(req.session.username)
+          req.session.email = req.body.email;
           req.session.currentUser = userType;
-          req.session.authenticated = true;
           res.redirect('/profile/create');
         }
         else{
@@ -43,19 +41,21 @@ router.post('/', async (req,res) => {
         }
       }
       else{
-        if(password === re_password && errorCheckString(password) && errorCheckString(re_password)){
-          hashedPassword = await bcrypt.hash(password, saltRounds);
-        }
-        else{
-          res.status(401);
-          res.render("general/signup",{currentTitle : "Login", currentHeader : "Login Form", hasErrors : true});
-        }
+        // if(password === re_password && errorCheckString(password) && errorCheckString(re_password)){
+        //   hashedPassword = await bcrypt.hash(password, saltRounds);
+        // }
+        // else{
+        //   res.status(401);
+        //   res.render("general/signup",{currentTitle : "Login", currentHeader : "Login Form", hasErrors : true});
+        // }
         let checkUsernameExists = await usersData.checkExistingUsername(username);
         if(!checkUsernameExists && errorCheckString(username)){
           req.session.username = username;
-          req.session.hashedPassword = hashedPassword;
+          console.log(req.session.username);
+          req.session.email = req.body.email;
+          // req.session.password = password;
+          // req.session.hashedPassword = hashedPassword;
           req.session.currentUser = userType;
-          req.session.authenticated = true
           res.redirect('/profile/create');
         }
         else{
@@ -65,6 +65,11 @@ router.post('/', async (req,res) => {
       }
     }
     
+  });
+
+  router.post('/signupFromLogin', async (req,res) => {
+    console.log("Reached Here")
+    res.redirect('/signup');
   });
 
   router.get('/', async (req,res) => {
