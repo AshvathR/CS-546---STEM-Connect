@@ -9,7 +9,7 @@
 <div class="container">
     <div class="row">
         <div class="col-md-4">
-             <div class="card" style="width: 18rem;">
+            <div class="card" style="width: 18rem;">
                 <div class="card-body">
                     <img id="card-image-top" src="https://png.pngtree.com/element_our/20200609/ourmid/pngtree-children-s-software-programming-image_2230761.jpg" alt="Card Image cap"/>
                     <div class="card-body">
@@ -22,12 +22,17 @@
                     </div>
                 </div>
             </div>
+            <div class="col-6 col-md-4">
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#companyInfoModal">
+                    Edit Company Information
+                </button>
+            </div>
         </div>
         <div class="col-md-8">
             <div class="row">
                 <div class="col-6 col-md-4">
-                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#companyInfoModal">
-                        Edit
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#jobInfoModal">
+                        Edit Job Information
                     </button>
                 </div>
                 <div class="container">
@@ -60,68 +65,111 @@
 
 
 {{!-- Modal to update company information --}}
-<div class="modal fade" id="companyInfoModal" tabindex="-1" role="dialog" aria-labelledby="personalInfo" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Edit Company Information</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <form action="/profile/editPersonalInfo" method="POST">
-                <input type="hidden" name="userid" id="{{user._id}}" value="{{user._id}}"/>
-                <div class="form-group">
-                    <label for="firstName">Company Name</label>
-                    <input type="text" class="form-control" id="companyName" name="companyName" value={{company.companyName}}>
-                </div>
-                <div class="form-group">
-                    <label for="email">HR EMail</label>
-                    <input type="text" class="form-control" id="hrEmail" name="hrEmail" aria-describedby="mailHelp"
-                        value={{company.hrEmail}}>
-                </div>
-                <div class="form-group">
-                    <label for="phoneNumber">Company Category</label>
-                    <input type="text" class="form-control" id="category" name="category" value="{{company.category}}">
-                </div>
-                {{!-- <div class="fd-flex flex-column ml-3">
-                    <label for="dateOfBirth">Date of Birth</label>
-                    <input type='date' id="dateOfBirth" name="dateOfBirth" class="form-control btn btn-outline-primary" value="{{user.dob}}"
-                        onchange="readURL(this);" />
-                </div> --}}
-                {{!-- <div class="dropdown form-group d-flex flex-column">
-                                <label for="gender">Gender</label>
-                                <select style="width: 200px;" class="text-right btn btn-secondary dropdown-toggle"
-                                    type="button" id="gender" name="dropdownMenuButton"
-                                    data-toggle="dropdown">
-                                    <option disabled selected value> -- select an option -- </option>
-                                    <option value="male">Male</option>
-                                    <option value="female">Female</option>
-                                     <option value="other">Other</option>
-                                    <option value="prefernottosay">Prefer not to say</option>
-                                </select>
-                </div> --}}
-                {{!-- <div class="form-group">
-                    <label for="aboutMe">About Me</label>
-                    <input type="text" class="form-control" id="aboutMe" name="aboutMe" value="{{user.aboutMe}}">
-                </div> --}}
-                <div class="form-group">
-                    <label for="address">Location</label>
-                    <input type="text" class="form-control" id="location" name="location" value="{{company.location}}">
-                </div>
-                {{!-- <div class="form-group">
-                    <label for="resumeUrl">Resume URL</label>
-                    <input type='file' class="btn btn-outline-primary my-3" onchange="readURL(this);" id="resumeUrl" name="resumeUrl" />
-                </div> --}}
-      </div>
-      <div class="modal-footer">
-        {{!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> --}}
-        <button type="submit" class="btn btn-primary">Save Changes</button>
-      </div>
-      </form>
+<div class="modal fade" id="companyInfoModal" tabindex="-1" role="dialog" aria-labelledby="companyInfo" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Edit Company Information</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form action="/profile/editCompanyInfo" method="POST">
+                    <input type="hidden" name="companyId" id="{{company._id}}" value="{{company._id}}"/>
+                    <div class="form-group">
+                        <label for="companyName">Company Name</label>
+                        <input type="text" class="form-control" id="companyName" name="companyName" value={{company.companyName}}>
+                    </div>
+                    <div class="form-group">
+                        <label for="hrEmail">HR EMail</label>
+                        <input type="text" class="form-control" id="hrEmail" name="hrEmail" aria-describedby="mailHelp"
+                            value={{company.hrEmail}}>
+                    </div>
+                    <div class="form-group">
+                        <label for="category">Company Category</label>
+                        <input type="text" class="form-control" id="category" name="category" value="{{company.category}}">
+                    </div>
+                    <div class="form-group">
+                        <label for="location">Location</label>
+                        <input type="text" class="form-control" id="location" name="location" value="{{company.location}}">
+                    </div>
+                    <div class="modal-footer">
+                        {{!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> --}}
+                        <button type="submit" class="btn btn-primary">Save Changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
-  </div>
+</div>
+
+
+{{!-- Modal to update job information --}}
+<div class="modal fade bd-example-modal-lg" id="jobInfoModal" tabindex="-1" role="dialog" aria-labelledby="companyInfo" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Edit Personal Information</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                {{#each company.jobDetails}}
+                    <form action="/profile/editJob" method="POST">
+                        <div class="bootstrap-switch-square">
+                            <input type="checkbox" data-toggle="switch" name="jobDetails[jobStatus]" id="Resend" value="true"  />
+                        </div>
+                        <h2>{{this.description}}</h2>
+                        <input type="hidden" name="jobDetails[companyId]" id="{{../company._id}}" value="{{../company._id}}"/>
+                        <input type="hidden" name="jobDetails[id]" id="{{this._id}}" value="{{this._id}}"/>
+                        <div class="form-group">
+                            <label for="jobTitle">{{this.jobTitle}}</label>
+                            <input type="text" class="form-control" id="jobTitle" name="jobDetails[jobTitle]" value="{{this.jobTitle}}">
+                        </div>
+                        <div class="form-group">
+                            <label for="jobLocation">Location</label>
+                            <input type="text" class="form-control" id="jobLocation" name="jobDetails[jobLocation]" value="{{this.jobLocation}}">
+                        </div>
+                        <div class="form-group">
+                            <label for="jobDescription">Description</label>
+                            <input type="text" class="form-control" id="jobDescription" name="jobDetails[jobDescription]" value="{{this.jobDescription}}">
+                        </div>
+                        <div class="form-group">
+                            <label for="yearsOfExperience">Years of Experience</label>
+                            <input type="number" class="form-control" id="year" name="jobDetails[yearsOfExperience]" value={{this.yearsOfExperience}}>
+                        </div>
+                        <div class="form-group">
+                            <label for="skills">Skills</label>
+                            <input type="text" class="form-control" id="skills" name="jobDetails[skills]"
+                                value="{{#each this.skills}}{{this}},{{/each}}">
+                        </div>
+                        <div class="form-group">
+                            <label for="jobCategory">Job Category</label>
+                            <input type="text" class="form-control" id="jobCategory" name="jobDetails[jobCategory]" value="{{this.jobCategory}}">
+                        </div>
+                        <div class="form-group">
+                            <label for="salaryMin">Minimum Salary</label>
+                            <input type="text" class="form-control" id="salaryMin" name="jobDetails[salaryMin]" value="{{this.salaryMin}}">
+                        </div>
+                        <div class="form-group">
+                            <label for="salaryMax">Maximum Salary</label>
+                            <input type="text" class="form-control" id="salaryMax" name="jobDetails[salaryMax]" value="{{this.salaryMax}}">
+                        </div>
+                        <div class="form-group">
+                            <label for="qualifications">Qualifications</label>
+                            <input type="text" class="form-control" id="qualifications" name="jobDetails[qualifications]" value="{{this.qualifications}}">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Save Changes</button>
+                    </form>
+                {{/each}}
+            </div>
+            <div class="modal-footer">
+                {{!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> --}}
+            </div>
+        </div>
+    </div>
 </div>
 
 <script src="/public/js/company.js"></script>

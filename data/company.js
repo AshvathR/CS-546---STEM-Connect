@@ -1,7 +1,7 @@
 const mongoCollections = require('../config/mongoCollections');
-const company = mongoCollections.company;
+const companyCol = mongoCollections.company;
 const jobDetails = require('./jobDetails')
-const objectId = require("mongodb").ObjectID;
+const objectId = require("mongodb").ObjectID
 const bcrypt = require('bcryptjs');
 
 function checkUndef(variable, variableName)
@@ -15,7 +15,7 @@ function checkUndef(variable, variableName)
 let exportedMethods = {
   async addCompany(companyName, location, category, hrEmail, username, hashedPassword) {
 
-        const companyCollection = await company();
+        const companyCollection = await companyCol();
     
         const newCompany = {
           companyName: companyName,//array_of_objects
@@ -34,7 +34,7 @@ let exportedMethods = {
 
     async getAllCompanies()
     {
-      const companyCollection = await company();
+      const companyCollection = await companyCol();
       return await companyCollection.find({}).toArray();
     },
 
@@ -42,7 +42,7 @@ let exportedMethods = {
     {
       checkUndef(id, "id");
 
-      const companyCollection = await company();
+      const companyCollection = await companyCol();
       const selectedCompany = await companyCollection.findOne({ _id: objectId(id) });
       if (!selectedCompany) throw `Company with the given ID: ${id} not found`;
       return selectedCompany;
@@ -50,7 +50,7 @@ let exportedMethods = {
 
     async getPartialNameMatch(partialName){
       if(!partialName || partialName.length  < 5) throw 'Invalid Lookup';
-      const userCollection = await company();
+      const userCollection = await companyCol();
       let match = new RegExp('^' + partialName);
       const partialMatchList = await userCollection.find({ companyName: match}, {projection: {_id: 1, companyName: 1}}).toArray();
       return partialMatchList;
@@ -58,7 +58,7 @@ let exportedMethods = {
 
     async removeCompany (id)
     {
-      const companyCollection = await company();
+      const companyCollection = await companyCol();
       let company = null;
 
       try
@@ -82,7 +82,7 @@ let exportedMethods = {
       checkUndef(companyId, "companyId");
       checkUndef(newJob, "newJob");
 
-      const companyCollection = await company();
+      const companyCollection = await companyCol();
   
       const updateInfo = await companyCollection.updateOne(
         { _id: companyId },
@@ -96,15 +96,38 @@ let exportedMethods = {
     },
 
     async getAllUsername() {
-      const companyCollection = await company();
+      const companyCollection = await companyCol();
       // console.log(companyCollection)
       const companyList = await companyCollection.find({},{ projection: { _id: 1, username: 1}}).toArray();
       return companyList;
     },
 
+    async updateCompany(companyId, updatedCompany)
+    {
+      checkUndef(companyId, "companyId");
+      checkUndef(updatedCompany, "updatedCompany");
+
+      let company = await this.getCompanyById(companyId);
+      
+      let companyUpdateInfo =
+      {
+        companyName: updatedCompany.companyName,
+        location: updatedCompany.location,
+        category: updatedCompany.category,
+        hrEmail: updatedCompany.hrEmail
+      }
+
+      const companyCollection = await companyCol();
+      const updateInfo = await companyCollection.updateOne( { _id: objectId(companyId) }, { $set: companyUpdateInfo } );
+
+      if (!updateInfo.matchedCount && !updateInfo.modifiedCount) throw `Update Failed!`
+
+      return await this.getCompanyById(companyId);
+    },
+
     async getUserID(username) {
       checkUndef(username, "Username");
-      const companyCollection = await company();
+      const companyCollection = await companyCol();
       const allUsers = await this.getAllCompanies();
       let user = {};
       for(let current of allUsers ){
