@@ -220,4 +220,12 @@ router.get('/create', async(req,res)=>{
     }
 })
 
+router.post('/deleteResume', async(req,res)=>{
+    console.log("Reached Delete Resume")
+    console.log(req.body.resumeid)
+    console.log(req.session._id)
+    await resume.removeResume(req.body.resumeid,req.session._id)
+    res.redirect('/profile')
+})
+
 module.exports = router;
