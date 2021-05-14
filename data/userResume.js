@@ -117,7 +117,7 @@ let exportedMethods = {
 
 // Data Functions for Search Page
     
-      const resume = await this.getResumeById(id);
+      const resume = await this.getResumeById(resumeId);
 
       let resumeUpdateInfo =
       {
@@ -133,8 +133,6 @@ let exportedMethods = {
       const resumeCollection = await userResume();
       const updateInfo = resumeCollection.updateOne( { _id: objectId(resumeId) }, { $set: resumeUpdateInfo } );
 
-      console.log("reached")
-
       // if (!updateInfo.matchedCount && !updateInfo.modifiedCount) throw `Update Failed!`
 
       const userCollection = await users();
@@ -143,7 +141,7 @@ let exportedMethods = {
       (
         {
           _id: objectId(userId),
-          "resume._id": objectId(id)
+          "resume._id": objectId(resumeId)
         },
         {
           $set:
@@ -158,7 +156,6 @@ let exportedMethods = {
           }
         }, false, true
       );
-      console.log("reached end")
 
       return await this.getResumeById(resumeId);
     },

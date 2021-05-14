@@ -7,7 +7,7 @@ const usersData = data.users;
 const workExperience = data.workExperience;
 const Resume = data.userResume;
 const project = data.projects;
-const company = data.company;
+const companyFunc = data.company;
 const job = data.jobDetails;
 
 
@@ -19,18 +19,14 @@ async function main()
 
   try {
     //Add company
-    newCompany = await company.addCompany('Essential Tech', 'Mumbai','IT','hrMail@mail.com', 'mumbaiUser', '$2b$16$XoxM9a/lLskO6Fx5wSpvauSwvGip7XexMvliIQiDSHHtElYEP3n3O')
+    newCompany = await companyFunc.addCompany('Essential Tech', 'Mumbai','IT','hrMail@mail.com', 'mumbaiUser', '$2b$16$XoxM9a/lLskO6Fx5wSpvauSwvGip7XexMvliIQiDSHHtElYEP3n3O')
     //Add job
     newJob = await job.addJob('Front End Dev', 'Mumbai','working on the ui',4,['Mongob', 'Nodejs'],'IT','55$','85$','Text on Qualifications',true)
     newJob1 = await job.addJob('Back End Dev', 'Banglore','Working on the Data Functions',2,["Java",'Mongob', 'Nodejs'],'IT','50$','83$','Text on Qualifications',true)
-    newJob2 = await job.addJob('Back End Dev', 'Banglore','Working on the Data Functions',2,["Java",'Mongob', 'Nodejs'],'IT','50$','83$','Text on Qualifications',true)
-    newJob3 = await job.addJob('Back End Dev', 'Banglore','Working on the Data Functions',2,["Java",'Mongob', 'Nodejs'],'IT','50$','83$','Text on Qualifications',true)
-    console.log("Created Job   " + newJob)
+
     //Add job to company
-    const addJobToCompany = await company.addJobToCompany(newCompany._id,newJob);
-    const addJobToCompany1 = await company.addJobToCompany(newCompany._id,newJob1);
-    const addJobToCompany2 = await company.addJobToCompany(newCompany._id,newJob2);
-    const addJobToCompany3 = await company.addJobToCompany(newCompany._id,newJob3);    
+    const addJobToCompany = await companyFunc.addJobToCompany(newCompany._id,newJob);
+    const addJobToCompany1 = await companyFunc.addJobToCompany(newCompany._id,newJob1);
     // tempJob = {
     //   "jobTitle": "Back End Dev ",
     //   "jobLocation": "Banglore",
@@ -120,6 +116,25 @@ async function main()
     }
   }catch(e){
     console.log (e);
+  }
+
+  // try{
+  //   const searchResumeByYearSkills = await userResume.searchResumeByYearSkills(2,['web dev'])
+  //   // console.log(searchResumeByYearSkills)
+  // } catch (e) {
+  //   console.log(e)
+  // }
+  // try{
+  //   const searchJobByYearSkills = await job.searchJobByYearSkills(2,['web dev'])
+  //   // console.log(searchJobByYearSkills)
+  // } catch (e) {
+  //   console.log(e)
+  // }
+  try{
+    const usersList = await usersData.findUserByResumeId('6098b6718364680b743e7026')
+    console.log(usersList)
+  } catch (e) {
+    console.log(e)
   }
 
   

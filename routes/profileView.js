@@ -2,10 +2,11 @@ const express = require('express');
 const router = express.Router();
 const data = require('../data/');
 const { updateUser } = require('../data/users');
-// var flash = require('connect-flash');
 const user = data.users
 const resume = data.userResume
-const company = data.company
+const companyFunc = data.company
+const jobs = data.jobDetails;
+
 router.get('/', async(req,res)=> {
     // console.log(req.session)
     // req.flash('userId', req.session._id)
@@ -14,7 +15,8 @@ router.get('/', async(req,res)=> {
         // console.log(userInfo)
         res.render('employee/profile', { title: "User Details" , user : userInfo ,  auth: true, notLoginPage: true, username: req.session.username});
     } else {
-        const companyInfo = await company.getCompanyById(req.session._id)
+        const companyInfo = await companyFunc.getCompanyById(req.session._id);
+        
         // console.log(companyInfo)
         res.render('company/profile', { title: "Company Details" , company : companyInfo,  auth: true, notLoginPage: true, username: req.session.username});
     }
@@ -30,12 +32,55 @@ router.get('/user/:id', async(req,res)=> {
 
 router.get('/company/:id', async(req,res)=> {
     //if(req.session._id == req.params.id) res.redirect('/');
-    const companyInfo = await company.getCompanyById(req.params.id)
+    const companyInfo = await companyFunc.getCompanyById(req.params.id);
+    // let x = (companyInfo.jobDetails.skills).length;
+    // console.log(x);
     // console.log(companyInfo)
     res.render('company/profile', { title: "Company Details" , company : companyInfo,  auth: req.session.authenticated, notLoginPage: true, username: req.session.username}); 
 });
 
+router.post("/editJob", async (req, res) => 
+{
+    let jobInfo = req.body.jobDetails;
+    // console.log(jobInfo.jobStatus);
+    let companyId = jobInfo.companyId;
+    let jobId = jobInfo.id;
+    let skills = (jobInfo.skills).split(",");
+    skills = skills.join();
 
+    if (jobInfo.jobStatus == null) {
+        jobInfo.jobStatus = false;
+    } else if(jobInfo.jobStatus == "true") {
+        jobInfo.jobStatus = true;
+    }else if(jobInfo.jobStatus == "false") {
+        jobInfo.jobStatus = false;
+    }
+
+    let jobUpdateInfo = 
+    {
+        jobTitle: jobInfo.jobTitle,
+        jobLocation: jobInfo.jobLocation,
+        jobDescription: jobInfo.jobDescription,
+        yearsOfExperience: jobInfo.yearsOfExperience,
+        skills: skills,
+        jobCategory: jobInfo.jobCategory,
+        salaryMin: jobInfo.salaryMin,
+        salaryMax: jobInfo.salaryMax,
+        qualifications: jobInfo.qualifications,
+        jobStatus: jobInfo.jobStatus
+    };
+
+    // console.log(jobUpdateInfo.jobStatus);
+
+    let x = (jobUpdateInfo.skills).length;
+    // console.log(x, jobUpdateInfo.skills);
+    jobUpdateInfo.skills = jobUpdateInfo.skills.split(',', x-2);
+    // console.log(x, jobUpdateInfo.skills);
+
+    const newJob = await jobs.updateJob(jobId, jobUpdateInfo, companyId);
+    // console.log(newJob);
+    res.redirect("/profile");
+});
 
 router.post('/editResume', async (req,res)=> {
     // let userId = req.flash('userId')
@@ -113,13 +158,34 @@ router.post('/editResume', async (req,res)=> {
       res.redirect('/profile')
     // console.log(JSON.stringify(req.body.resume.resumeActive))
 
-})
+});
+
+router.post("/editCompanyInfo", async (req, res) => 
+{
+    let companyInfo = req.body;
+
+    updatedCompany = 
+    {
+        companyName: companyInfo.companyName,
+        location: companyInfo.location,
+        category: companyInfo.category,
+        hrEmail: companyInfo.hrEmail
+    };
+
+    try {
+        const newCompany = await companyFunc.updateCompany(companyInfo.companyId, updatedCompany);
+        console.log(newCompany);
+    } catch (e) {
+        console.log(e);
+    }
+    res.redirect("/profile");
+});
 
 router.post('/editPersonalInfo', async (req,res)=> {
-    console.log("hey")
+    // console.log("hey")
     personalInfo = req.body
-    console.log(personalInfo)
-    console.log("gender is: " + personalInfo.dropdownMenuButon)
+    // console.log(personalInfo)
+    // console.log("gender is: " + personalInfo.dropdownMenuButon)
     updatedUser = {
         email: personalInfo.email,
         address: personalInfo.address,
