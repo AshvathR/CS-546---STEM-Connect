@@ -173,6 +173,19 @@ let exportedMethods = {
     return false;
   },
 
+  async checkExistingEmail(email){
+    checkUndef(email, 'E-mail');
+    const allUsers = await this.getAllUsers();
+    for(let current of allUsers){
+      let currentEmail = current.email.toLowerCase();
+      email = email.toLowerCase();
+      if(email === currentEmail){
+        return true;
+      }
+    }
+    return false;
+  },
+
   async checkUsernameandPassword(username, password){
     username = username.toLowerCase();
     let usernameExists = await this.checkExistingUsername(username);
