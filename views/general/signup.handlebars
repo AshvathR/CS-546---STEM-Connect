@@ -7,11 +7,16 @@
     {{/if}}
 </nav>
 <main id="signupContainer">
-    
-        <div class = "divForm">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <lottie-player src="https://assets7.lottiefiles.com/packages/lf20_q5pk6p1k.json" background="transparent"  speed="1"  style="height:70%; margin-left: 5vh;padding-top:5vh;" loop autoplay></lottie-player>
+                </div>
+            <div class="col-md-5">
+                        <div class = "divForm">
             <form action="/signup" method="POST" class="signup-form" id="signup-form">
             <label id = "form">
-    <h4 class = "first">Sign Up</h4>            
+            <h4 class = "first">Sign Up</h4>            
             <div class="form-group">
                 <label>Username</label>
                     <input type="text" id="username" name="username" placeholder="Username" value="{{signup.username}}" class="full-width-input form-control"/>
@@ -51,6 +56,16 @@
             </label>
             </form>
         </div>
+            </div>
+        </div>
+    </div>
+
         <script src="/public/js/signup.js"></script>
 </main>
 </div>
+<script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+<script type="text/javascript">
+  function resizeIframe(iframe) {
+    iframe.height = iframe.contentWindow.document.body.scrollHeight + "px";
+  }
+</script>
