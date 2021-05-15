@@ -10,7 +10,7 @@
     <div class="row">
         <div class="col-4">
                 <div class="card" style="width: 18rem;">
-                    <img class="card-img-top" src="https://png.pngtree.com/element_our/20200609/ourmid/pngtree-children-s-software-programming-image_2230761.jpg" alt="Card image cap">
+                    <img class="card-img-top" src="public/uploads/employeeFiles/profilePictures/{{user.username}}_profilePicture.jpeg" alt="Card image cap">
                     <div class="card-body ">
                         <h2 class="card-title d-flex justify-content-center" style="font-weight: bolder;">{{user.name.firstName}}</h2>
                         <h5 class="card-title d-flex justify-content-center" style="color: rgb(155, 155, 155); font-size: medium;">{{user.email}}</h5>
@@ -76,6 +76,8 @@
                                     </button>
                 <button type="button" class="btn btn-primary" data-id="this._id" data-toggle="modal" data-target="#addResume">Add Resume
                                     </button>
+
+
                 {{#each user.resume}}
                     {{#if this.resumeActive}}
                         <div class="card mb-3">
@@ -87,6 +89,7 @@
                                 <div class="col-md-4">
                                     {{!-- <button type="button" class="btn btn-primary" data-id="this._id" data-toggle="modal" data-target="#resumeModal">Edit
                                     </button> --}}
+                                    
                                     <form action="/profile/deleteResume" method="post">
                                         <input type="hidden" name="resumeid" id="{{this._id}}" value="{{this._id}}"/>
                                         <input type="hidden" name="userid" id="{{../user._id}}" value="{{../user._id}}"/>
@@ -114,31 +117,7 @@
                                 <br>
 
                                 {{#if this.education}}
-                                <h3>Education</h3>
-                                {{#each this.education}}
-                                <h5 style="font-weight: bolder; color:gray">{{this.schoolName}}</h5>
-                                <div class="row">
-                                    
-                                    <div class="col-md-6">
-                                        <h6 style="font-weight: bolder;">School Name</h6>
-                                        <h6>{{this.schoolName}}</h6>
-                                        <h6 style="font-weight: bolder;">Start Date</h6>
-                                        <h6>{{this.startDate}}</h6>
-
-                                    </div>
-                                    <div class="col-md-6">
-                                        <h6 style="font-weight: bolder;">Gpa</h6>
-                                        <h6>{{this.gpa}}</h6>
-                                        <h6 style="font-weight: bolder;">End Date</h6>
-                                        <h6>{{this.endDate}}</h6>
-                                    </div>
-                                </div>
-                                <br>
-                                {{/each}}
-                                {{/if}}
-
-                                {{#if this.education}}
-                                <h3>Projects</h3>
+                                <h3>School</h3>
                                 {{#each this.education}}
                                 <h5 style="font-weight: bolder; color:gray">{{this.schoolName}}</h5>
                                 <div class="row">
@@ -184,12 +163,37 @@
                                 <br>
                                 {{/each}}
                                 {{/if}}
+                                {{#if ../user.workExperience}}
+                                <h3>Work Experience</h3>
+                                {{#each ../user.workExperience}}
+                                    {{!-- {{this.companyName}} --}}
+                                <h5 style="font-weight: bolder; color:gray">{{this.companyName}}</h5>
+                                <div class="row">
+                                    
+                                    <div class="col-md-6">
+                                        <h6 style="font-weight: bolder;">Job Title</h6>
+                                        <h6>{{this.jobTitle}}</h6>
+                                        <h6 style="font-weight: bolder;">Start Date</h6>
+                                        <h6>{{this.startDate}}</h6>
+
+                                    </div>
+                                    <div class="col-md-6">
+                                        <h6 style="font-weight: bolder;">Job Description</h6>
+                                        <h6>{{this.jobDescription}}</h6>
+                                        <h6 style="font-weight: bolder;">End Date</h6>
+                                        <h6>{{this.endDate}}</h6>
+                                    </div>
+                                </div>
+                                <br>
+                                {{/each}}
+                                {{/if}}
                             </div>
                         </div>
                     {{/if}}
                 {{/each}}
             </div>
-
+    </div>
+</div>
 <!-- Modal Update Personal Information-->
 <div class="modal fade" id="personalInfoModal" tabindex="-1" role="dialog" aria-labelledby="personalInfo" aria-hidden="true">
   <div class="modal-dialog" role="document">
@@ -352,7 +356,7 @@
                                     </div>
                                     <div class="form-group">
                                         <label for="gpa">G.P.A</label>
-                                        <input type="text" class="form-control" id="gpa" name="resume[School][gpa]" value="{{this.gpa}}" >
+                                        <input type="number" step="0.01" min="0.01" max="4.00" class="form-control" id="gpa" name="resume[School][gpa]" value="{{this.gpa}}" >
                                     </div>
                             </div>
                             <div class="col-md-6">
@@ -400,7 +404,7 @@
         </button>
       </div>
       <div class="modal-body">
-        <form action="/user/new/form/" method="post">
+        <form action="/profile/addResume" method="post">
             <div class="row">
                     {{!-- Profile End --}}
                 <div class="col-md-12 d-flex justify-content-between align-items-start">
@@ -455,7 +459,7 @@
                     <hr>
                 <br/>
                 </div>
-                <div class="d-flex flex-column col-md-12">
+                {{!-- <div class="d-flex flex-column col-md-12">
                     <div class="">
                         <div class="d-flex flex-column" id="resume">
                             <div class="d-flex flex-row">
@@ -471,17 +475,18 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> --}}
                                 
             
             <div class="col-md-12 d-flex justify-content-end p-2 px-3">
-                <a href="/logout" class="btn btn-primary px-5 mx-3"> Cancel </a>
+                <a href="/profile" class="btn btn-primary px-5 mx-3"> Cancel </a>
                 <button class="btn btn-primary px-5" type="submit">Save</button>
             </div>
             
         </form>
     </div>
   </div>
+</div>
 </div>
 <script data-main="js/app.js" src="js/require.js"></script>
 <script>
@@ -593,7 +598,7 @@ function addMoreWorkInformation() {
                                     </div>
                                     <div class="form-group">
                                         <label for="gpa">G.P.A</label>
-                                        <input type="number" class="form-control" id="gpa" name="School[gpa]" value="{{this.gpa}}" required>
+                                        <input type="number" step="0.01" min="0.01" max="4.00" class="form-control" id="gpa" name="School[gpa]" value="{{this.gpa}}" required>
                                     </div>
                             </div>
                         </div>
@@ -618,5 +623,5 @@ function addMoreWorkInformation() {
         wrapper.append(html);
     }
 </script>
-    </div>
+
 {{!-- <script src="/public/js/company.js"></script> --}}

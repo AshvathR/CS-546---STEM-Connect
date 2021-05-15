@@ -16,8 +16,11 @@ function errorCheckString(val){
 router.post('/', async (req, res) => {
       if(!req.session.authenticated){
         // console.log(req.body.username)
+        // console.log(req.body.password)
         let currentUser = await usersData.checkUsernameandPassword(req.body.username, req.body.password);
         let currentCompany = await companyData.checkUsernameandPassword(req.body.username, req.body.password);
+        // console.log(currentCompany)
+        // console.log(currentUser)
         if(errorCheckString(req.body.username) && errorCheckString(req.body.password) && currentUser){
             req.session.username = req.body.username;
             let currentUsername = req.body.username.toLowerCase();
@@ -40,7 +43,7 @@ router.post('/', async (req, res) => {
             res.redirect(`/profile`); //res.redirect(`/company/${currentID}`);
         }
         else{
-          console.log("else")
+          console.log("else POST LOGIN")
           res.status(401);
           res.render('general/login', { title: "Log In" ,  auth: false, notLoginPage: false});
         }
@@ -56,6 +59,7 @@ router.post('/', async (req, res) => {
 });
 
 router.get('/', async(req,res)=> {
+  console.log("GET LOGIN")
   if(!req.session.authenticated)
     res.render('general/login', { title: "Log In" ,  auth: false, notLoginPage: false});
   else if(req.session.currentUser == "company")

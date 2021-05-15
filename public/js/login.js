@@ -15,7 +15,7 @@
         })
 
         let password = $('#password');
-        password.keyup(function(){
+            password.keyup(function(){
         let errorDiv = $('#error-password');
         let lowerCaseLetters = /[a-z]/g;
         let upperCaseLetters = /[A-Z]/g;
@@ -65,6 +65,62 @@
             errorDiv.html("")
             errorDiv.hide();
         }
+        })
+
+
+        // let loginButton = document.getElementById('btnLogin')
+        // loginButton.onclick(function(event){
+        //     event.preventDefault();
+        //     console.log("INside function")
+        //     let username = document.getElementById('username')
+        //     let password = document.getElementById('password')
+        //     let formerror = document.getElementById('form-error')
+        //     let specialCharacter = /[ `!@#$%^&*()+\-=\[\]{};':"\\|,.<>\/?~]/;
+        //     if(specialCharacter.test(username)){
+        //         console.log("ERROR HERE")
+        //         formerror.show()
+        //         formerror.append('Username should contain only _ as special character')
+        //     }
+        //     else{
+        //         document.getElementById('login-form').submit()
+        //     }
+        // })
+
+        function checkLoginForm(event){
+            event.preventDefault();
+                console.log("INside function")
+                let username = document.getElementById('username')
+                let password = document.getElementById('password')
+                let formerror = document.getElementById('form-error')
+                let specialCharacter = /[ `!@#$%^&*()+\-=\[\]{};':"\\|,.<>\/?~]/;
+                if(specialCharacter.test(username)){
+                    console.log("ERROR HERE")
+                    formerror.show()
+                    formerror.append('Username should contain only _ as special character')
+                }
+                else{
+                    document.getElementById('login-form').submit()
+                }
+        }
+        
+    })(window.jQuery);
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+
+
+
         // if(enteredPassword === undefined || enteredPassword === '' || enteredPassword === null){
         //     errorDiv.html("")
         //     errorDiv.show();
@@ -89,9 +145,9 @@
         //     errorDiv.html("")
         //     errorDiv.hide();
         // }
-        })
+      
 
-})(window.jQuery);
+
 
 
 

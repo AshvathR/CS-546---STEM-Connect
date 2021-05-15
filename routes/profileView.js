@@ -6,6 +6,7 @@ const user = data.users
 const resume = data.userResume
 const companyFunc = data.company
 const jobs = data.jobDetails;
+const projectFunc = data.projects;
 
 router.get('/', async(req,res)=> {
     // console.log(req.session)
@@ -120,8 +121,8 @@ router.post('/editResume', async (req,res)=> {
     // let userId = req.flash('userId')
     userId = req.body.resume.userid
     resId = req.body.resume.id
-    console.log((req.body.resume.School.schoolName).length)
-    console.log(JSON.stringify(req.body.resume))
+    // console.log((req.body.resume.School.schoolName).length)
+    // console.log(JSON.stringify(req.body.resume))
 
     let education= []
     let project = []
@@ -135,8 +136,8 @@ router.post('/editResume', async (req,res)=> {
         }
         education.push(tempSchool)
     }
-    console.log(req.body.resume.project)
-    console.log(req.body.resume.project.projectTitle)
+    // console.log(req.body.resume.project)
+    // console.log(req.body.resume.project.projectTitle)
     if(Array.isArray(req.body.resume.project.projectTitle)){
     for(i = 0; i < (req.body.resume.project.projectTitle).length; i++){
         temp = {
@@ -155,9 +156,9 @@ router.post('/editResume', async (req,res)=> {
             endDate: req.body.resume.project.endDate,
             description: req.body.resume.project.description
         }
+        project.push(temp)
     }
     // console.log(temp)
-    project.push(temp)
 
     const skills = (req.body.resume.skills).split(',')
     // console.log(temp)
@@ -181,11 +182,11 @@ router.post('/editResume', async (req,res)=> {
         resumeActive: req.body.resume.resumeActive,
         userResumeUrl: "updatedResume.userResumeUrl"
       }
-      console.log(resumeUpdateInfo)
-      console.log(resId + ' ' + userId)
+    //   console.log(resumeUpdateInfo)
+    //   console.log(resId + ' ' + userId)
       try{
         const newUser = await resume.updateResume(resId, userId, resumeUpdateInfo)
-        console.log(newUser)
+        // console.log(newUser)
       }catch(e){
           console.log(e)
       }
@@ -260,6 +261,99 @@ router.post('/deleteResume', async(req,res)=>{
     console.log(req.session._id)
     await resume.removeResume(req.body.resumeid,req.session._id)
     res.redirect('/profile')
+})
+
+router.post('/addResume', async(req,res)=>{
+    console.log(req.body)
+    let education= []
+    const workDes = req.body.workDes
+    const school = req.body.School
+    const project = req.body.project
+if(req.body.School) {
+  if(school != null && Array.isArray(school.schoolName))
+  {
+      for(i = 0; i < (school.schoolName).length; i++)
+      {
+          tempSchool = 
+          {
+            schoolName: school.schoolName[i],
+            startDate: school.startDate[i],
+            endDate: school.endDate[i],
+            gpa: school.gpa[i]
+          }
+        education.push(tempSchool)
+      }
+    }
+    else
+    {
+      tempSchool = 
+        {
+          schoolName: school.schoolName,
+          startDate: school.startDate,
+          endDate: school.endDate,
+          gpa: school.gpa
+        }
+      education.push(tempSchool)
+    }
+  }
+  const skills = (req.body.resume.skills).split(',')
+
+//Add Resume
+  const newResume = await resume.addResume(education,skills,'',`CS_546_group23_final_project/public/uploads/employeeImages/resume/`,req.body.resume.workStatus,req.body.resume.year,true)
+
+// Add project
+if(req.body.project) {
+  if(project != null && Array.isArray(project.projectTitle)){
+    for(i = 0; i < (project.projectTitle).length; i++)
+    {
+        try{
+            const newProject = await projectFunc.addProject(project.projectTitle[i],project.projectDesc[i],project.startDate[i],project.endDate[i]);
+            const addProjectToUserResume = await resume.addProjectToUserResume(newResume._id,newProject)
+        }catch(e)
+        {
+            console.log(e)
+        }
+    }
+    }
+    else{
+        try{
+            const newProject = await projectFunc.addProject(project.projectTitle,project.projectDesc,project.startDate,project.endDate);
+            const addProjectToUserResume = await resume.addProjectToUserResume(newResume._id,newProject)
+        }catch(e)
+        {
+            console.log(e)
+        }
+
+    }
+}
+
+//Add Resume to user
+try{
+    const addResumeToUser = await user.addResumeToUser(req.session._id,newResume)
+} catch(e){
+    console.log(e)
+}
+
+  
+
+  // Add Work Description
+//   if(req.body.workDes) {
+//     if(workDes != null && Array.isArray(workDes.companyName)){
+//       for(i = 0; i < (workDes.companyName).length; i++){
+//         const newWorkExperience = await workExperience.addWorkDesc(workDes.companyName[i],workDes.jobTitle[i],workDes.WorkDescription[i],workDes.workStartDate[i],workDes.workEndDate[i]);
+//         const addWorkDesToUser = await user.addWorkDesToUser(req.session._id, newWorkExperience);
+//       }
+//       }
+//       else{
+//         const newWorkExperience = await workExperience.addWorkDesc(workDes.companyName,workDes.jobTitle,workDes.WorkDescription,workDes.workStartDate,workDes.workEndDate);
+//         const addWorkDesToUser = await user.addWorkDesToUser(req.session._id, newWorkExperience);
+//       }
+//   }
+
+  
+  // console.log(newUser)
+  
+  res.redirect('/profile')
 })
 
 module.exports = router;
