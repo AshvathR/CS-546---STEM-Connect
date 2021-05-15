@@ -67,8 +67,41 @@
         }
         })
 
+        let loginForm = $("#login-form")
+        function checkLoginForm(){
+            
+            loginForm.submit(function(event){
+                let username = $("#username")
+                let password = $("#password")
+                let errorDiv = $("#error-form")
+                let specialCharacter = /[ `!@#$%^&*()+\-=\[\]{};':"\\|,.<>\/?~]/;
+                let allSpecialCharacter = /[ `!@#$%^&*()+_\-=\[\]{};':"\\|,.<>\/?~]/;
+                if(username.val().trim().length ==0 || password.val().length==0){
+                    event.preventDefault();
+                    errorDiv.empty();
+                    errorDiv.append('<p class="error"> Error: Please Enter Username and Password <p>')
+                }
+                if(!specialCharacter.test(username.val)){
+                    event.preventDefault();
+                    errorDiv.empty();
+                    errorDiv.append('<p class="error"> Error: Username should contain only \'_\' as a special character </p>')
+                }
+                if(password.val().length < 8 || password.val().length > 15){
+                    event.preventDefault();
+                    errorDiv.empty();
+                    errorDiv.append('<p class="error"> Error: Password must be minimum of 8 characters and maximum of 15 characters </p>')
+                }
+                if(!password.va().match(upperCaseLetters) || !password.val().match(lowerCaseLetters) || !password.val().match(numbers) || !allSpecialCharacter.test(password.val())){
+                    event.preventDefault();
+                    errorDiv.empty();
+                    errorDiv.append('<p class="error"> Error: Password must be a combination of uppercase, lowercase, special character and a number!! </p>')
+                }
+            })
+        }
 
-        // let loginButton = document.getElementById('btnLogin')
+        checkLoginForm()
+    })(window.jQuery);
+
         // loginButton.onclick(function(event){
         //     event.preventDefault();
         //     console.log("INside function")
@@ -86,24 +119,23 @@
         //     }
         // })
 
-        function checkLoginForm(event){
-            event.preventDefault();
-                console.log("INside function")
-                let username = document.getElementById('username')
-                let password = document.getElementById('password')
-                let formerror = document.getElementById('form-error')
-                let specialCharacter = /[ `!@#$%^&*()+\-=\[\]{};':"\\|,.<>\/?~]/;
-                if(specialCharacter.test(username)){
-                    console.log("ERROR HERE")
-                    formerror.show()
-                    formerror.append('Username should contain only _ as special character')
-                }
-                else{
-                    document.getElementById('login-form').submit()
-                }
-        }
+        // function checkLoginForm(event){
+        //     event.preventDefault();
+        //         console.log("INside function")
+        //         let username = document.getElementById('username')
+        //         let password = document.getElementById('password')
+        //         let formerror = document.getElementById('form-error')
+        //         let specialCharacter = /[ `!@#$%^&*()+\-=\[\]{};':"\\|,.<>\/?~]/;
+        //         if(specialCharacter.test(username)){
+        //             console.log("ERROR HERE")
+        //             formerror.show()
+        //             formerror.append('Username should contain only _ as special character')
+        //         }
+        //         else{
+        //             document.getElementById('login-form').submit()
+        //         }
+        // }
         
-    })(window.jQuery);
 
 
 
