@@ -9,6 +9,8 @@ const jobs = data.jobDetails;
 const projectFunc = data.projects;
 const multer = require('multer');
 
+let profilePictureUrl;
+let resumeUrl;
 const storage = multer.diskStorage({
     //destination for files
     
@@ -32,8 +34,9 @@ const storage = multer.diskStorage({
       }
     },
   });
-
-const upload = multer({
+  
+  //upload parameters for multer
+  const upload = multer({
     storage: storage,
     limits: {
       fieldSize: 1024 * 1024 * 3,
@@ -262,7 +265,7 @@ router.post("/editCompanyInfo", async (req, res) =>
 router.post('/editPersonalInfo', async (req,res)=> {
     // console.log("hey")
     personalInfo = req.body
-    // console.log(personalInfo)
+    console.log(personalInfo)
     // console.log("gender is: " + personalInfo.dropdownMenuButon)
     updatedUser = {
         email: personalInfo.email,
@@ -276,11 +279,17 @@ router.post('/editPersonalInfo', async (req,res)=> {
         aboutMe: personalInfo.aboutMe,
         gender: personalInfo.dropdownMenuButton,
         dob: personalInfo.dateOfBirth,
-        resumeUrl: personalInfo.resumeUrl,  
+        websiteUrl: personalInfo.websiteUrl
+        // resumeUrl: `/public/uploads/employeeFiles/resume/${personalInfo.resumeUrl}`,  
     }
-
-    const newUser = await user.updateUser(personalInfo.userid, updatedUser)
-    console.log(newUser)
+    console.log(personalInfo.userid)
+    try{
+        const newUser = await user.updateUser(personalInfo.userid, updatedUser)
+        console.log(newUser)
+    }catch(e){
+        console.log(e)
+    }
+    
     res.redirect('/profile')
   });
 
@@ -302,7 +311,11 @@ router.post('/deleteResume', async(req,res)=>{
     console.log("Reached Delete Resume")
     console.log(req.body.resumeid)
     console.log(req.session._id)
-    await resume.removeResume(req.body.resumeid,req.session._id)
+    try{
+        await resume.removeResume(req.body.resumeid,req.session._id)
+    } catch(e){
+        console.log(e)
+    }
     res.redirect('/profile')
 });
 
@@ -310,8 +323,12 @@ router.post('/deleteJob', async(req,res)=>
 {    
     let companyId = req.body.companyid;
     let jobId = req.body.jobid;
-
-    await jobs.removeJob(jobId, companyId);
+    try{
+        await jobs.removeJob(jobId, companyId);
+    }catch(e){
+        console.log(e)
+    }
+    
     res.redirect('/profile');
 });
 

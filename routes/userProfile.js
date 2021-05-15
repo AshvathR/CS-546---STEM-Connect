@@ -267,6 +267,11 @@ router.post('/updatePicture', upload.single('profilePicture'), async(req,res)=>{
   res.redirect('/profile');
 });
 
+router.post('/updateResumefile', upload.single('resumeUrl'),async(req,res)=>{
+  console.log("reached");
+  res.redirect('/profile');
+})
+
 
 
 module.exports = router;
