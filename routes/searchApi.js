@@ -31,6 +31,10 @@ router.post('/general', async function(request, response) {
     }else{
         throw 'Object Type Error: ' + userTypeToggle;
     }
+
+    for (match of partialMatch){
+        match.lowercaseUsername = match.username.toLowerCase();
+    }
     
     response.render('general/search',{
         title: "Search Results for " + searchData.homeSearchBar,
@@ -96,8 +100,10 @@ router.post('/filter',  async function(request, response) {
                 listings.push({
                     jobDetails: subList,
                     company:  await data.company.getCompanyByJobDetailsId(subList._id)
-                });
-                
+                });  
+            }
+            for(listing of listings){
+                listing.company.lowercaseUsername = listing.company.username.toLowerCase();
             }
         }
         
@@ -108,12 +114,14 @@ router.post('/filter',  async function(request, response) {
             listings.push({
                 userResume: subList,
                 user:  await data.user.findUserByResumeId(subList._id)
-            });
-            
+            });  
+        }
+        for(listing of listings){
+            console.log(listing);
+            listing.user.lowercaseUsername = listing.user.username.toLowerCase();
         }
     }
     }
-    
     
     response.render('general/search',{
         title: "Filtered Search Results",

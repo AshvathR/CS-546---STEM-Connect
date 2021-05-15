@@ -58,6 +58,8 @@ function getSkills(){
 
 function getJobCategories(){
     return [
+        "",
+        "web dev",
         "IT",
         "Developer",
         "Analyst",

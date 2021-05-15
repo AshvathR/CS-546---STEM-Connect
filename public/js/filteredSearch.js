@@ -29,6 +29,7 @@
     var projectNumberBool = false;
     var jobCategoryBool = false;
     var minSalaryBool = false;
+    var invalidCat = false;
 
 
     function linkSliderAndInput(slider, input){
@@ -41,6 +42,11 @@
             slider.val($(this).val()); 
         });
     }
+
+    categoryInput.autocomplete({
+        source: getJobCategories(),
+        minLength: 1,
+    });
 
     function skillsAddition(){
         var skills = getSkills();
@@ -101,13 +107,19 @@
     };
 
     form.submit(function(e){
-        
+        console.log(projectNumberBool)
         if(selectedSkills.children().length == 0 && projectNumberBool && (minSalaryBool || jobCategoryBool)){
+            e.preventDefault();
+            console.log('her');
+            $('#filteredSearchBarErrorState').empty();
+            $('#filteredSearchBarErrorState').append('<p class="validationMessage"> Error: Need minimum of 1 additional filter to use the filtered search!</p>')
+        }else if(categoryInput.length && !getJobCategories().includes(categoryInput.val())){
             e.preventDefault();
             console.log('test');
             $('#filteredSearchBarErrorState').empty();
-            $('#filteredSearchBarErrorState').append('<p class="validationMessage"> Error: Need minimum of 1 additional filter to use the filtered search!</p>')
-        } else{
+            $('#filteredSearchBarErrorState').append('<p class="validationMessage"> Error: Must use a valid category when searching!</p>')
+        }
+         else{
             $('#homeSearchBarErrorState').empty();
             if (yearsExpInput) yearsExpInput.prop('disabled', true);
             if (minSalaryInput) minSalaryInput.prop('disabled', true);

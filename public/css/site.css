@@ -602,6 +602,20 @@ button#revealProjectNumber {
   margin-left: auto;
   margin-right: auto;
 }
+
+#card-holder {
+  top: 5em;
+  margin-right: 15%;
+  z-index: 2;
+  /* border-radius: 20px; */
+  background-color: #ffffff;
+}
+
+#card-holder:hover {
+  transition: 0.2s;
+  transform: scale(1.1) translate(5%, 5%);
+}
+
 .social-link {
   width: 30px;
   height: 30px;
@@ -621,6 +635,7 @@ button#revealProjectNumber {
   text-decoration: none;
   color: #555;
 }
+
 
 .site-footer
 {
@@ -785,3 +800,4 @@ button#revealProjectNumber {
     font-weight:600
   }
 }
+
