@@ -39,6 +39,42 @@ router.get('/company/:id', async(req,res)=> {
     res.render('company/profile', { title: "Company Details" , company : companyInfo,  auth: req.session.authenticated, notLoginPage: true, username: req.session.username}); 
 });
 
+router.post("/addJob", async (req, res) =>
+{
+    let htmlValue = req.body;
+    let skillsArray = htmlValue.skills.split(",");
+    let companyId = htmlValue.companyId;
+
+    let newJob = 
+    {
+        jobTitle: htmlValue.jobTitle,
+        jobLocation: htmlValue.jobLocation,
+        jobDescription: htmlValue.jobDescription,
+        yearsOfExperience: parseInt(htmlValue.yearsOfExperience),
+        skills: skillsArray,
+        jobCategory: htmlValue.jobCategory,
+        salaryMin: parseInt(htmlValue.salaryMin),
+        salaryMax: parseInt(htmlValue.salaryMax),
+        qualifications: htmlValue.jobQualification,
+        jobStatus: true
+    }
+
+    const addNewJob = await jobs.addJob(newJob.jobTitle,
+        newJob.jobLocation,
+        newJob.jobDescription,
+        newJob.yearsOfExperience,
+        newJob.skills,
+        newJob.jobCategory,
+        newJob.salaryMin,
+        newJob.salaryMax,
+        newJob.qualifications,
+        newJob.jobStatus);
+
+    const addNewJobToCompany = await companyFunc.addJobToCompany(companyId, newJob);
+
+    res.redirect("/profile");
+});
+
 router.post("/editJob", async (req, res) => 
 {
     let jobInfo = req.body.jobDetails;
@@ -48,12 +84,10 @@ router.post("/editJob", async (req, res) =>
     let skills = (jobInfo.skills).split(",");
     skills = skills.join();
 
-    if (jobInfo.jobStatus == null) {
+    if (jobInfo.jobStatus == null || jobInfo.jobStatus == "false") {
         jobInfo.jobStatus = false;
-    } else if(jobInfo.jobStatus == "true") {
+    } else {
         jobInfo.jobStatus = true;
-    }else if(jobInfo.jobStatus == "false") {
-        jobInfo.jobStatus = false;
     }
 
     let jobUpdateInfo = 
@@ -77,7 +111,7 @@ router.post("/editJob", async (req, res) =>
     jobUpdateInfo.skills = jobUpdateInfo.skills.split(',', x-2);
     // console.log(x, jobUpdateInfo.skills);
 
-    const newJob = await jobs.updateJob(jobId, jobUpdateInfo, companyId);
+    const updatedJob = await jobs.updateJob(jobId, jobUpdateInfo, companyId);
     // console.log(newJob);
     res.redirect("/profile");
 });
