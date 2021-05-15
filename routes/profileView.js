@@ -54,8 +54,8 @@ router.post("/addJob", async (req, res) =>
         yearsOfExperience: parseInt(htmlValue.yearsOfExperience),
         skills: skillsArray,
         jobCategory: htmlValue.jobCategory,
-        salaryMin: parseInt(htmlValue.salaryMin),
-        salaryMax: parseInt(htmlValue.salaryMax),
+        salaryMin: htmlValue.salaryMin,
+        salaryMax: htmlValue.salaryMax,
         qualifications: htmlValue.jobQualification,
         jobStatus: true
     }
@@ -111,7 +111,7 @@ router.post("/editJob", async (req, res) =>
     // console.log(x, jobUpdateInfo.skills);
     jobUpdateInfo.skills = jobUpdateInfo.skills.split(',', x-2);
     // console.log(x, jobUpdateInfo.skills);
-
+    
     const updatedJob = await jobs.updateJob(jobId, jobUpdateInfo, companyId);
     // console.log(newJob);
     res.redirect("/profile");
@@ -253,7 +253,7 @@ router.get('/create', async(req,res)=>{
     else{
         res.render('company/companyInfo', { title: "Company Details" , company: user, auth: true, notLoginPage: true});
     }
-})
+});
 
 router.post('/deleteResume', async(req,res)=>{
     console.log("Reached Delete Resume")
@@ -261,7 +261,16 @@ router.post('/deleteResume', async(req,res)=>{
     console.log(req.session._id)
     await resume.removeResume(req.body.resumeid,req.session._id)
     res.redirect('/profile')
-})
+});
+
+router.post('/deleteJob', async(req,res)=>
+{    
+    let companyId = req.body.companyid;
+    let jobId = req.body.jobid;
+
+    await jobs.removeJob(jobId, companyId);
+    res.redirect('/profile');
+});
 
 router.post('/addResume', async(req,res)=>{
     console.log(req.body)

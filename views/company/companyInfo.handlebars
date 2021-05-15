@@ -77,12 +77,17 @@
                                     <input type="text" class="form-control" id="JobLocation" name="jobLocation"
                                         placeholder="">
                                 </div>
-
-                                <div class="form-group">
+                            
+                                    <div class="form-group">
+                                        <label for="categoryLookUp">Job Category</label>
+                                        <input class="form-control" id="categoryLookUp" name="categoryLookup" type="text" placeholder=""/>
+                                    </div>
+                                
+                                {{!-- <div class="form-group">
                                     <label for="JobCategory">Job Category</label>
                                     <input type="text" class="form-control" id="JobCategory" name="jobCategory"
                                         placeholder="">
-                                </div>
+                                </div> --}}
                                 <div class="form-group">
                                     <label for="yearsOfExperience">Years of Experience</label>
                                     <input type="number" class="form-control" id="yearsOfExperience" name="yearsOfExperience"
@@ -118,8 +123,12 @@
                                     placeholder=""></textarea>
                             </div>
                             <div class="form-group">
-                                <label for="skills">Skills</label>
-                                <input type="text" class="form-control" id="skills" name="skills" placeholder="">
+                                <label for="skillsLookUp">Skills</label>
+                                <input  class="form-control" id="skillsLookUp" name="skillsLookup" type="text" placeholder="Skills"/>
+                            </div>
+                            <div id="skillsList">
+                                <h4 id="skillsHeading"></h4>
+                                <ul id="insertedSkills"></ul>
                             </div>
                         </div>
                     </div>
@@ -235,14 +244,216 @@
                                 placeholder=""></textarea>
                         </div>
                         <div class="form-group">
-                            <label for="skills">Skills</label>
-                            <input type="text" class="form-control" id="skills" name="skills" placeholder="">
+                            <label for="skillsLookUp">Skills</label>
+                            <input  class="form-control" id="skillsLookUp" name="skillsLookup" type="text" placeholder="Skills"/>
+                            </div>
+                        <div id="skillsList">
+                            <h4 id="skillsHeading"></h4>
+                            <ul id="insertedSkills"></ul>
                         </div>
                     </div>
                 </div>`;
         wrapper.append(html);
     }
     
- 
+ (function($) {
+    var yearsExpSlider = $('#yearsExpSlider');
+    var yearsExpInput = $('#yearsExpInput');
+    var minSalarySlider = $('#minSalarySlider');
+    var minSalaryInput = $('#minSalaryInput');
+    var projectNumberSlider = $('#projectNumberSlider');
+    var projectNumberInput = $('#projectNumberInput');
+    
+    var categoryInput = $('#categoryLookUp');
+
+    var skillsInput = $('#skillsLookUp');
+    var skillsList = $('#skillsLookUp');
+    var selectedSkills = $('#insertedSkills');
+    var skillsDiv = $('#skillsList');
+    var form = $('#filteredSearchForm');
+    
+    var revealMinimumSalary = $('#revealMinSalary');
+    var removeMinimumSalary = $('#removeMinSalary');
+    var minSalaryFilter = $('#minimumSalaryFilter');
+
+    var revealProjectNumber = $('#revealProjectNumber');
+    var removeProjectNumber = $('#removeProjectNumber');
+    var projectNumberFilter = $('#projectNumberFilter');
+
+    var revealJobCategory = $('#revealCategory');
+    var removeJobCategory = $('#removeCategory');
+    var jobCategoryFilter = $('#categoryInputFilter')
+
+    var projectNumberBool = false;
+    var jobCategoryBool = false;
+    var minSalaryBool = false;
+
+
+    function linkSliderAndInput(slider, input){
+        slider.val(0);
+        input.val(slider.val());
+        slider.on("input", function(){
+            input.val($(this).val());
+        });
+        input.change(function(){
+            slider.val($(this).val()); 
+        });
+    }
+
+    function skillsAddition(){
+        var skills = getSkills();
+        skillsList.autocomplete({
+            source: skills,
+            minLength: 1,
+            select: function(event, ui){
+                if(selectedSkills.children().length == 0 ) $('#skillsHeading').html('Skills List');
+                skillsInput.val("");
+                $('#filteredSearchBarErrorState').empty();
+                selectedSkills.append("<li id='" + ui.item.value + "'>"
+                + ui.item.value + " <input type='hidden' name='skills[]' value='" + ui.item.value + "'/>"
+                //+ "<button onclick='document.getElementById(\"" + ui.item.value + "\".remove())>Remove</button>"
+                + "<button onclick='document.getElementById(\"" + ui.item.value + "\").remove()'>Remove</button>"
+                + "</li>");
+
+                return false;
+            }
+        });
+    }
+
+    function optionalFilterReveal(reveal, remove, filter, inputArray, bool){
+        for(input of inputArray){
+            input.prop("disabled", true);
+        }
+        filter.css("display","none");
+        reveal.click(function(){
+            filter.css("display", "block");
+            for(input of inputArray){
+                input.prop("disabled", false);
+            }
+            reveal.css("display", "none");
+            bool = true;
+        });
+
+        remove.click(function(){
+            filter.css("display", "none");
+            for(input of inputArray){
+                input.prop("disabled", true);
+            }
+            reveal.css("display", "block");
+            bool = false;
+        });
+    }
+
+
+
+    linkSliderAndInput(yearsExpSlider, yearsExpInput);
+    linkSliderAndInput(minSalarySlider, minSalaryInput);
+    linkSliderAndInput(projectNumberSlider, projectNumberInput);
+    skillsAddition();
+    optionalFilterReveal(revealMinimumSalary, removeMinimumSalary, minSalaryFilter, [minSalarySlider, minSalaryInput], minSalaryBool);
+    optionalFilterReveal(revealProjectNumber, removeProjectNumber, projectNumberFilter, [projectNumberSlider, projectNumberInput], projectNumberBool);
+    optionalFilterReveal(revealJobCategory, removeJobCategory, jobCategoryFilter, [categoryInput], jobCategoryBool);
+
+    if($('#searchResultsExists li').length > 0){
+        $('#searchResults').prepend("<h2>Results</h2>");
+    };
+
+    form.submit(function(e){
+        
+        if(selectedSkills.children().length == 0 && projectNumberBool && (minSalaryBool || jobCategoryBool)){
+            e.preventDefault();
+            console.log('test');
+            $('#filteredSearchBarErrorState').empty();
+            $('#filteredSearchBarErrorState').append('<p class="validationMessage"> Error: Need minimum of 1 additional filter to use the filtered search!</p>')
+        } else{
+            $('#homeSearchBarErrorState').empty();
+            if (yearsExpInput) yearsExpInput.prop('disabled', true);
+            if (minSalaryInput) minSalaryInput.prop('disabled', true);
+            skillsInput.prop('disabled', true);
+            if (projectNumberInput) projectNumberInput.prop('disabled', true);
+        
+        }
+    });
+    
+
+})(window.jQuery);
+
+function searchToggle(){
+    var general = $('#searchBar');
+    var filter = $('#filteredSearch');
+
+    var button = $('#filteredSearchReveal');
+    
+    if(filter.css("display") != 'none'){
+        filter.css("display", "none");
+        general.css("display", "block");
+        button.prop("value", "Use Filtered Search");
+    } else{
+        filter.css("display", "block");
+        general.css("display", "none");
+        button.prop("value", "Use General Search");
+    }
+};
+
+function getSkills(){
+    return [
+        "Mongodb",
+        "Nodejs",
+        "Express",
+        "React",
+        "Software Architecture",
+        "Front-End Development",
+        "Back-End Development",
+        "Full-Stack Development",
+        "C",
+        "C++",
+        "C#",
+        "Java",
+        "Javascript",
+        "Python",
+        "Database Management",
+        "SQL",
+        "MySQL",
+        "SQLite",
+        "CAD",
+        "Machine Shop",
+        "Cybersecurity Analysis",
+        "Data Analytics",
+        "Project Management",
+        "Scrum",
+        "Agile Development"       
+    ];
+};
+
+function getJobCategories(){
+    return [
+        "IT",
+        "Developer",
+        "Analyst",
+        "Manager",
+        "Project Manager",
+        "Designer",
+        "Engingeer",
+        "Software Architect",
+        "Technical Architect",
+        "Mechanical Engineer",
+        "Electrical Engineer",
+        "Biomedical Engineer",
+        "Computer Engineer",
+        "Security Analyst",
+        "Data Scientist",
+        "Civil Engineer",
+        "Front-End Developer",
+        "Back-End Developer",
+        "Full Stack Developer",
+        "Software Engineer"
+    ];
+};
+    
+
+
+
+
 
 </script>
+

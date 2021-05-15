@@ -131,8 +131,10 @@ router.post("/createNewUser", multipleUpload, async (req, res) => {
             personalInfo.gender,
             personalInfo.dob,
             `/public/uploads/employeeFiles/resume/${resumeUrl}`,
-            personalInfo.username, 
+            personalInfo.username,
+            personalInfo.websiteUrl,
             hashedPassword)
+          
 
 // Add Education
 let education= []
