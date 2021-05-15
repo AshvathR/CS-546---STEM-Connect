@@ -10,7 +10,7 @@
     <div class="container" >
         <div class="row">
             <div class="col-md-6">
-            <img src="/public/login.png" alt="">
+            <iframe onload="resizeIframe(this)"  src="https://lottiefiles.com/iframe/53395-login" style=" height:100%;" frameBorder="0"></iframe>
         </div>
         <div class="col-md-6" id="loginField">
             <div>
@@ -46,6 +46,12 @@
         </div>
         <script src="/public/js/login.js"></script>
     </div>
+
+<script type="text/javascript">
+  function resizeIframe(iframe) {
+    iframe.height = iframe.contentWindow.document.body.scrollHeight + "px";
+  }
+</script>
     
 </main>
 </div>
