@@ -137,7 +137,7 @@ div#filteredSearch {
   display: none;
 }
 
-.remove-Work {
+.remove-Work, .remove-project, .remove-education {
   position: absolute;
   background-color: #ff572226;
   color: #ff5722;
@@ -148,7 +148,7 @@ div#filteredSearch {
   cursor: pointer;
 }
 
-.remove-Work:hover {
+.remove-Work:hover ,.remove-project:hover , .remove-education:hover  {
   background-color: rgb(226, 116, 116);
   color: #ffffff;
 }
