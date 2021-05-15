@@ -87,7 +87,12 @@ let exportedMethods = {
         x[i] = resume.projects[i]._id;
       }
 
-      const deletionInfo = await resumeCollection.removeOne({ _id: objectId(resumeId) });
+      try{
+        const deletionInfo = await resumeCollection.removeOne({ _id: objectId(resumeId) });
+      }catch(e){
+        console.log(e)
+      }
+
       if (deletionInfo.deletedCount == 0) throw `Could not delete resume with the ID of ${resumeId}`;
 
       const userCollection = await users();
@@ -110,7 +115,11 @@ let exportedMethods = {
       {
         for (let i = 0; i < x.length; i++)
         {
-          const removeProject = await projectFunc.removeProject( x[i], resumeId, userId);
+          try{
+            const removeProject = await projectFunc.removeProject( x[i], resumeId, userId);
+          }catch(e){
+            console.log(e)
+          }
         }
         return true;
      }
@@ -200,6 +209,16 @@ let exportedMethods = {
         if(skillsArray.length > 0) skillsQuery = { skills: { $in: skillsArray}};
       }
       const resumeList = await resumeCollection.find({$and: [{ resumeActive : true}, { yearsOfExperience: { $gte: years} }, skillsQuery, projectQuery]}).toArray();
+      const userResumeList = [];
+      if (resumeList.length > 0){
+        for(resumeObj of resumeList){
+          userResumeList += {
+            resume: resumeObj,
+            user: await users.getResumeById(resumeObj._id)
+          }
+        }
+        return userResumeList;
+      }
       //console.log(resumeList)
       return resumeList;
 

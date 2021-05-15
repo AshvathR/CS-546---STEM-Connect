@@ -7,6 +7,41 @@ const resume = data.userResume
 const companyFunc = data.company
 const jobs = data.jobDetails;
 const projectFunc = data.projects;
+const multer = require('multer');
+
+let profilePictureUrl;
+let resumeUrl;
+const storage = multer.diskStorage({
+    //destination for files
+    
+    destination: function (request, file, callback) {
+      console.log(file)
+      if(file.fieldname == 'profilePicture')
+        callback(null, './public/uploads/companyFiles/profilePictures');
+      else
+        callback(null, './public/uploads/employeeFiles/resume');
+    },
+  
+    //add back the extension
+    filename: function (request, file, callback) { 
+      if(file.fieldname == 'profilePicture'){
+        profilePictureUrl =  request.session.username + "_profilePicture.jpeg" 
+        callback(null, profilePictureUrl);
+      }
+      else{
+        resumeUrl = request.session.username + "_resume.pdf" 
+        callback(null, resumeUrl);
+      }
+    },
+  });
+  
+  //upload parameters for multer
+  const upload = multer({
+    storage: storage,
+    limits: {
+      fieldSize: 1024 * 1024 * 3,
+    },
+  });
 
 router.get('/', async(req,res)=> {
     // console.log(req.session)
@@ -34,6 +69,12 @@ router.get('/user/:id', async(req,res)=> {
     console.log(lowercaseUsername)
     res.render('employee/profileView', { title: "User Details" , user : userInfo ,lowercaseUsername: lowercaseUsername,  auth: req.session.authenticated, notLoginPage: true, username: req.session.username});
 
+});
+
+router.post('/updatePicture', upload.single('profilePicture'), async(req,res)=>
+{
+  console.log("reached"); 
+  res.redirect('/profile');
 });
 
 router.get('/company/:id', async(req,res)=> {
@@ -224,7 +265,7 @@ router.post("/editCompanyInfo", async (req, res) =>
 router.post('/editPersonalInfo', async (req,res)=> {
     // console.log("hey")
     personalInfo = req.body
-    // console.log(personalInfo)
+    console.log(personalInfo)
     // console.log("gender is: " + personalInfo.dropdownMenuButon)
     updatedUser = {
         email: personalInfo.email,
@@ -238,11 +279,17 @@ router.post('/editPersonalInfo', async (req,res)=> {
         aboutMe: personalInfo.aboutMe,
         gender: personalInfo.dropdownMenuButton,
         dob: personalInfo.dateOfBirth,
-        resumeUrl: personalInfo.resumeUrl,  
+        websiteUrl: personalInfo.websiteUrl
+        // resumeUrl: `/public/uploads/employeeFiles/resume/${personalInfo.resumeUrl}`,  
     }
-
-    const newUser = await user.updateUser(personalInfo.userid, updatedUser)
-    console.log(newUser)
+    console.log(personalInfo.userid)
+    try{
+        const newUser = await user.updateUser(personalInfo.userid, updatedUser)
+        console.log(newUser)
+    }catch(e){
+        console.log(e)
+    }
+    
     res.redirect('/profile')
   });
 
@@ -264,7 +311,11 @@ router.post('/deleteResume', async(req,res)=>{
     console.log("Reached Delete Resume")
     console.log(req.body.resumeid)
     console.log(req.session._id)
-    await resume.removeResume(req.body.resumeid,req.session._id)
+    try{
+        await resume.removeResume(req.body.resumeid,req.session._id)
+    } catch(e){
+        console.log(e)
+    }
     res.redirect('/profile')
 });
 
@@ -272,8 +323,12 @@ router.post('/deleteJob', async(req,res)=>
 {    
     let companyId = req.body.companyid;
     let jobId = req.body.jobid;
-
-    await jobs.removeJob(jobId, companyId);
+    try{
+        await jobs.removeJob(jobId, companyId);
+    }catch(e){
+        console.log(e)
+    }
+    
     res.redirect('/profile');
 });
 
