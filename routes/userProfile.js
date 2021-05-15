@@ -118,7 +118,15 @@ router.post("/createNewUser", multipleUpload, async (req, res) => {
   const school = req.body.School
   const project = req.body.project
 
-  personalInfo = req.body
+  personalInfo = req.body;
+  // if((/^(?:(?:https?|ftp):\/\/)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,})))(?::\d{2,5})?(?:\/\S*)?$/).test(personalInfo.websiteUrl) === true){
+  //   personalInfo.websiteUrl = "you are shit"
+  // }
+  // else{
+  //   personalInfo.websiteUrl = "you are shittttttttt"
+  // }
+ // personalInfo.websiteUrl = (personalInfo.websiteUrl).test(/^https?\:\/\/(www.)?/, "");
+  // console.log(personalInfo.websiteUrl);
   const hashedPassword = await bcrypt.hash(req.body.password, saltRounds);
   // Add User
   const newUser = await user.addUser(`/public/uploads/employeeFiles/profilePictures/${profilePictureUrl}`,
@@ -131,9 +139,11 @@ router.post("/createNewUser", multipleUpload, async (req, res) => {
             personalInfo.gender,
             personalInfo.dob,
             `/public/uploads/employeeFiles/resume/${resumeUrl}`,
-            personalInfo.username, 
+            personalInfo.username,
+            personalInfo.websiteUrl,
             hashedPassword)
           
+
   req.session._id = newUser._id
 // Add Education
 let education= []

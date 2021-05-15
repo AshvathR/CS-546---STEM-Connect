@@ -80,8 +80,8 @@ async function main()
 
   try {
     //Add user
-    const newUser = await usersData.addUser('asada.jpeg','shubham@shubham.shubham',' 123 address, deep, NYC', 'Shubham', 'Warghade', '123456789', 'I am batman!','M','05/07/1997','https:/','shubham', '$2b$16$XoxM9a/lLskO6Fx5wSpvauSwvGip7XexMvliIQiDSHHtElYEP3n3O')//password - '123_Shubham' hashedpassword -'$2b$16$XoxM9a/lLskO6Fx5wSpvauSwvGip7XexMvliIQiDSHHtElYEP3n3O'
-    const newUser1 = await usersData.addUser("whatever.jpeg", "deep@deep.com", "248 newyork ave NJ", "deep", "rane", "9876543210", "you know who i am", "m", "06/01/1997", "localhost:3000", "dsr", "$2b$16$XoxM9a/lLskO6Fx5wSpvauSwvGip7XexMvliIQiDSHHtElYEP3n3O");
+    const newUser = await usersData.addUser('asada.jpeg','shubham@shubham.shubham',' 123 address, deep, NYC', 'Shubham', 'Warghade', '123456789', 'I am batman!','M','05/07/1997','https:/','shubham', "github.com", '$2b$16$XoxM9a/lLskO6Fx5wSpvauSwvGip7XexMvliIQiDSHHtElYEP3n3O')//password - '123_Shubham' hashedpassword -'$2b$16$XoxM9a/lLskO6Fx5wSpvauSwvGip7XexMvliIQiDSHHtElYEP3n3O'
+    const newUser1 = await usersData.addUser("whatever.jpeg", "deep@deep.com", "248 newyork ave NJ", "deep", "rane", "9876543210", "you know who i am", "m", "06/01/1997", "localhost:3000", "dsr", "github.com", "$2b$16$XoxM9a/lLskO6Fx5wSpvauSwvGip7XexMvliIQiDSHHtElYEP3n3O");
     
     //Add Resume                                                                                                                
 

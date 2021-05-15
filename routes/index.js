@@ -14,9 +14,7 @@ const constructorMethod = (app) => {
     app.use('/', landing);
     app.use('/search', searchApi);
     app.use('/logout', logout);
-    //app.use('/about', aboutUs);
-    // app.use('/company/', companyView);
-    // app.use('/company/create', companyProfile);
+    app.use('/aboutUs', aboutUs);
     app.use('/profile', profileView);
     app.use('/successCreation', successCreation);
     app.use('/company', companyProfile);

@@ -107,7 +107,7 @@ let exportedMethods = {
       const companyCollection = await companyCol();
   
       const updateInfo = await companyCollection.updateOne(
-        { _id: companyId },
+        { _id: objectId(companyId) },
         { $addToSet: { jobDetails: newJob } }
       );
   
