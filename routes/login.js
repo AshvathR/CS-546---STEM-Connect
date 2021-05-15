@@ -22,7 +22,17 @@ router.post('/', async (req, res) => {
         // console.log(currentCompany)
         // console.log(currentUser)
         if(errorCheckString(req.body.username) && errorCheckString(req.body.password) && currentUser){
-            req.session.username = req.body.username;
+            let allusers = await usersData.getAllUsers();
+            for(current of allusers){
+              if(req.body.username.toLowerCase() === current.username.toLowerCase()){
+                req.session.username = current.username;
+                break;
+              }
+              if(req.body.username.toLowerCase() === current.email.toLowerCase()){
+                req.session.username = current.username;
+                break;
+              }   
+            }
             let currentUsername = req.body.username.toLowerCase();
             let currentID = await usersData.getUserID(currentUsername);
             req.session._id = currentID;
