@@ -18,6 +18,7 @@ router.post('/', async (req,res) => {
     if(!req.session.authenticated){
       let username = req.body.username;
       let userType = req.body.usertype;
+      let email = req.body.email;
       // let hashedPassword;
       if(userType === "company"){
         // if(password === re_password && errorCheckString(password) && errorCheckString(re_password)){
@@ -27,8 +28,12 @@ router.post('/', async (req,res) => {
         //   res.status(401);
         //   res.render("general/signup",{currentTitle : "Login", currentHeader : "Login Form", hasErrors : true});
         // }
+
         let checkUsernameExists = await companyData.checkExistingUsername(username);
-        if(!checkUsernameExists && errorCheckString(username)){
+        let checkEmail = await companyData.checkExistingEmail(email)
+        let checkUsernameExistsEmployee = await usersData.checkExistingUsername(username);
+        let checkEmailEmployee = await usersData.checkExistingEmail(email);
+        if(!checkUsernameExists && !checkEmail && !checkEmailEmployee && !checkUsernameExistsEmployee && errorCheckString(username)){
           req.session.username = username;
           // console.log(req.session.username)
           req.session.email = req.body.email;
@@ -48,8 +53,11 @@ router.post('/', async (req,res) => {
         //   res.status(401);
         //   res.render("general/signup",{currentTitle : "Login", currentHeader : "Login Form", hasErrors : true});
         // }
+        let checkUsernameExistsCompany = await companyData.checkExistingUsername(username);
+        let checkEmailCompany = await companyData.checkExistingEmail(email)
         let checkUsernameExists = await usersData.checkExistingUsername(username);
-        if(!checkUsernameExists && errorCheckString(username)){
+        let checkEmail = await usersData.checkExistingEmail(email);
+        if(!checkUsernameExists && !checkEmail && !checkUsernameExistsCompany && !checkEmailCompany && errorCheckString(username)){
           req.session.username = username;
           console.log(req.session.username);
           req.session.email = req.body.email;

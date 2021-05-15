@@ -173,6 +173,19 @@ let exportedMethods = {
       return false;
     },
 
+    async checkExistingEmail(email){
+      checkUndef(email, "E-mail");
+      const allcompanies = await this.getAllCompanies();
+      for(let current of allcompanies){
+        let currentEmail = current.hrEmail.toLowerCase()
+        email = email.toLowerCase();
+        if(email === currentEmail){
+          return true
+        }
+      }
+      return false;
+    },
+
     async checkUsernameandPassword(username, password){
       username = username.toLowerCase();
       let usernameExists = await this.checkExistingUsername(username);
