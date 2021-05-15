@@ -82,7 +82,9 @@ router.get('/company/:id', async(req,res)=> {
     const companyInfo = await companyFunc.getCompanyById(req.params.id);
     // let x = (companyInfo.jobDetails.skills).length;
     // console.log(x);
-    // console.log(companyInfo)
+    
+    companyInfo.lowercaseUsername = companyInfo.username.toLowerCase();
+    
     res.render('company/profileView', { title: "Company Details" , company : companyInfo,  auth: req.session.authenticated, notLoginPage: true, username: req.session.username}); 
 });
 

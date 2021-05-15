@@ -35,7 +35,8 @@ let exportedMethods = {
       resume:[],
       username: username,
       websiteUrl: websiteUrl,
-      hashedPassword: hashedPassword
+      hashedPassword: hashedPassword,
+      appliedJobs: []
     };
 
     const newInsertInformation = await userCollection.insertOne(newUser);

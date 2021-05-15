@@ -1,7 +1,13 @@
 <div id="filterContainer"> 
 <form action="/search/filter" method="POST" id="filteredSearchForm">
     <h4>STEMConnect Filtered Search</h4>
-    <p>Please enter the number of years you have worked in industry and the skills required </p>
+    {{#if isUser}}
+        <p>Welcome to the STEMConnect Filtered Search. Use this feature to find jobs that fit your qualifications.</p>
+        <p>Please enter your number of years of experience, skills you have, and optionally the category of job or minimum job salary you want.</p>
+    {{else}}
+        <p>Welcome to the STEMConnect Filtered Search. Use this feature to find applicants that fit your job needs.</p>
+        <p>Please enter the minimum number of years of experience in industry, the skills required to do the job, and optionally the number of personal projects the applicant has worked on to get connected to different applicants that fit your needs.</p>
+    {{/if}}
         <div class="min-max-slider" data-legendnum="2">
             <div class="form-group">
             <label for="yearExp">Years Experience</label>
