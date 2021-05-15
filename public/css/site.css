@@ -500,11 +500,22 @@ button#revealProjectNumber {
 }
 #homeSearchBarErrorState,
 #error-password {
-  color: red;
-  font-size: 14px;
+  color: rgb(253, 95, 95);
+  font-size: 12px;
   font-weight: 300;
 }
 
+#error-username{
+  color: rgb(253, 95, 95);
+  font-size: 12px;
+  font-weight: 300;
+}
+
+#error-email{
+  color: rgb(253, 95, 95);
+  font-size: 12px;
+  font-weight: 300;
+}
 #navigationUnauthPartial #navv-bar {
   margin-top: 0px;
 }
@@ -543,6 +554,10 @@ button#revealProjectNumber {
   margin-left: auto;
   margin-right: auto;
   background: #f8f9fa !important;
+}
+
+.error{
+  color: red;
 }
 #sam,
 .subAction {

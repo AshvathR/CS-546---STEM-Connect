@@ -136,6 +136,7 @@ router.post("/createNewUser", multipleUpload, async (req, res) => {
             hashedPassword)
           
 
+  req.session._id = newUser._id
 // Add Education
 let education= []
 if(req.body.School) {
@@ -226,8 +227,6 @@ try{
 
       }
   }
-
-  req.session._id = newUser._id
   // console.log(newUser)
   
   // res.render("company/successScreen", {
@@ -254,6 +253,10 @@ router.get('/resume/:id', async (req, res) => {
   let user = await data.userResume.getResumeById(req.params.id);
   res.json(user);
 });
+router.post('/updatePicture', upload.single('profilePicture'),async(req,res)=>{
+  console.log("reached");
+  res.redirect('/profile');
+})
 
 
 

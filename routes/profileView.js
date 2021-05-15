@@ -13,21 +13,26 @@ router.get('/', async(req,res)=> {
     // req.flash('userId', req.session._id)
     if (req.session.currentUser == 'employee') {
         const userInfo = await user.getUserById(req.session._id)
+        let lowercaseUsername = (userInfo.username).toLowerCase()
         // console.log(userInfo)
-        res.render('employee/profile', { title: "User Details" , user : userInfo ,  auth: true, notLoginPage: true, username: req.session.username});
+        res.render('employee/profile', { title: "User Details" , user : userInfo , lowercaseUsername: lowercaseUsername,  auth: true, notLoginPage: true, username: req.session.username});
     } else {
         const companyInfo = await companyFunc.getCompanyById(req.session._id);
+
+        let lowercaseCompanyname = (companyInfo.username).toLowerCase()
         
         // console.log(companyInfo)
-        res.render('company/profile', { title: "Company Details" , company : companyInfo,  auth: true, notLoginPage: true, username: req.session.username});
+        res.render('company/profile', { title: "Company Details" , company : companyInfo,lowercaseCompanyname: lowercaseCompanyname ,  auth: true, notLoginPage: true, username: req.session.username});
     }
 });
 
 router.get('/user/:id', async(req,res)=> {
     //if(req.session._id == req.params.id) res.redirect('/');
+    console.log("Reached")
     const userInfo = await user.getUserById(req.params.id);
-    // console.log(userInfo)
-    res.render('employee/profile', { title: "Company Details" , user : userInfo ,  auth: req.session.authenticated, notLoginPage: true, username: req.session.username});
+    let lowercaseUsername = (userInfo.username).toLowerCase()
+    console.log(lowercaseUsername)
+    res.render('employee/profileView', { title: "User Details" , user : userInfo ,lowercaseUsername: lowercaseUsername,  auth: req.session.authenticated, notLoginPage: true, username: req.session.username});
 
 });
 
@@ -37,7 +42,7 @@ router.get('/company/:id', async(req,res)=> {
     // let x = (companyInfo.jobDetails.skills).length;
     // console.log(x);
     // console.log(companyInfo)
-    res.render('company/profile', { title: "Company Details" , company : companyInfo,  auth: req.session.authenticated, notLoginPage: true, username: req.session.username}); 
+    res.render('company/profileView', { title: "Company Details" , company : companyInfo,  auth: req.session.authenticated, notLoginPage: true, username: req.session.username}); 
 });
 
 router.post("/addJob", async (req, res) =>
