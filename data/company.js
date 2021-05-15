@@ -59,7 +59,7 @@ let exportedMethods = {
         throw "Invalid Name Format";
       }
       if (match == "") throw "Invalid Lookup";
-      const partialMatchList = await userCollection.find({ companyName: match}, {projection: {_id: 1, companyName: 1}}).toArray();
+      const partialMatchList = await userCollection.find({ companyName: match}).toArray();
       return partialMatchList;
     },
 
@@ -107,7 +107,7 @@ let exportedMethods = {
       const companyCollection = await companyCol();
   
       const updateInfo = await companyCollection.updateOne(
-        { _id: companyId },
+        { _id: objectId(companyId) },
         { $addToSet: { jobDetails: newJob } }
       );
   
@@ -158,6 +158,17 @@ let exportedMethods = {
         }
       }
       return user._id;
+    },
+
+    async getCompanyByJobDetailsId(jobDetailsId){
+      checkUndef(jobDetailsId, "jobDetailsId");
+
+      const companyCollection = await companyCol();
+      const company = await companyCollection.findOne({"jobDetails._id":  objectId(jobDetailsId)});
+      if(!company) throw "No company found with given Job Listing";
+
+      return company;
+
     },
 
     async checkExistingUsername(username){

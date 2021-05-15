@@ -35,6 +35,9 @@
                         Edit Job Information
                     </button>
                 </div>
+                <div id="jobs-wrapper" class="col-6 col-md-4">
+                    <button class="btn btn-primary" type="button" data-toggle="modal" data-target="#jobAddModal">Add Jobs</button>
+                </div>
                 <div class="container">
                     <div class="card-deck">
                         {{#each company.jobDetails}}
@@ -51,6 +54,11 @@
                                             {{#each this.skills}}
                                                 <span class="badge badge-pill badge-info" style="font-size: small;" >{{this}}</span>
                                             {{/each}}
+                                            <form action="/profile/deleteJob" method="post">
+                                                <input type="hidden" name="jobid" id="{{this._id}}" value="{{this._id}}"/>
+                                                <input type="hidden" name="companyid" id="{{../company._id}}" value="{{../company._id}}"/>
+                                                <button class="btn btn-danger" type="submit">Delete Job</button>
+                                            </form>
                                         </div>
                                     </div>
                                 </div>
@@ -96,7 +104,11 @@
                     </div>
                     <div class="modal-footer">
                         {{!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> --}}
-                        <button type="submit" class="btn btn-primary">Save Changes</button>
+                        <div class="col-md-12 d-flex justify-content-end p-2 px-3">
+                            <button class="btn btn-primary px-5"  type="button" data-dismiss="modal" aria-label="Close">Cancel</button>
+                            &nbsp &nbsp
+                            <button class="btn btn-primary px-5" type="submit">Save</button>
+                        </div>
                     </div>
                 </form>
             </div>
@@ -110,7 +122,7 @@
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Edit Personal Information</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Edit Job Information</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -125,7 +137,7 @@
                         <input type="hidden" name="jobDetails[companyId]" id="{{../company._id}}" value="{{../company._id}}"/>
                         <input type="hidden" name="jobDetails[id]" id="{{this._id}}" value="{{this._id}}"/>
                         <div class="form-group">
-                            <label for="jobTitle">{{this.jobTitle}}</label>
+                            <label for="jobTitle">Job Title</label>
                             <input type="text" class="form-control" id="jobTitle" name="jobDetails[jobTitle]" value="{{this.jobTitle}}">
                         </div>
                         <div class="form-group">
@@ -161,7 +173,11 @@
                             <label for="qualifications">Qualifications</label>
                             <input type="text" class="form-control" id="qualifications" name="jobDetails[qualifications]" value="{{this.qualifications}}">
                         </div>
-                        <button type="submit" class="btn btn-primary">Save Changes</button>
+                        <div class="col-md-12 d-flex justify-content-end p-2 px-3">
+                            <button class="btn btn-primary px-5"  type="button" data-dismiss="modal" aria-label="Close">Cancel</button>
+                            &nbsp &nbsp
+                            <button class="btn btn-primary px-5" type="submit">Save</button>
+                        </div>
                     </form>
                 {{/each}}
             </div>
@@ -172,4 +188,140 @@
     </div>
 </div>
 
+{{!-- Modal to add job information --}}
+<div class="modal fade bd-example-modal-lg" id="jobAddModal" tabindex="-1" role="dialog" aria-labelledby="companyInfo" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Add Job Information</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form action="/profile/addJob" method="POST">
+                    <div class="col-md-12 d-flex flex-column">
+                        <div class="col-md-12 d-flex justify-content-between mt-5 align-items-center">
+                            <div class="col-md-5 mx-3">
+                                <div class="d-flex flex-column" id="workInformation">
+                                    <div class="form-group">
+                                        <label for="JobTitle">Job Title</label>
+                                        <input type="hidden" name="companyId" id="{{company._id}}" value="{{company._id}}"/>
+                                        <input type="text" class="form-control" id="JobTitle" name="jobTitle" placeholder="">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="JobLocation">Job Location</label>
+                                        <input type="text" class="form-control" id="JobLocation" name="jobLocation"
+                                            placeholder="">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="JobCategory">Job Category</label>
+                                        <input type="text" class="form-control" id="JobCategory" name="jobCategory"
+                                            placeholder="">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="yearsOfExperience">Years of Experience</label>
+                                        <input type="number" class="form-control" id="yearsOfExperience" name="yearsOfExperience"
+                                            placeholder="">
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="SalaryMin">Salary Min</label>
+                                                <input type="text" class="form-control" id="salaryMin" name="salaryMin"
+                                                    placeholder="">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="SalaryMax">Salary Max</label>
+                                                <input type="text" class="form-control" id="salaryMax" name="salaryMax"
+                                                    placeholder="">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-5 mx-3">
+                                <div class="form-group">
+                                    <label for="jobDescription">Job Description</label>
+                                    <textarea class="form-control" rows="5" id="jobDescription" name="jobDescription"
+                                        placeholder=""></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label for="jobQualification">Qualification</label>
+                                    <textarea class="form-control"  id="jobQualification" name="jobQualification"
+                                        placeholder=""></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label for="skills">Skills</label>
+                                    <input type="text" class="form-control" id="skills" name="skills" placeholder="">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12 d-flex justify-content-end p-2 px-3">
+                            <button class="btn btn-primary px-5"  type="button" data-dismiss="modal" aria-label="Close">Cancel</button>
+                            &nbsp &nbsp
+                            <button class="btn btn-primary px-5" type="submit">Save</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                {{!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> --}}
+            </div>
+        </div>
+    </div>
+</div>
+
 <script src="/public/js/company.js"></script>
+<script>
+    function addMoreJobs() {
+       let wrapper = $('#jobs-wrapper');
+        let html = `<h2>{{this.description}}</h2>
+                        <input type="hidden" name="jobDetails[companyId]" id="{{../company._id}}" value="{{../company._id}}"/>
+                        <input type="hidden" name="jobDetails[id]" id="{{this._id}}" value="{{this._id}}"/>
+                        <div class="form-group">
+                            <label for="jobTitle">Job Title</label>
+                            <input type="text" class="form-control" id="jobTitle" name="jobDetails[jobTitle]" value="{{this.jobTitle}}">
+                        </div>
+                        <div class="form-group">
+                            <label for="jobLocation">Location</label>
+                            <input type="text" class="form-control" id="jobLocation" name="jobDetails[jobLocation]" value="{{this.jobLocation}}">
+                        </div>
+                        <div class="form-group">
+                            <label for="jobDescription">Description</label>
+                            <input type="text" class="form-control" id="jobDescription" name="jobDetails[jobDescription]" value="{{this.jobDescription}}">
+                        </div>
+                        <div class="form-group">
+                            <label for="yearsOfExperience">Years of Experience</label>
+                            <input type="number" class="form-control" id="year" name="jobDetails[yearsOfExperience]" value={{this.yearsOfExperience}}>
+                        </div>
+                        <div class="form-group">
+                            <label for="skills">Skills</label>
+                            <input type="text" class="form-control" id="skills" name="jobDetails[skills]"
+                                value="{{#each this.skills}}{{this}},{{/each}}">
+                        </div>
+                        <div class="form-group">
+                            <label for="jobCategory">Job Category</label>
+                            <input type="text" class="form-control" id="jobCategory" name="jobDetails[jobCategory]" value="{{this.jobCategory}}">
+                        </div>
+                        <div class="form-group">
+                            <label for="salaryMin">Minimum Salary</label>
+                            <input type="text" class="form-control" id="salaryMin" name="jobDetails[salaryMin]" value="{{this.salaryMin}}">
+                        </div>
+                        <div class="form-group">
+                            <label for="salaryMax">Maximum Salary</label>
+                            <input type="text" class="form-control" id="salaryMax" name="jobDetails[salaryMax]" value="{{this.salaryMax}}">
+                        </div>
+                        <div class="form-group">
+                            <label for="qualifications">Qualifications</label>
+                            <input type="text" class="form-control" id="qualifications" name="jobDetails[qualifications]" value="{{this.qualifications}}">
+                        </div>`;
+        wrapper.append(html);
+    }
+    $(document).on("click", ".clone .remove-Work", function (e) {
+        $(e.target).parent().parent().remove();
+    });
+</script>

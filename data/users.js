@@ -17,7 +17,7 @@ function checkUndef(variable, variableName)
 
 let exportedMethods = {
 
-  async addUser(profilePictureUrl, email,address, firstName, lastName, phoneNumber, aboutMe, gender, dob, resumeUrl, username, hashedPassword) {
+  async addUser(profilePictureUrl, email,address, firstName, lastName, phoneNumber, aboutMe, gender, dob, resumeUrl, username, websiteUrl, hashedPassword) {
     const userCollection = await users();
 
     let newUser = {
@@ -34,6 +34,7 @@ let exportedMethods = {
       workExperience:[],
       resume:[],
       username: username,
+      websiteUrl: websiteUrl,
       hashedPassword: hashedPassword
     };
 
@@ -64,7 +65,8 @@ let exportedMethods = {
       aboutMe: updatedUser.aboutMe,
       gender: updatedUser.gender,
       dob: updatedUser.dob,
-      resumeUrl: updatedUser.resumeUrl
+      resumeUrl: updatedUser.resumeUrl,
+      websiteUrl: updatedUser.websiteUrl
     };
 
     const userCollection = await users();
@@ -97,7 +99,7 @@ let exportedMethods = {
     checkUndef(resumeId, "resumeId");
     
     const userCollection = await users();
-    const user = await userCollection.find({  "resume._id": mongodb.ObjectId(resumeId) }).toArray();
+    const user = await userCollection.findOne({  "resume._id": mongodb.ObjectId(resumeId) });
     
     if (!user) throw 'User not found';
     return user;
@@ -154,7 +156,7 @@ let exportedMethods = {
     } catch{
       throw "Invalid Name Format";
     }
-    const partialMatchList = await userCollection.find({ "name.fullName": match}, {projection: {_id: 1, "name.fullName": 1}}).toArray();
+    const partialMatchList = await userCollection.find({ "name.fullName": match}).toArray();
     return partialMatchList;
   },
 

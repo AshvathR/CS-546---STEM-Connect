@@ -88,13 +88,33 @@ router.post('/filter',  async function(request, response) {
     }
 
     let listings = [];
+    let subListings = [];
     if(request.session.currentUser == "employee"){
-        listings = await data.jobDetails.searchJobByYearCategorySalarySkills(yearsExp, jobCategory, minimumSalary, skills);
+        subListings = await data.jobDetails.searchJobByYearCategorySalarySkills(yearsExp, jobCategory, minimumSalary, skills);
+        if(subListings.length > 0){
+            for(subList of subListings){
+                listings.push({
+                    jobDetails: subList,
+                    company:  await data.company.getCompanyByJobDetailsId(subList._id)
+                });
+                
+            }
+        }
+        
     } else{
-       listings = await data.userResume.searchResumeByYearSkillsProjectNumber(yearsExp, skills, projectNumber);
+       subListings = await data.userResume.searchResumeByYearSkillsProjectNumber(yearsExp, skills, projectNumber);
+       if(subListings.length > 0){
+        for(subList of subListings){
+            listings.push({
+                userResume: subList,
+                user:  await data.user.findUserByResumeId(subList._id)
+            });
+            
+        }
     }
-
-    console.log(request.session.currentUser == "employee");
+    }
+    
+    
     response.render('general/search',{
         title: "Filtered Search Results",
         auth: request.session.authenticated,

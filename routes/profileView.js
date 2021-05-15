@@ -13,21 +13,26 @@ router.get('/', async(req,res)=> {
     // req.flash('userId', req.session._id)
     if (req.session.currentUser == 'employee') {
         const userInfo = await user.getUserById(req.session._id)
+        let lowercaseUsername = (userInfo.username).toLowerCase()
         // console.log(userInfo)
-        res.render('employee/profile', { title: "User Details" , user : userInfo ,  auth: true, notLoginPage: true, username: req.session.username});
+        res.render('employee/profile', { title: "User Details" , user : userInfo , lowercaseUsername: lowercaseUsername,  auth: true, notLoginPage: true, username: req.session.username});
     } else {
         const companyInfo = await companyFunc.getCompanyById(req.session._id);
+
+        let lowercaseCompanyname = (companyInfo.username).toLowerCase()
         
         // console.log(companyInfo)
-        res.render('company/profile', { title: "Company Details" , company : companyInfo,  auth: true, notLoginPage: true, username: req.session.username});
+        res.render('company/profile', { title: "Company Details" , company : companyInfo,lowercaseCompanyname: lowercaseCompanyname ,  auth: true, notLoginPage: true, username: req.session.username});
     }
 });
 
 router.get('/user/:id', async(req,res)=> {
     //if(req.session._id == req.params.id) res.redirect('/');
+    console.log("Reached")
     const userInfo = await user.getUserById(req.params.id);
-    // console.log(userInfo)
-    res.render('employee/profile', { title: "Company Details" , user : userInfo ,  auth: req.session.authenticated, notLoginPage: true, username: req.session.username});
+    let lowercaseUsername = (userInfo.username).toLowerCase()
+    console.log(lowercaseUsername)
+    res.render('employee/profileView', { title: "User Details" , user : userInfo ,lowercaseUsername: lowercaseUsername,  auth: req.session.authenticated, notLoginPage: true, username: req.session.username});
 
 });
 
@@ -37,7 +42,43 @@ router.get('/company/:id', async(req,res)=> {
     // let x = (companyInfo.jobDetails.skills).length;
     // console.log(x);
     // console.log(companyInfo)
-    res.render('company/profile', { title: "Company Details" , company : companyInfo,  auth: req.session.authenticated, notLoginPage: true, username: req.session.username}); 
+    res.render('company/profileView', { title: "Company Details" , company : companyInfo,  auth: req.session.authenticated, notLoginPage: true, username: req.session.username}); 
+});
+
+router.post("/addJob", async (req, res) =>
+{
+    let htmlValue = req.body;
+    let skillsArray = htmlValue.skills.split(",");
+    let companyId = htmlValue.companyId;
+
+    let newJob = 
+    {
+        jobTitle: htmlValue.jobTitle,
+        jobLocation: htmlValue.jobLocation,
+        jobDescription: htmlValue.jobDescription,
+        yearsOfExperience: parseInt(htmlValue.yearsOfExperience),
+        skills: skillsArray,
+        jobCategory: htmlValue.jobCategory,
+        salaryMin: htmlValue.salaryMin,
+        salaryMax: htmlValue.salaryMax,
+        qualifications: htmlValue.jobQualification,
+        jobStatus: true
+    }
+
+    const addNewJob = await jobs.addJob(newJob.jobTitle,
+        newJob.jobLocation,
+        newJob.jobDescription,
+        newJob.yearsOfExperience,
+        newJob.skills,
+        newJob.jobCategory,
+        newJob.salaryMin,
+        newJob.salaryMax,
+        newJob.qualifications,
+        newJob.jobStatus);
+
+    const addNewJobToCompany = await companyFunc.addJobToCompany(companyId, newJob);
+
+    res.redirect("/profile");
 });
 
 router.post("/editJob", async (req, res) => 
@@ -49,12 +90,10 @@ router.post("/editJob", async (req, res) =>
     let skills = (jobInfo.skills).split(",");
     skills = skills.join();
 
-    if (jobInfo.jobStatus == null) {
+    if (jobInfo.jobStatus == null || jobInfo.jobStatus == "false") {
         jobInfo.jobStatus = false;
-    } else if(jobInfo.jobStatus == "true") {
+    } else {
         jobInfo.jobStatus = true;
-    }else if(jobInfo.jobStatus == "false") {
-        jobInfo.jobStatus = false;
     }
 
     let jobUpdateInfo = 
@@ -77,8 +116,8 @@ router.post("/editJob", async (req, res) =>
     // console.log(x, jobUpdateInfo.skills);
     jobUpdateInfo.skills = jobUpdateInfo.skills.split(',', x-2);
     // console.log(x, jobUpdateInfo.skills);
-
-    const newJob = await jobs.updateJob(jobId, jobUpdateInfo, companyId);
+    
+    const updatedJob = await jobs.updateJob(jobId, jobUpdateInfo, companyId);
     // console.log(newJob);
     res.redirect("/profile");
 });
@@ -219,7 +258,7 @@ router.get('/create', async(req,res)=>{
     else{
         res.render('company/companyInfo', { title: "Company Details" , company: user, auth: true, notLoginPage: true});
     }
-})
+});
 
 router.post('/deleteResume', async(req,res)=>{
     console.log("Reached Delete Resume")
@@ -227,7 +266,16 @@ router.post('/deleteResume', async(req,res)=>{
     console.log(req.session._id)
     await resume.removeResume(req.body.resumeid,req.session._id)
     res.redirect('/profile')
-})
+});
+
+router.post('/deleteJob', async(req,res)=>
+{    
+    let companyId = req.body.companyid;
+    let jobId = req.body.jobid;
+
+    await jobs.removeJob(jobId, companyId);
+    res.redirect('/profile');
+});
 
 router.post('/addResume', async(req,res)=>{
     console.log(req.body)
