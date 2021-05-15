@@ -194,7 +194,7 @@ if(req.body.project) {
 
 //Add Resume to user
 try{
-  const addResumeToUser = await user.addResumeToUser(req.session._id,newResume)
+  const addResumeToUser = await user.addResumeToUser(newUser._id,newResume)
 } catch(e){
   console.log(e)
 }
