@@ -91,7 +91,7 @@
                     errorDiv.empty();
                     errorDiv.append('<p class="error"> Error: Password must be minimum of 8 characters and maximum of 15 characters </p>')
                 }
-                if(!password.va().match(upperCaseLetters) || !password.val().match(lowerCaseLetters) || !password.val().match(numbers) || !allSpecialCharacter.test(password.val())){
+                if(!password.val().match(upperCaseLetters) || !password.val().match(lowerCaseLetters) || !password.val().match(numbers) || !allSpecialCharacter.test(password.val())){
                     event.preventDefault();
                     errorDiv.empty();
                     errorDiv.append('<p class="error"> Error: Password must be a combination of uppercase, lowercase, special character and a number!! </p>')
