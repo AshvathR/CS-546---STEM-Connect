@@ -200,13 +200,19 @@ let exportedMethods = {
   async getUserID(username) {
     checkUndef(username, "Username");
     const userCollection = await users();
-    let user = await userCollection.findOne({  username: username });
-    // console.log(user);
-    if (!user){
-      user = await userCollection.findOne({email: username})
-    };
-    return user._id;
+    const allUsers = await this.getAllUsers();
+      let user = {};
+      for(let current of allUsers){
+        let currentEmail = current.email.toLowerCase();
+        let currentUsername = current.username.toLowerCase();
+        if(currentEmail === username || currentUsername === username){
+          user = current;
+        }
+      }
+      return user._id;
   },
+
+
 
   async removeUser (userId)
   {
@@ -258,5 +264,8 @@ let exportedMethods = {
       return true;
     }
   }
+
+
+
 }
 module.exports = exportedMethods
