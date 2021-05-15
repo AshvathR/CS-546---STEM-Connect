@@ -17,7 +17,7 @@ const storage = multer.diskStorage({
     destination: function (request, file, callback) {
       console.log(file)
       if(file.fieldname == 'profilePicture')
-        callback(null, './public/uploads/employeeFiles/profilePictures');
+        callback(null, './public/uploads/companyFiles/profilePictures');
       else
         callback(null, './public/uploads/employeeFiles/resume');
     },
@@ -69,6 +69,12 @@ router.get('/user/:id', async(req,res)=> {
     console.log(lowercaseUsername)
     res.render('employee/profileView', { title: "User Details" , user : userInfo ,lowercaseUsername: lowercaseUsername,  auth: req.session.authenticated, notLoginPage: true, username: req.session.username});
 
+});
+
+router.post('/updatePicture', upload.single('profilePicture'), async(req,res)=>
+{
+  console.log("reached"); 
+  res.redirect('/profile');
 });
 
 router.get('/company/:id', async(req,res)=> {

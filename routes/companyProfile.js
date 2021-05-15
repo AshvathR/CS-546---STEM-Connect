@@ -141,7 +141,13 @@ router.post('/createNewCompany', upload.single('profilePicture'), async(req,res)
     //       });
 
     res.redirect('/profile');
-})
+});
+
+// router.post('/updatePicture', upload.single('profilePicture'), async(req,res)=>
+// {
+//   console.log("reached"); 
+//   res.redirect('/profile');
+// });
 
 
 router.get('/:id', async (req, res) => {

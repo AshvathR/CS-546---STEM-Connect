@@ -261,10 +261,12 @@ router.get('/resume/:id', async (req, res) => {
   let user = await data.userResume.getResumeById(req.params.id);
   res.json(user);
 });
-router.post('/updatePicture', upload.single('profilePicture'),async(req,res)=>{
+
+router.post('/updatePicture', upload.single('profilePicture'), async(req,res)=>{
   console.log("reached");
   res.redirect('/profile');
-})
+});
+
 router.post('/updateResumefile', upload.single('resumeUrl'),async(req,res)=>{
   console.log("reached");
   res.redirect('/profile');
