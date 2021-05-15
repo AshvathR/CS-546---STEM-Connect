@@ -133,7 +133,8 @@ router.post("/createNewUser", multipleUpload, async (req, res) => {
             `/public/uploads/employeeFiles/resume/${resumeUrl}`,
             personalInfo.username, 
             hashedPassword)
-
+          
+  req.session._id = newUser._id
 // Add Education
 let education= []
 if(req.body.School) {
@@ -224,8 +225,6 @@ try{
 
       }
   }
-
-  req.session._id = newUser._id
   // console.log(newUser)
   
   // res.render("company/successScreen", {

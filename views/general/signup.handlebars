@@ -9,18 +9,18 @@
 <main id="signupContainer">
     
         <div class = "divForm">
-            <form action="/signup" method="POST" class="signup-form">
+            <form action="/signup" method="POST" class="signup-form" id="signup-form">
             <label id = "form">
     <h4 class = "first">Sign Up</h4>            
-                <div class="form-group">
+            <div class="form-group">
                 <label>Username</label>
                     <input type="text" id="username" name="username" placeholder="Username" value="{{signup.username}}" class="full-width-input form-control"/>
-                <span class="error-username" id="error-username"></span>
+                <div class="error-username" id="error-username"></div>
                 </div>
                 E-mail: 
                 <div class="form-group">
                 <input type="email" id="email" name="email" placeholder="Email" value="{{signup.email}}" class="full-width-input form-control"/>
-                <span class="error-email" id="error-email"></span>
+                <div class="error-email" id="error-email"></div>
                 </div>
                 {{!-- Password:
                 <br>
@@ -45,15 +45,12 @@
                     <input type="radio"  value="company" name="usertype"> 
                     <label for="company"> Company</label>
                 </div>
-                </div>
-            <div class="subAction">
-                <button class="btnSignUp" type="TO BE DECIDED">Sign Up</button>
-                </div>
-                </label>
-            
-
+            </div>
+            <div class="error-form" id="error-form"></div>
+                <button class="btnSignUp" type="submit">Sign Up</button>
+            </label>
             </form>
         </div>
-        <script src="/public/js/login.js"></script>
+        <script src="/public/js/signup.js"></script>
 </main>
 </div>
