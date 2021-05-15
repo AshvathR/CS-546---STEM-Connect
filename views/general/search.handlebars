@@ -36,17 +36,18 @@
         {{#if isFilter}}
             {{#each searchResults}}
                 {{#if ../isUser}}
-                    <li><a href="/company/joblisting/{{_id}}">{{jobTitle}}</a></li>
+                    <!--<li><a href="/company/joblisting/{{_id}}">{{jobTitle}}</a></li>-->
+                    {{> jobDetailsProfilePreviewPartial}}
                 {{else}} 
-                    <li><a href="/user/resume/{{_id}}">{{description}}</a></li>
+                    {{> userResumeProfilePreviewPartial}}
                 {{/if}}
             {{/each}}
         {{else}}
             {{#each searchResults}}
                 {{#if ../isUser}}
-                    <li><a href="/profile/user/{{_id}}">{{name.fullName}}</a></li>
+                   {{> userProfilePreviewPartial}}
                 {{else}} 
-                    <li><a href="/profile/company/{{_id}}">{{companyName}}</a></li>
+                    {{> companyProfilePreviewPartial}}
                 {{/if}}
             {{/each}}
         {{/if}}

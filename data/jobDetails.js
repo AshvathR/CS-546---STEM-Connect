@@ -92,6 +92,17 @@ let exportedMethods = {
 
       return true;
     },
+    async getCompanyByJobDetailsId(jobDetailsId){
+      checkUndef(jobDetailsId, "jobDetailsId");
+
+      const companyCollection = await company();
+      const companyInstance = await companyCollection.find({"jobDetails._id":  objectId(jobDetailsId)}).toArray();
+      if(!companyInstance) throw "No company found with given Job Listing";
+
+      return companyInstance;
+
+    },
+
     async searchJobByYearCategorySalarySkills(years, category, minSalary, skillsArray)
     {
       checkUndef(years, "years");
@@ -120,9 +131,10 @@ let exportedMethods = {
       }
 
       const jobCollection = await jobDetails();
-      console.log(years);
+      //console.log(years);
       const jobsList = await jobCollection.find({$and: [{jobStatus: true},{ yearsOfExperience: { $lte: parseInt(years)} }, catQuery, minSalQuery, skillsQuery]}).toArray();
-      console.log(jobsList)
+      
+      //console.log(jobsList)
       return jobsList
     },
 
