@@ -22,7 +22,7 @@
                         
                         <h5 class="card-title d-flex justify-content-center" style="color: rgb(155, 155, 155); font-size:medium">{{user.address}}</h5>
                         <p class="card-text d-flex justify-content-center">{{user.aboutMe}}</p>
-                        
+                        <a target="_blank" href="https://{{user.websiteUrl}}"><h5 class="card-title d-flex justify-content-center" style="color: rgb(35, 85, 250); font-size: medium;">{{user.websiteUrl}}</h5></a>
                     </div>
             </div>
             <br>
@@ -259,6 +259,10 @@
                 <div class="form-group">
                     <label for="resumeUrl">Resume URL</label>
                     <input type='file' class="btn btn-outline-primary my-3" onchange="readURL(this);" id="resumeUrl" name="resumeUrl" />
+                </div>
+                <div class="form-group">
+                    <label for="websiteUrl">Website URL</label>
+                    <input type="text" class="form-control" id="websiteUrl" name="websiteUrl" value = "{{user.websiteUrl}}">
                 </div>
       </div>
       <div class="modal-footer">
