@@ -30,7 +30,8 @@ let exportedMethods = {
           salaryMin: salaryMin,
           salaryMax: salaryMax,
           qualifications: qualifications,
-          jobStatus:jobStatus
+          jobStatus:jobStatus,
+          appliedUsers: []
         };
     
         const newInsertInformation = await jobCollection.insertOne(newJob);
@@ -103,6 +104,10 @@ let exportedMethods = {
 
     },
 
+    async addUserToAppliedUsers(userId){
+      checkUndef(userId, "")
+    },
+
     async searchJobByYearCategorySalarySkills(years, category, minSalary, skillsArray)
     {
       checkUndef(years, "years");
@@ -121,6 +126,7 @@ let exportedMethods = {
 
       if(minSalary != -1){
         if (isNaN(minSalary)) throw "Invalid salary: Not a number!";
+        console.log(minSalary)
         if(minSalary > 0) minSalQuery = {salaryMin: {$gte: parseInt(minSalary)}};
       }
       
@@ -131,7 +137,7 @@ let exportedMethods = {
       }
 
       const jobCollection = await jobDetails();
-      //console.log(years);
+      console.log(minSalQuery);
       const jobsList = await jobCollection.find({$and: [{jobStatus: true},{ yearsOfExperience: { $lte: parseInt(years)} }, catQuery, minSalQuery, skillsQuery]}).toArray();
       
       //console.log(jobsList)

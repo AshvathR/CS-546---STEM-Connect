@@ -52,6 +52,7 @@ function getSkills(){
         "Unix",
         "AWS",
         "Redis",
+        "web dev",
         "Go"
     ];
 };

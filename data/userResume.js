@@ -29,6 +29,7 @@ let exportedMethods = {
           workStatus: workStatus,
           description: description,
           resumeActive: resumeActive,
+          yearsOfExperience: yearsOfExperience,
           userResumeUrl: userResumeUrl
         };
     
@@ -193,7 +194,7 @@ let exportedMethods = {
       let skillsQuery = {};
       let projectQuery = {};
 
-      
+      console.log(skillsArray);
       const resumeCollection = await userResume();
 
       if(isNaN(years)) throw "Invalid year: Not a number!";
@@ -205,8 +206,8 @@ let exportedMethods = {
       
       if(skillsArray != "noSkills"){
         if(!Array.isArray(skillsArray)) throw "Invalid skills: Not an Array!";
-
-        if(skillsArray.length > 0) skillsQuery = { skills: { $in: skillsArray}};
+        console.log(skillsArray);
+        if(skillsArray.length > 0) skillsQuery ={ skills:{ $in: skillsArray}};
       }
       const resumeList = await resumeCollection.find({$and: [{ resumeActive : true}, { yearsOfExperience: { $gte: years} }, skillsQuery, projectQuery]}).toArray();
       const userResumeList = [];
