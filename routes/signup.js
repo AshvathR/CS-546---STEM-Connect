@@ -18,7 +18,7 @@ router.post('/', async (req,res) => {
     if(!req.session.authenticated){
       let username = req.body.username;
       let userType = req.body.usertype;
-      let hashedPassword;
+      // let hashedPassword;
       if(userType === "company"){
         // if(password === re_password && errorCheckString(password) && errorCheckString(re_password)){
         //   hashedPassword = await bcrypt.hash(password, saltRounds);
@@ -30,7 +30,7 @@ router.post('/', async (req,res) => {
         let checkUsernameExists = await companyData.checkExistingUsername(username);
         if(!checkUsernameExists && errorCheckString(username)){
           req.session.username = username;
-          console.log(req.session.username)
+          // console.log(req.session.username)
           req.session.email = req.body.email;
           req.session.currentUser = userType;
           res.redirect('/profile/create');

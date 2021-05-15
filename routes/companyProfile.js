@@ -85,7 +85,7 @@ const storage = multer.diskStorage({
   });
   
 
-router.post('/create/new', upload.single('profilePicture'), async(req,res)=>{
+router.post('/createNewCompany', upload.single('profilePicture'), async(req,res)=>{
     let htmlValue = req.body;
     const hashedPassword = await bcrypt.hash(htmlValue.password, saltRounds);
     const newCompany = await companyData.addCompany(htmlValue.companyName, 
@@ -129,14 +129,18 @@ router.post('/create/new', upload.single('profilePicture'), async(req,res)=>{
         )
         const addJobToCompany = await companyData.addJobToCompany(newCompany._id, newJob);
     }
-    
+    if(newCompany){
+      req.session.authenticated = true;
+    }
 
-    res.render("company/successScreen", {
-            title: "STEMConnect",
-            auth: false,
-            listingType: "Resume",
-            notLoginPage: true,
-          });
+    // res.render("company/successScreen", {
+    //         title: "STEMConnect",
+    //         auth: false,
+    //         listingType: "Resume",
+    //         notLoginPage: true,
+    //       });
+
+    res.redirect('/profile');
 })
 
 

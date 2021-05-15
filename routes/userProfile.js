@@ -103,7 +103,7 @@ router.get("/:type/form", async (req, res) => {
 
 let multipleUpload = upload.fields([{ name: 'profilePicture' }, {name:'uploadResume'}]) 
 
-router.post("/:type/form", multipleUpload, async (req, res) => {
+router.post("/createNewUser", multipleUpload, async (req, res) => {
   // const companyInfo = extractValue(req.body, companyFields);
   // const resumeInfo = extractValue(req.body, resumeFields);
   // const projectInfo = extractValue(req.body, projectFields);
@@ -225,15 +225,16 @@ try{
       }
   }
 
-  
+  req.session._id = newUser._id
   // console.log(newUser)
   
-  res.render("company/successScreen", {
-    title: "STEMConnect",
-    auth: false,
-    listingType: "Resume",
-    notLoginPage: true,
-  });
+  // res.render("company/successScreen", {
+  //   title: "STEMConnect",
+  //   auth: false,
+  //   listingType: "Resume",
+  //   notLoginPage: true,
+  // });
+  res.redirect('/profile');
 });
 
 
