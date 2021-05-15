@@ -7,9 +7,10 @@
                         <div id="file"
                             class="d-flex justify-content-start align-items-center flex-column form-group col-md-6">
                             <h2 class="text-center py-2" for="profile">Profile image</h2>
-                            <input type='file' class="form-control-file " id="profilePicture" name="profilePicture"  />
+                            <input type='file' class="form-control-file " id="profilePicture" name="profilePicture" required />
                         </div>
                     </div>
+                     <div class="error-profilePicture error" id="error-profilePicture"></div>
                     <div class="form-group">
                         <label for="username">User Name</label>
                         <input type="text" class="form-control" id="username" name="username" aria-describedby="usernameHelp" value="{{employee.username}}" readonly>
@@ -81,12 +82,12 @@
                             <label for="aboutMe">About Me</label>
                             <textarea class="form-control" rows="5" id="aboutMe" name="aboutMe"
                                 placeholder="" ></textarea>
-                                <div class="error-aboutme error" id="error-aboutme"></div>
+                                <div class="error-aboutMe error" id="error-aboutMe"></div>
                         </div>
                         <div class="d-flex flex-column" id="workInformation">
                             <h4 class="text-left py-1" for="profile">Upload Resume</h4>
                             <div>
-                                <input type='file' class="form-control-file"  name="uploadResume" id="uploadResume" accept=".pdf">
+                                <input type='file' class="form-control-file"  name="uploadResume" id="uploadResume" accept=".pdf" required>
                             </div>
                             <div class="error-uploadResume error" id="error-uploadResume"></div>
                         </div>
@@ -114,25 +115,28 @@
                     </div>
                     <div id="education-wrapper" class=" d-flex flex-column">
                         <div class="d-flex  py-2">
-                            <button class="btn btn-primary" onclick="addMoreEducation()" type="button">Add Education Information</button>
+                            <button class="btn btn-primary" onclick="addMoreEducation()" id="addEducation" type="button" value="getiValue()">Add Education Information</button>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="skills">Skills</label>
-                        <input type="text" class="form-control" id="skills" name="resume[skills]" placeholder="" >
+                        <input type="text" class="form-control" id="skillsLookUp" name="skillsLookup"  name="resume[skills]" placeholder="" >
+                    </div>
+                    <div id="skillsList">
+                                <h4 id="skillsHeading"></h4>
+                                <ul id="insertedSkills"></ul>
                     </div>
                     <div class="error-skills error" id="error-skills"></div>
                     <div class="dropdown form-group d-flex flex-column">
                                 <label for="workStatus">Work Status</label>
                                 <select style="width: 200px;" class="text-right btn btn-secondary dropdown-toggle"
                                     type="button" id="workStatus" name="resume[workStatus]"
-                                    data-toggle="dropdown">
+                                    data-toggle="dropdown" required>
                                     <option disabled selected value> -- select an option -- </option>
                                     <option value="Employed">Employed</option>
                                     <option value="Unemployed">Unemployed</option>
                                 </select>
                     </div>
-                    <div class="error-workStatus error" id="error-workStatus"></div>
                     <div class="form-group">
                         <label for="yearsOfExperience">Years of Experience</label>
                         <input type="number" step="0.01" class="form-control" id="yearsOfExperience" name="resume[year]"
