@@ -200,6 +200,16 @@ let exportedMethods = {
         if(skillsArray.length > 0) skillsQuery = { skills: { $in: skillsArray}};
       }
       const resumeList = await resumeCollection.find({$and: [{ resumeActive : true}, { yearsOfExperience: { $gte: years} }, skillsQuery, projectQuery]}).toArray();
+      const userResumeList = [];
+      if (resumeList.length > 0){
+        for(resumeObj of resumeList){
+          userResumeList += {
+            resume: resumeObj,
+            user: await users.getResumeById(resumeObj._id)
+          }
+        }
+        return userResumeList;
+      }
       //console.log(resumeList)
       return resumeList;
 
