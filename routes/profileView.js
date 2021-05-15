@@ -7,6 +7,38 @@ const resume = data.userResume
 const companyFunc = data.company
 const jobs = data.jobDetails;
 const projectFunc = data.projects;
+const multer = require('multer');
+
+const storage = multer.diskStorage({
+    //destination for files
+    
+    destination: function (request, file, callback) {
+      console.log(file)
+      if(file.fieldname == 'profilePicture')
+        callback(null, './public/uploads/companyFiles/profilePictures');
+      else
+        callback(null, './public/uploads/employeeFiles/resume');
+    },
+  
+    //add back the extension
+    filename: function (request, file, callback) { 
+      if(file.fieldname == 'profilePicture'){
+        profilePictureUrl =  request.session.username + "_profilePicture.jpeg" 
+        callback(null, profilePictureUrl);
+      }
+      else{
+        resumeUrl = request.session.username + "_resume.pdf" 
+        callback(null, resumeUrl);
+      }
+    },
+  });
+
+const upload = multer({
+    storage: storage,
+    limits: {
+      fieldSize: 1024 * 1024 * 3,
+    },
+  });
 
 router.get('/', async(req,res)=> {
     // console.log(req.session)
@@ -34,6 +66,12 @@ router.get('/user/:id', async(req,res)=> {
     console.log(lowercaseUsername)
     res.render('employee/profileView', { title: "User Details" , user : userInfo ,lowercaseUsername: lowercaseUsername,  auth: req.session.authenticated, notLoginPage: true, username: req.session.username});
 
+});
+
+router.post('/updatePicture', upload.single('profilePicture'), async(req,res)=>
+{
+  console.log("reached"); 
+  res.redirect('/profile');
 });
 
 router.get('/company/:id', async(req,res)=> {
