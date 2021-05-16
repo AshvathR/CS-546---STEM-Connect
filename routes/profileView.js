@@ -49,13 +49,13 @@ router.get('/', async(req,res)=> {
     // req.flash('userId', req.session._id)
     if (req.session.currentUser == 'employee') {
         const userInfo = await user.getUserById(req.session._id)
-        let lowercaseUsername = (userInfo.username).toLowerCase()
+        let lowercaseUsername = userInfo.username.toLowerCase()
         // console.log(userInfo)
         res.render('employee/profile', { title: "User Details" , user : userInfo , lowercaseUsername: lowercaseUsername,  auth: true, notLoginPage: true, username: req.session.username});
     } else {
         const companyInfo = await companyFunc.getCompanyById(req.session._id);
 
-        let lowercaseCompanyname = (companyInfo.username).toLowerCase()
+        let lowercaseCompanyname = companyInfo.username.toLowerCase()
         
         // console.log(companyInfo)
         res.render('company/profile', { title: "Company Details" , company : companyInfo,lowercaseCompanyname: lowercaseCompanyname ,  auth: true, notLoginPage: true, username: req.session.username});

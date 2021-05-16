@@ -23,7 +23,7 @@ async function main()
     const newCompany1 = await companyFunc.addCompany('Marlboro', 'Dubai','Distribution','drane@stevens.com', 'smokerMan', '$2b$16$XoxM9a/lLskO6Fx5wSpvauSwvGip7XexMvliIQiDSHHtElYEP3n3O');
     //Add job
     const newJob = await job.addJob('Front End Dev', 'Mumbai','working on the ui',4,['Mongob', 'Nodejs'],'IT','100000','120000','Text on Qualifications',true)
-    const newJob1 = await job.addJob('Back End Dev', 'Banglore','Working on the Data Functions',2,["Java",'Mongob', 'Nodejs'],'IT','80000','90000','Text on Qualifications',true)
+    const newJob1 = await job.addJob('Back End Dev', 'Banglore','Working on the Data Functions',2,["Java",'Mongob', 'Nodejs'],'IT',80000,90000,'Text on Qualifications',true)
 
     const newJob2 = await job.addJob('Front End Dev', 'Mumbai','working on the ui',3,['Mongob', 'Nodejs'],'IT','100000','120000','Text on Qualifications',true)
     const newJob3 = await job.addJob('Back End Dev', 'Banglore','Working on the Data Functions',1,["Java",'Mongob', 'Nodejs'],'IT','80000','90000','Text on Qualifications',true)
