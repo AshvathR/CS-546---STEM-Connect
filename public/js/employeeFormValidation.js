@@ -487,108 +487,108 @@
             let allSpecialCharacter = /[ `!@#$%^&*()+_\-=\[\]{};':"\\|,.<>\/?~]/;
             let split_picture = profilePicture.val().split('.');
             let extension = split_picture[split_picture.length-1];
-            // if(!profilePicture.val().toLowerCase().includes('.jpeg') ){
-            //     event.preventDefault();
-            //     $(`#error-profilePicture`).empty();
-            //     $(`#error-profilePicture`).append('<p class="error"> Error: Please upload photo in .jpeg format</p>')
-            //     profilePicture.focus()
-            //     return
-            // }
-            // else{
-            //     $(`#error-profilePicture`).empty();
-            // }
+            if(!profilePicture.val().toLowerCase().includes('.jpeg') ){
+                event.preventDefault();
+                $(`#error-profilePicture`).empty();
+                $(`#error-profilePicture`).append('<p class="error"> Error: Please upload photo in .jpeg format</p>')
+                profilePicture.focus()
+                return
+            }
+            else{
+                $(`#error-profilePicture`).empty();
+            }
 
-            // if(password.val().trim().length==0){
-            //     event.preventDefault();
-            //     $("#error-password").empty();
-            //     $("#error-password").append('<p class="error"> Error: Please enter the password! <p>')
-            //     $("#password").focus()
-            //     return
-            // }
-            // else if(password.val().trim().length < 8 || password.val().trim().length > 15){
-            //     event.preventDefault();
-            //     $("#error-password").empty();
-            //     $("#error-password").append('<p class="error"> Error: Password must be minimum of 8 characters and maximum of 15 characters </p>')
-            //     $("#password").focus()
-            //     return
-            // }
-            // else if(!password.val().match(upperCaseLetters) || !password.val().match(lowerCaseLetters) || !password.val().match(numbers) || !allSpecialCharacter.test(password.val())){
-            //     event.preventDefault();
-            //     $("#error-password").empty();
-            //     $("#error-password").append('<p class="error"> Error: Password must be a combination of uppercase, lowercase, special character and a number!! </p>')
-            //     $("#password").focus()
-            //     return
-            // }
-            // else{
-            //     $("#error-password").empty();
-            // } 
+            if(password.val().trim().length==0){
+                event.preventDefault();
+                $("#error-password").empty();
+                $("#error-password").append('<p class="error"> Error: Please enter the password! <p>')
+                $("#password").focus()
+                return
+            }
+            else if(password.val().trim().length < 8 || password.val().trim().length > 15){
+                event.preventDefault();
+                $("#error-password").empty();
+                $("#error-password").append('<p class="error"> Error: Password must be minimum of 8 characters and maximum of 15 characters </p>')
+                $("#password").focus()
+                return
+            }
+            else if(!password.val().match(upperCaseLetters) || !password.val().match(lowerCaseLetters) || !password.val().match(numbers) || !allSpecialCharacter.test(password.val())){
+                event.preventDefault();
+                $("#error-password").empty();
+                $("#error-password").append('<p class="error"> Error: Password must be a combination of uppercase, lowercase, special character and a number!! </p>')
+                $("#password").focus()
+                return
+            }
+            else{
+                $("#error-password").empty();
+            } 
             
-            // if(confirmPassword.val() !== password.val()){
-            //     event.preventDefault();
-            //     $("#error-confirmPassword").empty();
-            //     $("#error-confirmPassword").append('<p class="error"> Error: Password and confirm password should match </p>')
-            //     confirmPassword.focus()
-            //     return
-            // }
-            // else{
-            //     $("#error-confirmPassword").empty();
-            // }
-            // let companyName = $('#companyName')
-            // if(companyName.val().trim().length==0){
-            //     event.preventDefault();
-            //     $("#error-companyName").empty();
-            //     $("#error-companyName").append('<p class="error"> Error: Please enter the Comapny Name! <p>')
-            //     $("#companyName").focus()
-            //     return
-            // }
-            // else{
-            //     $("#error-companyName").empty();
-            // }
+            if(confirmPassword.val() !== password.val()){
+                event.preventDefault();
+                $("#error-confirmPassword").empty();
+                $("#error-confirmPassword").append('<p class="error"> Error: Password and confirm password should match </p>')
+                confirmPassword.focus()
+                return
+            }
+            else{
+                $("#error-confirmPassword").empty();
+            }
+            let companyName = $('#companyName')
+            if(companyName.val().trim().length==0){
+                event.preventDefault();
+                $("#error-companyName").empty();
+                $("#error-companyName").append('<p class="error"> Error: Please enter the Comapny Name! <p>')
+                $("#companyName").focus()
+                return
+            }
+            else{
+                $("#error-companyName").empty();
+            }
            
-            // if(phoneNumber.val().trim() == 0){
-            //     event.preventDefault();
-            //     $("#error-phoneNumber").empty();
-            //     $("#error-phoneNumber").append('<p class="error"> Error: Please enter the phone number</p>')
-            //     $("#phoneNumber").focus()
-            //     return
-            // }
-            // else if(phoneNumber.val().length != 10){
-            //     event.preventDefault();
-            //     $("#error-phoneNumber").empty();
-            //     $("#error-phoneNumber").append(`<p class="error"> Error: Please enter a valid phone number</p>`)
-            //     $("#phoneNumber").focus()
-            //     return
-            // }
-            // else if(!phoneNumber.val().match("[0-9]+")){
-            //     event.preventDefault();
-            //     $("#error-phoneNumber").empty();
-            //     $("#error-phoneNumber").append(`<p class="error"> Error: Please enter a valid phone number</p>`)
-            //     $("#phoneNumber").focus()
-            //     return
-            // }
-            // else{
-            //     $("#error-phoneNumber").empty();
-            // }
-            // if(category.val().trim().length==0){
-            //     event.preventDefault();
-            //     $("#error-category").empty();
-            //     $("#error-category").append('<p class="error"> Error: Please enter some Category! Example: IT, CS, HR... <p>')
-            //     $("#category").focus()
-            //     return
-            // }
-            // else{
-            //     $("#error-category").empty();
-            // }
-            // if(address.val().trim().length == 0){
-            //     event.preventDefault();
-            //     $("#error-address").empty();
-            //     $("#error-address").append('<p class="error"> Error: Please enter the address</p>')
-            //     $("#address").focus()
-            //     return
-            // }
-            // else{
-            //     $("#error-address").empty();
-            // }
+            if(phoneNumber.val().trim() == 0){
+                event.preventDefault();
+                $("#error-phoneNumber").empty();
+                $("#error-phoneNumber").append('<p class="error"> Error: Please enter the phone number</p>')
+                $("#phoneNumber").focus()
+                return
+            }
+            else if(phoneNumber.val().length != 10){
+                event.preventDefault();
+                $("#error-phoneNumber").empty();
+                $("#error-phoneNumber").append(`<p class="error"> Error: Please enter a valid phone number</p>`)
+                $("#phoneNumber").focus()
+                return
+            }
+            else if(!phoneNumber.val().match("[0-9]+")){
+                event.preventDefault();
+                $("#error-phoneNumber").empty();
+                $("#error-phoneNumber").append(`<p class="error"> Error: Please enter a valid phone number</p>`)
+                $("#phoneNumber").focus()
+                return
+            }
+            else{
+                $("#error-phoneNumber").empty();
+            }
+            if(category.val().trim().length==0){
+                event.preventDefault();
+                $("#error-category").empty();
+                $("#error-category").append('<p class="error"> Error: Please enter some Category! Example: IT, CS, HR... <p>')
+                $("#category").focus()
+                return
+            }
+            else{
+                $("#error-category").empty();
+            }
+            if(address.val().trim().length == 0){
+                event.preventDefault();
+                $("#error-address").empty();
+                $("#error-address").append('<p class="error"> Error: Please enter the address</p>')
+                $("#address").focus()
+                return
+            }
+            else{
+                $("#error-address").empty();
+            }
 
             for(let current=10000; current<=jobDetailsCount;current++){
                 if($("input").hasClass(`${current}`)){
