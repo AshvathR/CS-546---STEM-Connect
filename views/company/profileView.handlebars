@@ -13,7 +13,7 @@
                 <div class="card-body">
                     <img id="card-image-top" src="/public/uploads/companyFiles/profilePictures/{{company.lowercaseUsername}}_profilePicture.jpeg" alt="Card Image cap"/>
                     <div class="card-body">
-                        <h2 class="card-title d-flex justify-content-center" style="font-weight: 625;">{{company.companyName}}</h2>
+                        <h2 class="card-title d-flex justify-content-center" >{{company.companyName}}</h2>
                         <h4 class="card-title d-flex justify-content-left" style="color: rgb(116, 116, 116); font-size: medium;">Location: {{company.location}}</h4>
                         <h4 class="card-title d-flex justify-content-left" style="color: rgb(116, 116, 116); font-size: medium;">Category: {{company.category}}</h4>
                         <h5 class="card-subtitle d-flex justify-content-left" style="color: rgb(116, 116, 116); font-size: medium;">HR Contact Email: {{company.hrEmail}}</h5>
@@ -51,8 +51,8 @@
                                                 <span class="badge badge-pill badge-info" style="font-size: small;" >{{this}}</span>
                                             {{/each}}
                                             <form action="/profile/deleteJob" method="post">
-                                                <input type="hidden" name="jobid" id="{{this._id}}" value="{{this._id}}"/>
-                                                <input type="hidden" name="companyid" id="{{../company._id}}" value="{{../company._id}}"/>
+                                                <input type="hidden" name="jobid"  value="{{this._id}}"/>
+                                                <input type="hidden" name="companyid"  value="{{../company._id}}"/>
                                                 
                                             </form>
                                         </div>

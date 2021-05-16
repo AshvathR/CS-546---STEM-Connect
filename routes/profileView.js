@@ -63,6 +63,11 @@ router.get('/', async(req,res)=> {
         // console.log(companyInfo)
         res.render('company/profile', { title: "Company Details" , company : companyInfo,lowercaseCompanyname: lowercaseCompanyname ,  auth: true, notLoginPage: true, username: req.session.username});
     }
+    else{
+        res.status(401);
+        res.render("general/signup",{currentTitle : "Signup", hasError : true});
+      }
+
 });
 
 router.get('/user/:id', async(req,res)=> {
