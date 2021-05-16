@@ -29,6 +29,7 @@ let exportedMethods = {
           workStatus: workStatus,
           description: description,
           resumeActive: resumeActive,
+          yearsOfExperience: yearsOfExperience,
           userResumeUrl: userResumeUrl
         };
     
@@ -87,7 +88,12 @@ let exportedMethods = {
         x[i] = resume.projects[i]._id;
       }
 
-      const deletionInfo = await resumeCollection.removeOne({ _id: objectId(resumeId) });
+      try{
+        const deletionInfo = await resumeCollection.removeOne({ _id: objectId(resumeId) });
+      }catch(e){
+        console.log(e)
+      }
+
       if (deletionInfo.deletedCount == 0) throw `Could not delete resume with the ID of ${resumeId}`;
 
       const userCollection = await users();
@@ -110,7 +116,11 @@ let exportedMethods = {
       {
         for (let i = 0; i < x.length; i++)
         {
-          const removeProject = await projectFunc.removeProject( x[i], resumeId, userId);
+          try{
+            const removeProject = await projectFunc.removeProject( x[i], resumeId, userId);
+          }catch(e){
+            console.log(e)
+          }
         }
         return true;
      }
@@ -184,7 +194,7 @@ let exportedMethods = {
       let skillsQuery = {};
       let projectQuery = {};
 
-      
+      console.log(skillsArray);
       const resumeCollection = await userResume();
 
       if(isNaN(years)) throw "Invalid year: Not a number!";
@@ -196,8 +206,8 @@ let exportedMethods = {
       
       if(skillsArray != "noSkills"){
         if(!Array.isArray(skillsArray)) throw "Invalid skills: Not an Array!";
-
-        if(skillsArray.length > 0) skillsQuery = { skills: { $in: skillsArray}};
+        console.log(skillsArray);
+        if(skillsArray.length > 0) skillsQuery ={ skills:{ $in: skillsArray}};
       }
       const resumeList = await resumeCollection.find({$and: [{ resumeActive : true}, { yearsOfExperience: { $gte: years} }, skillsQuery, projectQuery]}).toArray();
       const userResumeList = [];

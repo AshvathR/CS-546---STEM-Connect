@@ -41,12 +41,26 @@ function getSkills(){
         "Data Analytics",
         "Project Management",
         "Scrum",
-        "Agile Development"       
+        "Agile Development",
+        "R",
+        "AJAX",
+        "Ruby",
+        "PHP",
+        "PostgreSQL",
+        "Git",
+        "Version Control",
+        "Unix",
+        "AWS",
+        "Redis",
+        "web dev",
+        "Go"
     ];
 };
 
 function getJobCategories(){
     return [
+        "",
+        "web dev",
         "IT",
         "Developer",
         "Analyst",
@@ -66,7 +80,10 @@ function getJobCategories(){
         "Front-End Developer",
         "Back-End Developer",
         "Full Stack Developer",
-        "Software Engineer"
+        "Software Engineer",
+        "System Analyst",
+        "Database Administrator",
+        "Cloud Systems Engineer"
     ];
 };
     

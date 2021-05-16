@@ -130,18 +130,18 @@ router.post("/createNewUser", multipleUpload, async (req, res) => {
   const hashedPassword = await bcrypt.hash(req.body.password, saltRounds);
   // Add User
   const newUser = await user.addUser(`/public/uploads/employeeFiles/profilePictures/${profilePictureUrl}`,
-            personalInfo.email,
-            personalInfo.address, 
-            personalInfo.firstName, 
-            personalInfo.lastName, 
-            personalInfo.phoneNumber, 
-            personalInfo.aboutMe,
-            personalInfo.gender,
-            personalInfo.dob,
+            xss(personalInfo.email),
+            xss(personalInfo.address), 
+            xss(personalInfo.firstName), 
+            xss(personalInfo.lastName), 
+            xss(personalInfo.phoneNumber), 
+            xss(personalInfo.aboutMe),
+            xss(personalInfo.gender),
+            xss(personalInfo.dob),
             `/public/uploads/employeeFiles/resume/${resumeUrl}`,
-            personalInfo.username,
-            personalInfo.websiteUrl,
-            hashedPassword)
+            xss(personalInfo.username),
+            xss(personalInfo.websiteUrl),
+            xss(hashedPassword))
           
 
   req.session._id = newUser._id
@@ -154,10 +154,10 @@ if(req.body.School) {
       {
           tempSchool = 
           {
-            schoolName: school.schoolName[i],
-            startDate: school.startDate[i],
-            endDate: school.endDate[i],
-            gpa: school.gpa[i]
+            schoolName: xss(school.schoolName[i]),
+            startDate: xss(school.startDate[i]),
+            endDate: xss(school.endDate[i]),
+            gpa: xss(school.gpa[i])
           }
         education.push(tempSchool)
       }
@@ -166,10 +166,10 @@ if(req.body.School) {
     {
       tempSchool = 
         {
-          schoolName: school.schoolName,
-          startDate: school.startDate,
-          endDate: school.endDate,
-          gpa: school.gpa
+          schoolName: xss(school.schoolName),
+          startDate: xss(school.startDate),
+          endDate: xss(school.endDate),
+          gpa: xss(school.gpa)
         }
       education.push(tempSchool)
     }
@@ -261,7 +261,13 @@ router.get('/resume/:id', async (req, res) => {
   let user = await data.userResume.getResumeById(req.params.id);
   res.json(user);
 });
-router.post('/updatePicture', upload.single('profilePicture'),async(req,res)=>{
+
+router.post('/updatePicture', upload.single('profilePicture'), async(req,res)=>{
+  console.log("reached");
+  res.redirect('/profile');
+});
+
+router.post('/updateResumefile', upload.single('resumeUrl'),async(req,res)=>{
   console.log("reached");
   res.redirect('/profile');
 })
