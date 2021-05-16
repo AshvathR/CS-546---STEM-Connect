@@ -14,7 +14,7 @@
     let i = 0;
     let projectCount = 99; 
     let workCount = 999; 
-    
+    let jobDetailsCount = 10000;
 
     function getiValue(){
         return i;
