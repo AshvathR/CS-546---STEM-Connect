@@ -187,40 +187,26 @@ let exportedMethods = {
 
       return await this.getResumeById(resumeId);
     },
-    async searchResumeByYearSkillsProjectNumber(years,skillsArray,projectNumber)
+    async searchResumeByYearSkills(years,skillsArray)
     {
       checkUndef(years, "years");
-      checkUndef(projectNumber, "projectNumber")
       checkUndef(skillsArray,"skillsArray");
       let skillsQuery = {};
-      let projectQuery = {};
+     
 
-      console.log(skillsArray);
+      //console.log(skillsArray);
       const resumeCollection = await userResume();
 
       if(isNaN(years)) throw "Invalid year: Not a number!";
-
-      if(projectNumber != -1){
-        if(isNaN(projectNumber)) throw "Invalid project number: Not a number!";
-        //if(projectNumber > 0) projectQuery = { $where: "this.projects.length > " + parseInt(projectNumber) };
-      }
       
       if(skillsArray != "noSkills"){
         if(!Array.isArray(skillsArray)) throw "Invalid skills: Not an Array!";
-        console.log(skillsArray);
-        if(skillsArray.length > 0) skillsQuery ={ skills:{ $in: skillsArray}};
+        //console.log(skillsArray.length);
+        if(skillsArray.length > 0) skillsQuery ={ skills:{ $all: skillsArray}};
+        
       }
-      const resumeList = await resumeCollection.find({$and: [{ resumeActive : true}, { yearsOfExperience: { $gte: years} }, skillsQuery, projectQuery]}).toArray();
-      const userResumeList = [];
-      if (resumeList.length > 0){
-        for(resumeObj of resumeList){
-          userResumeList += {
-            resume: resumeObj,
-            user: await users.getResumeById(resumeObj._id)
-          }
-        }
-        return userResumeList;
-      }
+      const resumeList = await resumeCollection.find({$and: [{ resumeActive : true}, { yearsOfExperience: { $gte: parseInt(years)} }, skillsQuery]}).toArray();
+      console.log(resumeList);
       //console.log(resumeList)
       return resumeList;
 

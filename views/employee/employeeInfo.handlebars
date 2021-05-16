@@ -6,47 +6,47 @@
                     <div class="d-flex align-items-center flex-column">
                         <div id="file"
                             class="d-flex justify-content-start align-items-center flex-column form-group col-md-6">
-                            <h2 class="text-center py-2" for="profile">Profile image</h2>
-                            <input type='file' class="form-control-file " id="profilePicture" name="profilePicture" />
+                            <h2 class="text-center py-2">Profile image</h2>
+                            <input type='file' class="form-control-file " id="profilePicture" name="profilePicture" required />
                         </div>
                     </div>
                      <div class="error-profilePicture error" id="error-profilePicture"></div>
                     <div class="form-group">
-                        <label for="username">User Name</label>
-                        <input type="text" class="form-control" id="username" name="username" aria-describedby="usernameHelp" value="{{employee.username}}" readonly>
+                        <label >User Name</label>
+                        <input type="text" class="form-control" id="username" name="username"  value="{{employee.username}}" readonly>
                     </div>
                     <div class="form-group">
-                        <label for="email">Mail</label>
-                        <input type="text" class="form-control" id="email" name="email" aria-describedby="mailHelp" value="{{employee.email}}" readonly>
+                        <label >Mail</label>
+                        <input type="text" class="form-control" id="email" name="email"  value="{{employee.email}}" readonly>
                     </div>
 
                     <div class="form-group">
-                        <label for="password">Password</label>
+                        <label >Password</label>
                         <input type="password" class="form-control" id="password" name="password" placeholder="" value="{{employee.password}}" >
                     </div>
                     <div class="error-password" id="error-password"></div>
                     <div class="form-group">
-                        <label for="confirmPassword">Confirm Password</label>
+                        <label >Confirm Password</label>
                         <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" placeholder="" value="{{employee.confirmPassword}}">
                     </div>
                     <div class="error-confirmPassword" id="error-confirmPassword"></div>
                 </div>
                 <div class="col-md-5 mx-3">
-                    <div class="d-flex px-4 flex-column" id="workInformation">
-                        <h4 class="text-left py-4" for="profile">Personal Information</h4>
+                    <div class="d-flex px-4 flex-column" >
+                        <h4 class="text-left py-4">Personal Information</h4>
                         <div class="d-flex justify-content-between">
                             <div class="form-group">
-                                <label for="firstName">First Name</label>
+                                <label >First Name</label>
                                 <input type="text" class="form-control" id="firstName" name="firstName" placeholder="" >
                             </div>
                             <div class="form-group ml-3">
-                                <label for="lastName">Last Name</label>
+                                <label >Last Name</label>
                                 <input type="text" class="form-control" id="lastName" name="lastName" placeholder="" >
                             </div>
                         </div>
                         <div class="error-firstName error" id="error-firstName"></div>
                         <div class="form-group">
-                            <label for="phoneNumber">Phone Number</label>
+                            <label >Phone Number</label>
                             <input type="number" class="form-control" id="phoneNumber" name="phoneNumber"
                                 placeholder="" >
                             <div class="error-phoneNumber error" id="error-phoneNumber"></div>
@@ -55,7 +55,7 @@
                                 <div class="dropdown form-group d-flex flex-column">
                                                 <label for="gender">Gender</label>
                                                 <select style="width: 200px;" class="text-right btn btn-secondary dropdown-toggle"
-                                                    type="button" id="gender" name="gender"
+                                                     id="gender" name="gender"
                                                     data-toggle="dropdown" required>
                                                     <option disabled selected value> -- select an option -- </option>
                                                     <option value="male">Male</option>
@@ -65,7 +65,7 @@
                                                 </select>
                                 </div>
                             <div class="fd-flex flex-column ml-3">
-                                <label for="dob">Date of Birth</label>
+                                <label >Date of Birth</label>
                                 <input type='date' id="dob" name="dob" class="form-control btn btn-outline-primary"
                                     />
                             </div>
@@ -73,18 +73,18 @@
                         <div class="error-gender error" id="error-gender"></div>
 
                         <div class="form-group">
-                            <label for="address">Address</label>
+                            <label >Address</label>
                             <input type="text" class="form-control" id="address" name="address" placeholder="" >
                             <div class="error-address error" id="error-address"></div>
                         </div>
                         <div class="form-group">
-                            <label for="aboutMe">About Me</label>
+                            <label >About Me</label>
                             <textarea class="form-control" rows="5" id="aboutMe" name="aboutMe"
                                 placeholder="" ></textarea>
                                 <div class="error-aboutMe error" id="error-aboutMe"></div>
                         </div>
                         <div class="d-flex flex-column" id="workInformation">
-                            <h4 class="text-left py-1" for="profile">Upload Resume</h4>
+                            <h4 class="text-left py-1" >Upload Resume</h4>
                             <div>
                                 <input type='file' class="form-control-file"  name="uploadResume" id="uploadResume" accept=".pdf" required>
                             </div>
@@ -92,7 +92,7 @@
                         </div>
                         <br>
                         <div class="form-group">
-                            <label for="websiteUrl">Website URL</label>
+                            <label >Website URL</label>
                             <input type="url" class="form-control" id="websiteUrl" name="websiteUrl" placeholder="" >
                         </div>
 
@@ -105,9 +105,9 @@
             {{!-- Profile End --}}
         <div class="row d-flex justify-content-between align-items-start">
             <div class="col-md-5">
-                <div class="d-flex flex-column" id="resume">
+                <div class="d-flex flex-column" >
                     <div class="d-flex flex-row">
-                        <h4 class="text-left py-4" for="profile">Resume Information</h4>
+                        <h4 class="text-left py-4" >Resume Information</h4>
                         <div class="custom-control custom-switch">
                             <input type="checkbox" class="custom-control-input" id="resumeActive">
                         </div>
@@ -118,8 +118,8 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="skills">Skills</label>
-                        <input type="text" class="form-control" id="skillsLookUp" name="skillsLookup"  name="resume[skills]" placeholder="" >
+                        <label >Skills</label>
+                        <input type="text" class="form-control" id="skillsLookUp"  name="resume[skills]" placeholder="" >
                     </div>
                     <div id="skillsList">
                                 <h4 id="skillsHeading"></h4>
@@ -127,17 +127,16 @@
                     </div>
                     <div class="error-skills error" id="error-skills"></div>
                     <div class="dropdown form-group d-flex flex-column">
-                                <label for="workStatus">Work Status</label>
+                                <label >Work Status</label>
                                 <select style="width: 200px;" class="text-right btn btn-secondary dropdown-toggle"
-                                    type="button" id="workStatus" name="resume[workStatus]"
-                                    data-toggle="dropdown" required>
+                                     id="workStatus" name="resume[workStatus]" data-toggle="dropdown" required >
                                     <option disabled selected value> -- select an option -- </option>
                                     <option value="Employed">Employed</option>
                                     <option value="Unemployed">Unemployed</option>
                                 </select>
                     </div>
                     <div class="form-group">
-                        <label for="yearsOfExperience">Years of Experience</label>
+                        <label >Years of Experience</label>
                         <input type="number" step="0.01" class="form-control" id="yearsOfExperience" name="resume[year]"
                             placeholder="" >
                     </div>
@@ -160,9 +159,9 @@
             <div class="d-flex  flex-column">
             <div class="">
             
-                <div class="d-flex flex-column" id="resume">
+                <div class="d-flex flex-column" >
                     
-                        <h4 class="text-left py-4" for="profile">Work Information</h4>
+                        <h4 class="text-left py-4" >Work Information</h4>
                         
                     
                         <div id="work-information-wrapper" class="d-flex flex-column">

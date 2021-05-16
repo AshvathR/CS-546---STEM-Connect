@@ -69,13 +69,7 @@ router.post('/filter',  async function(request, response) {
             if(!Array.isArray(skills) || skills.length < 1) throw 'Invalid field: Skills Array';
         }
         
-        let projectNumber = xss(searchData.projectNumber);
-
-        if(!projectNumber){
-            projectNumber = -1;
-        }else{
-            if(isNaN(projectNumber)) throw "Invalid field: Project Number";
-        }
+        
 
         let minimumSalary = xss(searchData.minimumSalary);
 
@@ -109,12 +103,12 @@ router.post('/filter',  async function(request, response) {
             
         } else{
             
-        subListings = await data.userResume.searchResumeByYearSkillsProjectNumber(yearsExp, skills, projectNumber);
+        subListings = await data.userResume.searchResumeByYearSkills(yearsExp, skills);
         if(subListings.length > 0){
             for(subList of subListings){
                 listings.push({
                     userResume: subList,
-                    user:  await data.user.findUserByResumeId(subList._id)
+                    user:  await data.users.findUserByResumeId(subList._id)
                 });  
             }
             for(listing of listings){
