@@ -90,10 +90,7 @@ let exportedMethods = {
 
       try{
         const deletionInfo = await resumeCollection.removeOne({ _id: objectId(resumeId) });
-      }catch(e){
-        console.log(e)
-      }
-
+ 
       if (deletionInfo.deletedCount == 0) throw `Could not delete resume with the ID of ${resumeId}`;
 
       const userCollection = await users();
@@ -124,6 +121,10 @@ let exportedMethods = {
         }
         return true;
      }
+    }catch(e){
+      console.log(e)
+    }
+
     },
 
     async getAllResumes()

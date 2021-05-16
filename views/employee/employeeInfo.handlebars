@@ -7,7 +7,7 @@
                         <div id="file"
                             class="d-flex justify-content-start align-items-center flex-column form-group col-md-6">
                             <h2 class="text-center py-2" for="profile">Profile image</h2>
-                            <input type='file' class="form-control-file " id="profilePicture" name="profilePicture" required />
+                            <input type='file' class="form-control-file " id="profilePicture" name="profilePicture" />
                         </div>
                     </div>
                      <div class="error-profilePicture error" id="error-profilePicture"></div>
@@ -188,30 +188,8 @@
     </div>
 </form>
 
-{{!-- <script>
-
-    /*
-We want to preview images, so we need to register the Image Preview plugin
-*/
-    FilePond.registerPlugin(
-        // encodes the file as base64 data
-        FilePondPluginFileEncode,
-
-        // validates the size of the file
-        FilePondPluginFileValidateSize,
-
-        // corrects mobile image orientation
-        FilePondPluginImageExifOrientation,
-
-        // previews dropped images
-        FilePondPluginImagePreview
-    );
 
 
-
-
-    for (let i = 0; i <= data.length - 1; i++) FilePond.create(data[i]);
-</script> --}}
 
 <script src='/public/js/employeeCreation.js'></script>
 <script src='/public/js/employeeFormValidation.js'></script>
