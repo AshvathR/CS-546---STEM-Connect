@@ -50,6 +50,7 @@ const storage = multer.diskStorage({
 router.get('/', async(req,res)=> {
     // console.log(req.session)
     // req.flash('userId', req.session._id)
+    if(req.session.authenticated){
     if (req.session.currentUser == 'employee') {
         const userInfo = await user.getUserById(req.session._id)
         let lowercaseUsername = userInfo.username.toLowerCase()
@@ -62,11 +63,10 @@ router.get('/', async(req,res)=> {
         
         // console.log(companyInfo)
         res.render('company/profile', { title: "Company Details" , company : companyInfo,lowercaseCompanyname: lowercaseCompanyname ,  auth: true, notLoginPage: true, username: req.session.username});
-    }
+    }}
     else{
-        res.status(401);
-        res.render("general/signup",{currentTitle : "Signup", hasError : true});
-      }
+        res.redirect('/login');
+    }
 
 });
 
