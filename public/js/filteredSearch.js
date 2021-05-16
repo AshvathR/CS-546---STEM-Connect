@@ -18,18 +18,12 @@
     var removeMinimumSalary = $('#removeMinSalary');
     var minSalaryFilter = $('#minimumSalaryFilter');
 
-    var revealProjectNumber = $('#revealProjectNumber');
-    var removeProjectNumber = $('#removeProjectNumber');
-    var projectNumberFilter = $('#projectNumberFilter');
-
     var revealJobCategory = $('#revealCategory');
     var removeJobCategory = $('#removeCategory');
     var jobCategoryFilter = $('#categoryInputFilter')
 
-    var projectNumberBool = false;
     var jobCategoryBool = false;
     var minSalaryBool = false;
-    var invalidCat = false;
 
 
     function linkSliderAndInput(slider, input){
@@ -99,7 +93,6 @@
     linkSliderAndInput(projectNumberSlider, projectNumberInput);
     skillsAddition();
     optionalFilterReveal(revealMinimumSalary, removeMinimumSalary, minSalaryFilter, [minSalarySlider, minSalaryInput], minSalaryBool);
-    optionalFilterReveal(revealProjectNumber, removeProjectNumber, projectNumberFilter, [projectNumberSlider, projectNumberInput], projectNumberBool);
     optionalFilterReveal(revealJobCategory, removeJobCategory, jobCategoryFilter, [categoryInput], jobCategoryBool);
 
     if($('#searchResultsExists li').length > 0){
@@ -107,8 +100,8 @@
     };
 
     form.submit(function(e){
-        console.log(projectNumberBool)
-        if(selectedSkills.children().length == 0 && projectNumberBool && (minSalaryBool || jobCategoryBool)){
+        
+        if(selectedSkills.children().length == 0 && (minSalaryBool || jobCategoryBool)){
             e.preventDefault();
             console.log('her');
             $('#filteredSearchBarErrorState').empty();
