@@ -9,11 +9,15 @@
 <div class="container">
     <div class="row">
         <div class="col-md-4">
-            <div class="card" style="width: 18rem;">
+            <div class="card Larger shadow" style="width: 18rem;">
                 <div class="card-body">
-                    <img id="card-image-top" src="public/uploads/companyFiles/profilePictures/{{company.username}}_profilePicture.jpeg" alt="Card Image cap"/>
+                    <button type="button" class="btn btn-primary"  data-toggle="modal" data-target="#uploadPicture" style="position: absolute; border-radius:40px;">
+                    Edit Image
+                    </button>
+                    {{!-- <img id="card-image-top" src="public/uploads/companyFiles/profilePictures/{{company.username}}_profilePicture.jpeg" alt="Card Image cap"/> --}}
+                    <img class="card-img-top" src="public/uploads/companyFiles/profilePictures/{{company.username}}_profilePicture.jpeg" alt="No Image Found" style="position: static;">
                     <div class="card-body">
-                        <h2 class="card-title d-flex justify-content-center" style="font-weight: 625;">{{company.companyName}}</h2>
+                        <h2 class="card-title d-flex justify-content-center" style="font-weight:bold;">{{company.companyName}}</h2>
                         <h4 class="card-title d-flex justify-content-left" style="color: rgb(116, 116, 116); font-size: medium;">{{company.location}}</h4>
                         <h4 class="card-title d-flex justify-content-left" style="color: rgb(116, 116, 116); font-size: medium;">{{company.category}}</h4>
                         <h5 class="card-subtitle d-flex justify-content-left" style="color: rgb(116, 116, 116); font-size: medium;">{{company.hrEmail}}</h5>
@@ -43,7 +47,7 @@
                         {{#each company.jobDetails}}
                             {{#if this.jobStatus}}
                             <div class="col-6   " style="padding-bottom: 50px;">
-                                    <div class="card">
+                                    <div class="card Larger shadow">
                                         <img style="border-radius: 50% ; padding: 30px 80px 20px 80px" class="card-img-top" src="public/uploads/companyFiles/profilePictures/{{../company.username}}_profilePicture.jpeg" alt="Card Image cap"/>
                                         <div class="card-body">
                                             <h5 class="card-title d-flex justify-content-left">{{this.jobTitle}}</h5>
@@ -56,7 +60,7 @@
                                             {{/each}}
                                             <form action="/profile/deleteJob" method="post">
                                                 <input type="hidden" name="jobid" id="{{this._id}}" value="{{this._id}}"/>
-                                                <input type="hidden" name="companyid" id="{{../company._id}}" value="{{../company._id}}"/>
+                                                <input type="hidden" name="companyid"  value="{{../company._id}}"/>
                                                 <button class="btn btn-danger" type="submit">Delete Job</button>
                                             </form>
                                         </div>
@@ -72,26 +76,50 @@
 </div>
 
 
+
+{{!-- Modal to edit image information --}}
+<div class="modal fade" id="uploadPicture" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Select New Profile Picture</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body d-flex justify-content-center">
+        <form action="/profile/updatePicture" method="post" enctype="multipart/form-data">
+            <input type='file' class="form-control-file"  name="profilePicture" id="profilePicture" accept=".jpeg">
+            <button type="submit">Confirm Upload</button>
+        </form>
+      </div>
+      {{!-- <div class="modal-footer">   
+      </div> --}}
+    </div>
+  </div>
+</div>
+
+
 {{!-- Modal to update company information --}}
-<div class="modal fade" id="companyInfoModal" tabindex="-1" role="dialog" aria-labelledby="companyInfo" aria-hidden="true">
+<div class="modal fade" id="companyInfoModal" tabindex="-1" role="dialog"  aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Edit Company Information</h5>
+                <h5 class="modal-title" >Edit Company Information</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
                 <form action="/profile/editCompanyInfo" method="POST">
-                    <input type="hidden" name="companyId" id="{{company._id}}" value="{{company._id}}"/>
+                    <input type="hidden" name="companyId" id="companyId" value="{{company._id}}"/>
                     <div class="form-group">
                         <label for="companyName">Company Name</label>
-                        <input type="text" class="form-control" id="companyName" name="companyName" value={{company.companyName}}>
+                        <input type="text" class="form-control" id="companyName" name="companyName" value="{{company.companyName}}">
                     </div>
                     <div class="form-group">
                         <label for="hrEmail">HR EMail</label>
-                        <input type="text" class="form-control" id="hrEmail" name="hrEmail" aria-describedby="mailHelp"
+                        <input type="text" class="form-control" id="hrEmail" name="hrEmail" 
                             value={{company.hrEmail}}>
                     </div>
                     <div class="form-group">
@@ -106,7 +134,7 @@
                         {{!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> --}}
                         <div class="col-md-12 d-flex justify-content-end p-2 px-3">
                             <button class="btn btn-primary px-5"  type="button" data-dismiss="modal" aria-label="Close">Cancel</button>
-                            &nbsp &nbsp
+                        
                             <button class="btn btn-primary px-5" type="submit">Save</button>
                         </div>
                     </div>
@@ -118,11 +146,11 @@
 
 
 {{!-- Modal to update job information --}}
-<div class="modal fade bd-example-modal-lg" id="jobInfoModal" tabindex="-1" role="dialog" aria-labelledby="companyInfo" aria-hidden="true">
+<div class="modal fade bd-example-modal-lg" id="jobInfoModal" tabindex="-1" role="dialog"  aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Edit Job Information</h5>
+                <h5 class="modal-title" >Edit Job Information</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -131,51 +159,51 @@
                 {{#each company.jobDetails}}
                     <form action="/profile/editJob" method="POST">
                         <div class="bootstrap-switch-square">
-                            <input type="checkbox" data-toggle="switch" name="jobDetails[jobStatus]" id="Resend" value="true"  />
+                            <input type="checkbox" data-toggle="switch" name="jobDetails[jobStatus]" value="true"  />
                         </div>
                         <h2>{{this.description}}</h2>
-                        <input type="hidden" name="jobDetails[companyId]" id="{{../company._id}}" value="{{../company._id}}"/>
-                        <input type="hidden" name="jobDetails[id]" id="{{this._id}}" value="{{this._id}}"/>
+                        <input type="hidden" name="jobDetails[companyId]" value="{{../company._id}}"/>
+                        <input type="hidden" name="jobDetails[id]"  value="{{this._id}}"/>
                         <div class="form-group">
-                            <label for="jobTitle">Job Title</label>
-                            <input type="text" class="form-control" id="jobTitle" name="jobDetails[jobTitle]" value="{{this.jobTitle}}">
+                            <label >Job Title</label>
+                            <input type="text" class="form-control" name="jobDetails[jobTitle]" value="{{this.jobTitle}}">
                         </div>
                         <div class="form-group">
-                            <label for="jobLocation">Location</label>
-                            <input type="text" class="form-control" id="jobLocation" name="jobDetails[jobLocation]" value="{{this.jobLocation}}">
+                            <label >Location</label>
+                            <input type="text" class="form-control"  name="jobDetails[jobLocation]" value="{{this.jobLocation}}">
                         </div>
                         <div class="form-group">
-                            <label for="jobDescription">Description</label>
-                            <input type="text" class="form-control" id="jobDescription" name="jobDetails[jobDescription]" value="{{this.jobDescription}}">
+                            <label >Description</label>
+                            <input type="text" class="form-control"  name="jobDetails[jobDescription]" value="{{this.jobDescription}}">
                         </div>
                         <div class="form-group">
-                            <label for="yearsOfExperience">Years of Experience</label>
-                            <input type="number" class="form-control" id="year" name="jobDetails[yearsOfExperience]" value={{this.yearsOfExperience}}>
+                            <label >Years of Experience</label>
+                            <input type="number" class="form-control"  name="jobDetails[yearsOfExperience]" value={{this.yearsOfExperience}}>
                         </div>
                         <div class="form-group">
-                            <label for="skills">Skills</label>
-                            <input type="text" class="form-control" id="skills" name="jobDetails[skills]"
+                            <label >Skills</label>
+                            <input type="text" class="form-control"  name="jobDetails[skills]"
                                 value="{{#each this.skills}}{{this}},{{/each}}">
                         </div>
                         <div class="form-group">
-                            <label for="jobCategory">Job Category</label>
-                            <input type="text" class="form-control" id="jobCategory" name="jobDetails[jobCategory]" value="{{this.jobCategory}}">
+                            <label >Job Category</label>
+                            <input type="text" class="form-control" name="jobDetails[jobCategory]" value="{{this.jobCategory}}">
                         </div>
                         <div class="form-group">
-                            <label for="salaryMin">Minimum Salary</label>
-                            <input type="text" class="form-control" id="salaryMin" name="jobDetails[salaryMin]" value="{{this.salaryMin}}">
+                            <label >Minimum Salary</label>
+                            <input type="text" class="form-control"  name="jobDetails[salaryMin]" value="{{this.salaryMin}}">
                         </div>
                         <div class="form-group">
-                            <label for="salaryMax">Maximum Salary</label>
-                            <input type="text" class="form-control" id="salaryMax" name="jobDetails[salaryMax]" value="{{this.salaryMax}}">
+                            <label >Maximum Salary</label>
+                            <input type="text" class="form-control"  name="jobDetails[salaryMax]" value="{{this.salaryMax}}">
                         </div>
                         <div class="form-group">
-                            <label for="qualifications">Qualifications</label>
-                            <input type="text" class="form-control" id="qualifications" name="jobDetails[qualifications]" value="{{this.qualifications}}">
+                            <label >Qualifications</label>
+                            <input type="text" class="form-control"  name="jobDetails[qualifications]" value="{{this.qualifications}}">
                         </div>
                         <div class="col-md-12 d-flex justify-content-end p-2 px-3">
                             <button class="btn btn-primary px-5"  type="button" data-dismiss="modal" aria-label="Close">Cancel</button>
-                            &nbsp &nbsp
+                            
                             <button class="btn btn-primary px-5" type="submit">Save</button>
                         </div>
                     </form>
@@ -189,11 +217,11 @@
 </div>
 
 {{!-- Modal to add job information --}}
-<div class="modal fade bd-example-modal-lg" id="jobAddModal" tabindex="-1" role="dialog" aria-labelledby="companyInfo" aria-hidden="true">
+<div class="modal fade bd-example-modal-lg" id="jobAddModal" tabindex="-1" role="dialog"  aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Add Job Information</h5>
+                <h5 class="modal-title" >Add Job Information</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -205,38 +233,38 @@
                             <div class="col-md-5 mx-3">
                                 <div class="d-flex flex-column" id="workInformation">
                                     <div class="form-group">
-                                        <label for="JobTitle">Job Title</label>
-                                        <input type="hidden" name="companyId" id="{{company._id}}" value="{{company._id}}"/>
-                                        <input type="text" class="form-control" id="JobTitle" name="jobTitle" placeholder="">
+                                        <label >Job Title</label>
+                                        <input type="hidden" name="companyId"  value="{{company._id}}"/>
+                                        <input type="text" class="form-control"  name="jobTitle" placeholder="">
                                     </div>
                                     <div class="form-group">
-                                        <label for="JobLocation">Job Location</label>
-                                        <input type="text" class="form-control" id="JobLocation" name="jobLocation"
+                                        <label >Job Location</label>
+                                        <input type="text" class="form-control"  name="jobLocation"
                                             placeholder="">
                                     </div>
 
                                     <div class="form-group">
-                                        <label for="JobCategory">Job Category</label>
+                                        <label >Job Category</label>
                                         <input type="text" class="form-control" id="JobCategory" name="jobCategory"
                                             placeholder="">
                                     </div>
                                     <div class="form-group">
-                                        <label for="yearsOfExperience">Years of Experience</label>
+                                        <label >Years of Experience</label>
                                         <input type="number" class="form-control" id="yearsOfExperience" name="yearsOfExperience"
                                             placeholder="">
                                     </div>
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label for="SalaryMin">Salary Min</label>
-                                                <input type="text" class="form-control" id="salaryMin" name="salaryMin"
+                                                <label >Salary Min</label>
+                                                <input type="text" class="form-control"  name="salaryMin"
                                                     placeholder="">
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label for="SalaryMax">Salary Max</label>
-                                                <input type="text" class="form-control" id="salaryMax" name="salaryMax"
+                                                <label >Salary Max</label>
+                                                <input type="text" class="form-control"  name="salaryMax"
                                                     placeholder="">
                                             </div>
                                         </div>
@@ -245,24 +273,24 @@
                             </div>
                             <div class="col-md-5 mx-3">
                                 <div class="form-group">
-                                    <label for="jobDescription">Job Description</label>
-                                    <textarea class="form-control" rows="5" id="jobDescription" name="jobDescription"
+                                    <label >Job Description</label>
+                                    <textarea class="form-control" rows="5" name="jobDescription"
                                         placeholder=""></textarea>
                                 </div>
                                 <div class="form-group">
-                                    <label for="jobQualification">Qualification</label>
+                                    <label >Qualification</label>
                                     <textarea class="form-control"  id="jobQualification" name="jobQualification"
                                         placeholder=""></textarea>
                                 </div>
                                 <div class="form-group">
-                                    <label for="skills">Skills</label>
+                                    <label >Skills</label>
                                     <input type="text" class="form-control" id="skills" name="skills" placeholder="">
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-12 d-flex justify-content-end p-2 px-3">
                             <button class="btn btn-primary px-5"  type="button" data-dismiss="modal" aria-label="Close">Cancel</button>
-                            &nbsp &nbsp
+                            
                             <button class="btn btn-primary px-5" type="submit">Save</button>
                         </div>
                     </div>
@@ -280,44 +308,44 @@
     function addMoreJobs() {
        let wrapper = $('#jobs-wrapper');
         let html = `<h2>{{this.description}}</h2>
-                        <input type="hidden" name="jobDetails[companyId]" id="{{../company._id}}" value="{{../company._id}}"/>
-                        <input type="hidden" name="jobDetails[id]" id="{{this._id}}" value="{{this._id}}"/>
+                        <input type="hidden" name="jobDetails[companyId]"  value="{{../company._id}}"/>
+                        <input type="hidden" name="jobDetails[id]"  value="{{this._id}}"/>
                         <div class="form-group">
-                            <label for="jobTitle">Job Title</label>
-                            <input type="text" class="form-control" id="jobTitle" name="jobDetails[jobTitle]" value="{{this.jobTitle}}">
+                            <label >Job Title</label>
+                            <input type="text" class="form-control" name="jobDetails[jobTitle]" value="{{this.jobTitle}}">
                         </div>
                         <div class="form-group">
-                            <label for="jobLocation">Location</label>
-                            <input type="text" class="form-control" id="jobLocation" name="jobDetails[jobLocation]" value="{{this.jobLocation}}">
+                            <label >Location</label>
+                            <input type="text" class="form-control"  name="jobDetails[jobLocation]" value="{{this.jobLocation}}">
                         </div>
                         <div class="form-group">
-                            <label for="jobDescription">Description</label>
-                            <input type="text" class="form-control" id="jobDescription" name="jobDetails[jobDescription]" value="{{this.jobDescription}}">
+                            <label >Description</label>
+                            <input type="text" class="form-control" name="jobDetails[jobDescription]" value="{{this.jobDescription}}">
                         </div>
                         <div class="form-group">
-                            <label for="yearsOfExperience">Years of Experience</label>
-                            <input type="number" class="form-control" id="year" name="jobDetails[yearsOfExperience]" value={{this.yearsOfExperience}}>
+                            <label >Years of Experience</label>
+                            <input type="number" class="form-control" name="jobDetails[yearsOfExperience]" value={{this.yearsOfExperience}}>
                         </div>
                         <div class="form-group">
-                            <label for="skills">Skills</label>
-                            <input type="text" class="form-control" id="skills" name="jobDetails[skills]"
+                            <label >Skills</label>
+                            <input type="text" class="form-control"  name="jobDetails[skills]"
                                 value="{{#each this.skills}}{{this}},{{/each}}">
                         </div>
                         <div class="form-group">
-                            <label for="jobCategory">Job Category</label>
-                            <input type="text" class="form-control" id="jobCategory" name="jobDetails[jobCategory]" value="{{this.jobCategory}}">
+                            <label >Job Category</label>
+                            <input type="text" class="form-control"  name="jobDetails[jobCategory]" value="{{this.jobCategory}}">
                         </div>
                         <div class="form-group">
-                            <label for="salaryMin">Minimum Salary</label>
-                            <input type="text" class="form-control" id="salaryMin" name="jobDetails[salaryMin]" value="{{this.salaryMin}}">
+                            <label >Minimum Salary</label>
+                            <input type="text" class="form-control"  name="jobDetails[salaryMin]" value="{{this.salaryMin}}">
                         </div>
                         <div class="form-group">
-                            <label for="salaryMax">Maximum Salary</label>
-                            <input type="text" class="form-control" id="salaryMax" name="jobDetails[salaryMax]" value="{{this.salaryMax}}">
+                            <label >Maximum Salary</label>
+                            <input type="text" class="form-control"  name="jobDetails[salaryMax]" value="{{this.salaryMax}}">
                         </div>
                         <div class="form-group">
-                            <label for="qualifications">Qualifications</label>
-                            <input type="text" class="form-control" id="qualifications" name="jobDetails[qualifications]" value="{{this.qualifications}}">
+                            <label >Qualifications</label>
+                            <input type="text" class="form-control"  name="jobDetails[qualifications]" value="{{this.qualifications}}">
                         </div>`;
         wrapper.append(html);
     }

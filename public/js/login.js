@@ -50,9 +50,7 @@
         let confirmPassword = $('#reEnterPassword');
         confirmPassword.keyup(function(){
         let errorDiv = $('#error-reEnterPassword');
-        let lowerCaseLetters = /[a-z]/g;
-        let upperCaseLetters = /[A-Z]/g;
-        let numbers = /[0-9]/g;
+        
         let enteredConfirmPassword = confirmPassword.val().trim();
         let enteredPassword = password.val().trim();
 
@@ -69,7 +67,9 @@
 
         let loginForm = $("#login-form")
         function checkLoginForm(){
-            
+            let lowerCaseLetters = /[a-z]/g;
+            let upperCaseLetters = /[A-Z]/g;
+            let numbers = /[0-9]/g;
             loginForm.submit(function(event){
                 let username = $("#username")
                 let password = $("#password")

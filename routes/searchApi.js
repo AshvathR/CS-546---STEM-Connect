@@ -31,6 +31,10 @@ router.post('/general', async function(request, response) {
     }else{
         throw 'Object Type Error: ' + userTypeToggle;
     }
+
+    for (match of partialMatch){
+        match.lowercaseUsername = match.username.toLowerCase();
+    }
     
     response.render('general/search',{
         title: "Search Results for " + searchData.homeSearchBar,
@@ -47,102 +51,110 @@ router.post('/general', async function(request, response) {
 });
 
 router.post('/filter',  async function(request, response) {
-	
-    let searchData = request.body;
-    console.log(searchData);
-    let yearsExp = xss(searchData.yearsExp);
-    if(!yearsExp || isNaN(yearsExp)) throw 'Invalid field: Years of Experience';
+    if(request.session.authenticated){
+        let searchData = request.body;
+        console.log(searchData);
+        let yearsExp = xss(searchData.yearsExp);
+        if(!yearsExp || isNaN(yearsExp)) throw 'Invalid field: Years of Experience';
 
 
-    let skills = searchData.skills;
+        let skills = searchData.skills;
 
-    if(!skills){
-        skills = "noSkills"; 
-    } else {
-        for(skill of skills){
-            skill = xss(skill);
+        if(!skills){
+            skills = "noSkills"; 
+        } else {
+            for(skill of skills){
+                skill = xss(skill);
+            }
+            if(!Array.isArray(skills) || skills.length < 1) throw 'Invalid field: Skills Array';
         }
-        if(!Array.isArray(skills) || skills.length < 1) throw 'Invalid field: Skills Array';
-    }
+        
+        let projectNumber = xss(searchData.projectNumber);
 
-    let projectNumber = xss(searchData.projectNumber);
+        if(!projectNumber){
+            projectNumber = -1;
+        }else{
+            if(isNaN(projectNumber)) throw "Invalid field: Project Number";
+        }
 
-    if(!projectNumber){
-        projectNumber = -1;
-    }else{
-        if(isNaN(projectNumber)) throw "Invalid field: Project Number";
-    }
+        let minimumSalary = xss(searchData.minimumSalary);
 
-    let minimumSalary = xss(searchData.minimumSalary);
+        if(!minimumSalary){
+            minimumSalary = -1;
+        } else {
+            if(isNaN(minimumSalary)) throw "Invalid field: Minimum Salary";
+        }
 
-    if(!minimumSalary){
-        minimumSalary = -1;
-    } else {
-        if(isNaN(minimumSalary)) throw "Invalid field: Minimum Salary";
-    }
+        let jobCategory = xss(searchData.jobCategory);
 
-    let jobCategory = xss(searchData.jobCategory);
+        if(!jobCategory){
+            jobCategory = "noCategory";
+        }
 
-    if(!jobCategory){
-        jobCategory = "noCategory";
-    }
-
-    let listings = [];
-    let subListings = [];
-    if(request.session.currentUser == "employee"){
-        subListings = await data.jobDetails.searchJobByYearCategorySalarySkills(yearsExp, jobCategory, minimumSalary, skills);
+        let listings = [];
+        let subListings = [];
+        if(request.session.currentUser == "employee"){
+            subListings = await data.jobDetails.searchJobByYearCategorySalarySkills(yearsExp, jobCategory, minimumSalary, skills);
+            if(subListings.length > 0){
+                for(subList of subListings){
+                    listings.push({
+                        jobDetails: subList,
+                        company:  await data.company.getCompanyByJobDetailsId(subList._id)
+                    });  
+                }
+                for(listing of listings){
+                    listing.company.lowercaseUsername = listing.company.username.toLowerCase();
+                }
+            }
+            
+        } else{
+            
+        subListings = await data.userResume.searchResumeByYearSkillsProjectNumber(yearsExp, skills, projectNumber);
         if(subListings.length > 0){
             for(subList of subListings){
                 listings.push({
-                    jobDetails: subList,
-                    company:  await data.company.getCompanyByJobDetailsId(subList._id)
-                });
-                
+                    userResume: subList,
+                    user:  await data.user.findUserByResumeId(subList._id)
+                });  
+            }
+            for(listing of listings){
+                console.log(listing);
+                listing.user.lowercaseUsername = listing.user.username.toLowerCase();
             }
         }
-        
-    } else{
-       subListings = await data.userResume.searchResumeByYearSkillsProjectNumber(yearsExp, skills, projectNumber);
-       if(subListings.length > 0){
-        for(subList of subListings){
-            listings.push({
-                userResume: subList,
-                user:  await data.user.findUserByResumeId(subList._id)
-            });
-            
         }
-    }
-    }
-    
-    
-    response.render('general/search',{
-        title: "Filtered Search Results",
-        auth: request.session.authenticated,
-        //auth: true,
-        userType: request.session.currentUser,
-        //userType: "company",
-        searchResults: listings,
-        resultsFound: listings.length > 0,
-        notLoginPage:true,
-        username: request.session.username,
-        isUser:  request.session.currentUser == "employee",
-        isFilter: true,
-        isPost: true
+        
+        response.render('general/search',{
+            title: "Filtered Search Results",
+            auth: request.session.authenticated,
+            //auth: true,
+            userType: request.session.currentUser,
+            //userType: "company",
+            searchResults: listings,
+            resultsFound: listings.length > 0,
+            notLoginPage:true,
+            username: request.session.username,
+            isUser:  request.session.currentUser == "employee",
+            isFilter: true,
+            isPost: true
 
-    });
+        });
+    } else{
+        response.redirect("/");
+    }
 });
 
 router.get('/', async function(request, response) {
-    response.render('general/search',{
-        title: "Search Page",
-        //auth: request.session.authenticated,
-        auth: request.session.authenticated,
-        notLoginPage:true,
-        userType: request.session.currentUser,
-        isUser:  request.session.currentUser == "employee",
-        username: request.session.username,
-        isPost: false
-    });   
+        response.render('general/search',{
+            title: "Search Page",
+            //auth: request.session.authenticated,
+            auth: request.session.authenticated,
+            notLoginPage:true,
+            userType: request.session.currentUser,
+            isUser:  request.session.currentUser == "employee",
+            username: request.session.username,
+            isPost: false
+        });  
 });
 
 module.exports = router;

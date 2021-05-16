@@ -4,11 +4,8 @@
             <div class="d-flex align-items-center flex-column">
                 <div id="file"
                     class="d-flex justify-content-start align-items-center flex-column form-group col-md-6">
-                    <h2 class="text-center py-2" for="profile">Profile image</h2>
+                    <h2 class="text-center py-2" for="profilePicture">Profile image</h2>
                     <br />
-                    <img id="blah" style="height: 150px; width: 150px;"
-                        src="https://png.pngtree.com/element_our/20200609/ourmid/pngtree-children-s-software-programming-image_2230761.jpg"
-                        alt="your image" />
                     <br /> 
                     {{!-- btn btn-outline-primary my-3 filePond --}}
                     <input type='file' class="form-control-file " id="profilePicture" name="profilePicture"/>
@@ -18,22 +15,26 @@
             <div class="col-md-12 d-flex justify-content-between align-items-start">
                 <div class="col-md-5 mx-3 my-4">
                     <div class="form-group">
+
                         <label for="userName">User Name</label>
+
                         <input type="text" class="form-control" id="username" name="username" placeholder="" value="{{company.username}}" readonly>
                     </div>
                     <div class="error-username error" id="error-username"></div>
                     <div class="form-group">
+
                         <label for="HrInputEmail1">HR Email</label>
+
                         <input type="email" class="form-control" id="hrEmail" name="hrEmail" placeholder="" value="{{company.email}}" readonly>
                     </div>
                     <div class="error-hrEmail error" id="error-hrEmail"></div>
                     <div class="form-group">
-                        <label for="Password">Password</label>
+                        <label for="password">Password</label>
                         <input type="password" class="form-control" id="password" name="password" placeholder="" value="{{company.password}}">
                     </div>
                     <div class="error-password error" id="error-password"></div>
                     <div class="form-group">
-                        <label for="ConfirmPassword">Repeat Password</label>
+                        <label for="confirmPassword">Repeat Password</label>
                         <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" value="{{company.confirmPassword}}"
                             placeholder="">
                     </div>

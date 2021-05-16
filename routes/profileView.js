@@ -7,6 +7,42 @@ const resume = data.userResume
 const companyFunc = data.company
 const jobs = data.jobDetails;
 const projectFunc = data.projects;
+const multer = require('multer');
+const xss = require('xss');
+
+let profilePictureUrl;
+let resumeUrl;
+const storage = multer.diskStorage({
+    //destination for files
+    
+    destination: function (request, file, callback) {
+      console.log(file)
+      if(file.fieldname == 'profilePicture')
+        callback(null, './public/uploads/companyFiles/profilePictures');
+      else
+        callback(null, './public/uploads/employeeFiles/resume');
+    },
+  
+    //add back the extension
+    filename: function (request, file, callback) { 
+      if(file.fieldname == 'profilePicture'){
+        profilePictureUrl =  request.session.username + "_profilePicture.jpeg" 
+        callback(null, profilePictureUrl);
+      }
+      else{
+        resumeUrl = request.session.username + "_resume.pdf" 
+        callback(null, resumeUrl);
+      }
+    },
+  });
+  
+  //upload parameters for multer
+  const upload = multer({
+    storage: storage,
+    limits: {
+      fieldSize: 1024 * 1024 * 3,
+    },
+  });
 
 router.get('/', async(req,res)=> {
     // console.log(req.session)
@@ -36,12 +72,20 @@ router.get('/user/:id', async(req,res)=> {
 
 });
 
+router.post('/updatePicture', upload.single('profilePicture'), async(req,res)=>
+{
+  console.log("reached"); 
+  res.redirect('/profile');
+});
+
 router.get('/company/:id', async(req,res)=> {
     //if(req.session._id == req.params.id) res.redirect('/');
     const companyInfo = await companyFunc.getCompanyById(req.params.id);
     // let x = (companyInfo.jobDetails.skills).length;
     // console.log(x);
-    // console.log(companyInfo)
+    
+    companyInfo.lowercaseUsername = companyInfo.username.toLowerCase();
+    
     res.render('company/profileView', { title: "Company Details" , company : companyInfo,  auth: req.session.authenticated, notLoginPage: true, username: req.session.username}); 
 });
 
@@ -53,28 +97,28 @@ router.post("/addJob", async (req, res) =>
 
     let newJob = 
     {
-        jobTitle: htmlValue.jobTitle,
-        jobLocation: htmlValue.jobLocation,
-        jobDescription: htmlValue.jobDescription,
-        yearsOfExperience: parseInt(htmlValue.yearsOfExperience),
+        jobTitle: xss(htmlValue.jobTitle),
+        jobLocation: xss(htmlValue.jobLocation),
+        jobDescription: xss(htmlValue.jobDescription),
+        yearsOfExperience: parseInt(xss(htmlValue.yearsOfExperience)),
         skills: skillsArray,
-        jobCategory: htmlValue.jobCategory,
-        salaryMin: htmlValue.salaryMin,
-        salaryMax: htmlValue.salaryMax,
-        qualifications: htmlValue.jobQualification,
+        jobCategory: xss(htmlValue.jobCategory),
+        salaryMin: xss(htmlValue.salaryMin),
+        salaryMax: xss(htmlValue.salaryMax),
+        qualifications: xss(htmlValue.jobQualification),
         jobStatus: true
     }
 
-    const addNewJob = await jobs.addJob(newJob.jobTitle,
-        newJob.jobLocation,
-        newJob.jobDescription,
-        newJob.yearsOfExperience,
-        newJob.skills,
-        newJob.jobCategory,
-        newJob.salaryMin,
-        newJob.salaryMax,
-        newJob.qualifications,
-        newJob.jobStatus);
+    const addNewJob = await jobs.addJob(xss(newJob.jobTitle),
+        xss(newJob.jobLocation),
+        xss(newJob.jobDescription),
+        xss(newJob.yearsOfExperience),
+        xss(newJob.skills),
+        xss(newJob.jobCategory),
+        xss(newJob.salaryMin),
+        xss(newJob.salaryMax),
+        xss(newJob.qualifications),
+        xss(newJob.jobStatus));
 
     const addNewJobToCompany = await companyFunc.addJobToCompany(companyId, newJob);
 
@@ -98,16 +142,16 @@ router.post("/editJob", async (req, res) =>
 
     let jobUpdateInfo = 
     {
-        jobTitle: jobInfo.jobTitle,
-        jobLocation: jobInfo.jobLocation,
-        jobDescription: jobInfo.jobDescription,
-        yearsOfExperience: jobInfo.yearsOfExperience,
+        jobTitle: xss(jobInfo.jobTitle),
+        jobLocation: xss(jobInfo.jobLocation),
+        jobDescription: xss(jobInfo.jobDescription),
+        yearsOfExperience: xss(jobInfo.yearsOfExperience),
         skills: skills,
-        jobCategory: jobInfo.jobCategory,
-        salaryMin: jobInfo.salaryMin,
-        salaryMax: jobInfo.salaryMax,
-        qualifications: jobInfo.qualifications,
-        jobStatus: jobInfo.jobStatus
+        jobCategory: xss(jobInfo.jobCategory),
+        salaryMin: xss(jobInfo.salaryMin),
+        salaryMax: xss(jobInfo.salaryMax),
+        qualifications: xss(jobInfo.qualifications),
+        jobStatus: xss(jobInfo.jobStatus)
     };
 
     // console.log(jobUpdateInfo.jobStatus);
@@ -134,10 +178,10 @@ router.post('/editResume', async (req,res)=> {
 
     for(i = 0; i < (req.body.resume.School.schoolName).length; i++){
         tempSchool = {
-            schoolName: req.body.resume.School.schoolName[i],
-            startDate: req.body.resume.School.startDate[i],
-            endDate: req.body.resume.School.endDate[i],
-            gpa: req.body.resume.School.gpa[i]
+            schoolName: xss(req.body.resume.School.schoolName[i]),
+            startDate: xss(req.body.resume.School.startDate[i]),
+            endDate: xss(req.body.resume.School.endDate[i]),
+            gpa: xss(req.body.resume.School.gpa[i])
         }
         education.push(tempSchool)
     }
@@ -146,20 +190,20 @@ router.post('/editResume', async (req,res)=> {
     if(Array.isArray(req.body.resume.project.projectTitle)){
     for(i = 0; i < (req.body.resume.project.projectTitle).length; i++){
         temp = {
-            projectTitle: req.body.resume.project.projectTitle[i],
-            startDate: req.body.resume.project.startDate[i],
-            endDate: req.body.resume.project.endDate[i],
-            description: req.body.resume.project.description[i]
+            projectTitle: xss(req.body.resume.project.projectTitle[i]),
+            startDate: xss(req.body.resume.project.startDate[i]),
+            endDate: xss(req.body.resume.project.endDate[i]),
+            description: xss(req.body.resume.project.description[i])
         }
         project.push(temp)
     }
     }
     else{
         temp = {
-            projectTitle: req.body.resume.project.projectTitle,
-            startDate: req.body.resume.project.startDate,
-            endDate: req.body.resume.project.endDate,
-            description: req.body.resume.project.description
+            projectTitle: xss(req.body.resume.project.projectTitle),
+            startDate: xss(req.body.resume.project.startDate),
+            endDate: xss(req.body.resume.project.endDate),
+            description: xss(req.body.resume.project.description)
         }
         project.push(temp)
     }
@@ -182,9 +226,9 @@ router.post('/editResume', async (req,res)=> {
         education: education,
         projects: project,
         skills: skills,
-        workStatus: req.body.resume.workStatus,
-        description: req.body.resume.description,
-        resumeActive: req.body.resume.resumeActive,
+        workStatus: xss(req.body.resume.workStatus),
+        description: xss(req.body.resume.description),
+        resumeActive: xss(req.body.resume.resumeActive),
         userResumeUrl: "updatedResume.userResumeUrl"
       }
     //   console.log(resumeUpdateInfo)
@@ -206,10 +250,10 @@ router.post("/editCompanyInfo", async (req, res) =>
 
     updatedCompany = 
     {
-        companyName: companyInfo.companyName,
-        location: companyInfo.location,
-        category: companyInfo.category,
-        hrEmail: companyInfo.hrEmail
+        companyName: xss(companyInfo.companyName),
+        location: xss(companyInfo.location),
+        category: xss(companyInfo.category),
+        hrEmail: xss(companyInfo.hrEmail)
     };
 
     try {
@@ -224,25 +268,31 @@ router.post("/editCompanyInfo", async (req, res) =>
 router.post('/editPersonalInfo', async (req,res)=> {
     // console.log("hey")
     personalInfo = req.body
-    // console.log(personalInfo)
+    console.log(personalInfo)
     // console.log("gender is: " + personalInfo.dropdownMenuButon)
     updatedUser = {
-        email: personalInfo.email,
-        address: personalInfo.address,
+        email: xss(personalInfo.email),
+        address: xss(personalInfo.address),
         name: {
-            firstName: personalInfo.firstName,
-            lastName: personalInfo.lastName,
-            fullName: `${personalInfo.firstName} ${personalInfo.lastName}`
+            firstName: xss(personalInfo.firstName),
+            lastName: xss(personalInfo.lastName),
+            fullName: `${xss(personalInfo.firstName)} ${xss(personalInfo.lastName)}`
         },
-        phoneNumber: personalInfo.phoneNumber,
-        aboutMe: personalInfo.aboutMe,
-        gender: personalInfo.dropdownMenuButton,
-        dob: personalInfo.dateOfBirth,
-        resumeUrl: personalInfo.resumeUrl,  
+        phoneNumber: xss(personalInfo.phoneNumber),
+        aboutMe: xss(personalInfo.aboutMe),
+        gender: xss(personalInfo.dropdownMenuButton),
+        dob: xss(personalInfo.dateOfBirth),
+        websiteUrl: personalInfo.websiteUrl
+        // resumeUrl: `/public/uploads/employeeFiles/resume/${personalInfo.resumeUrl}`,  
     }
-
-    const newUser = await user.updateUser(personalInfo.userid, updatedUser)
-    console.log(newUser)
+    console.log(personalInfo.userid)
+    try{
+        const newUser = await user.updateUser(personalInfo.userid, updatedUser)
+        console.log(newUser)
+    }catch(e){
+        console.log(e)
+    }
+    
     res.redirect('/profile')
   });
 
@@ -264,7 +314,11 @@ router.post('/deleteResume', async(req,res)=>{
     console.log("Reached Delete Resume")
     console.log(req.body.resumeid)
     console.log(req.session._id)
-    await resume.removeResume(req.body.resumeid,req.session._id)
+    try{
+        await resume.removeResume(req.body.resumeid,req.session._id)
+    } catch(e){
+        console.log(e)
+    }
     res.redirect('/profile')
 });
 
@@ -272,8 +326,12 @@ router.post('/deleteJob', async(req,res)=>
 {    
     let companyId = req.body.companyid;
     let jobId = req.body.jobid;
-
-    await jobs.removeJob(jobId, companyId);
+    try{
+        await jobs.removeJob(jobId, companyId);
+    }catch(e){
+        console.log(e)
+    }
+    
     res.redirect('/profile');
 });
 
@@ -290,10 +348,10 @@ if(req.body.School) {
       {
           tempSchool = 
           {
-            schoolName: school.schoolName[i],
-            startDate: school.startDate[i],
-            endDate: school.endDate[i],
-            gpa: school.gpa[i]
+            schoolName: xss(school.schoolName[i]),
+            startDate: xss(school.startDate[i]),
+            endDate: xss(school.endDate[i]),
+            gpa: xss(school.gpa[i])
           }
         education.push(tempSchool)
       }
@@ -302,10 +360,10 @@ if(req.body.School) {
     {
       tempSchool = 
         {
-          schoolName: school.schoolName,
-          startDate: school.startDate,
-          endDate: school.endDate,
-          gpa: school.gpa
+          schoolName: xss(school.schoolName),
+          startDate: xss(school.startDate),
+          endDate: xss(school.endDate),
+          gpa: xss(school.gpa)
         }
       education.push(tempSchool)
     }
@@ -321,7 +379,7 @@ if(req.body.project) {
     for(i = 0; i < (project.projectTitle).length; i++)
     {
         try{
-            const newProject = await projectFunc.addProject(project.projectTitle[i],project.projectDesc[i],project.startDate[i],project.endDate[i]);
+            const newProject = await projectFunc.addProject(xss(project.projectTitle[i]),xss(project.projectDesc[i]),xss(project.startDate[i]),xss(project.endDate[i]));
             const addProjectToUserResume = await resume.addProjectToUserResume(newResume._id,newProject)
         }catch(e)
         {
@@ -331,7 +389,7 @@ if(req.body.project) {
     }
     else{
         try{
-            const newProject = await projectFunc.addProject(project.projectTitle,project.projectDesc,project.startDate,project.endDate);
+            const newProject = await projectFunc.addProject(xss(project.projectTitle),xss(project.projectDesc),xss(project.startDate),xss(project.endDate));
             const addProjectToUserResume = await resume.addProjectToUserResume(newResume._id,newProject)
         }catch(e)
         {
