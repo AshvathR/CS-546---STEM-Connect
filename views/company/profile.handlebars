@@ -59,7 +59,7 @@
                                                 <span class="badge badge-pill badge-info" style="font-size: small;" >{{this}}</span>
                                             {{/each}}
                                             <form action="/profile/deleteJob" method="post">
-                                                <input type="hidden" name="jobid" id="{{this._id}}" value="{{this._id}}"/>
+                                                <input type="hidden" name="jobid"  value="{{this._id}}"/>
                                                 <input type="hidden" name="companyid"  value="{{../company._id}}"/>
                                                 <button class="btn btn-danger" type="submit">Delete Job</button>
                                             </form>
@@ -111,7 +111,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form action="/profile/editCompanyInfo" method="POST">
+                <form  action="/profile/editCompanyInfo" method="POST">
                     <input type="hidden" name="companyId" id="companyId" value="{{company._id}}"/>
                     <div class="form-group">
                         <label for="companyName">Company Name</label>
@@ -157,7 +157,7 @@
             </div>
             <div class="modal-body">
                 {{#each company.jobDetails}}
-                    <form action="/profile/editJob" method="POST">
+                    <form class="jobForms" action="/profile/editJob" method="POST">
                         <div class="bootstrap-switch-square">
                             <input type="checkbox" data-toggle="switch" name="jobDetails[jobStatus]" value="true"  />
                         </div>
@@ -166,40 +166,53 @@
                         <input type="hidden" name="jobDetails[id]"  value="{{this._id}}"/>
                         <div class="form-group">
                             <label >Job Title</label>
-                            <input type="text" class="form-control" name="jobDetails[jobTitle]" value="{{this.jobTitle}}">
+                            <input class="jobTitle form-control" type="text"  name="jobDetails[jobTitle]" value="{{this.jobTitle}}">
+                            <div class="error-jobTitle" ></div>
                         </div>
                         <div class="form-group">
                             <label >Location</label>
-                            <input type="text" class="form-control"  name="jobDetails[jobLocation]" value="{{this.jobLocation}}">
+                            <input class="jobLocation form-control" type="text"   name="jobDetails[jobLocation]" value="{{this.jobLocation}}">
+                            <div class="error-jobLocation"></div>
                         </div>
                         <div class="form-group">
                             <label >Description</label>
-                            <input type="text" class="form-control"  name="jobDetails[jobDescription]" value="{{this.jobDescription}}">
+                            <input class="jobDescription form-control" type="text"  name="jobDetails[jobDescription]" value="{{this.jobDescription}}">
+                            <div class="error-jobDescription"></div>
                         </div>
                         <div class="form-group">
                             <label >Years of Experience</label>
-                            <input type="number" class="form-control"  name="jobDetails[yearsOfExperience]" value={{this.yearsOfExperience}}>
+                            <input class="yearsOfExperience form-control" type="number"      name="jobDetails[yearsOfExperience]" value={{this.yearsOfExperience}}>
+                            <div class="error-yearsOfExperience"></div>
+
                         </div>
                         <div class="form-group">
                             <label >Skills</label>
-                            <input type="text" class="form-control"  name="jobDetails[skills]"
+                            <input type="text" class="form-control skills"  name="jobDetails[skills]"
                                 value="{{#each this.skills}}{{this}},{{/each}}">
                         </div>
                         <div class="form-group">
                             <label >Job Category</label>
-                            <input type="text" class="form-control" name="jobDetails[jobCategory]" value="{{this.jobCategory}}">
+                            <input type="text" class="form-control jobCategory" name="jobDetails[jobCategory]" value="{{this.jobCategory}}">
+                            <div class="error-jobCategory"></div>
+
                         </div>
                         <div class="form-group">
                             <label >Minimum Salary</label>
-                            <input type="text" class="form-control"  name="jobDetails[salaryMin]" value="{{this.salaryMin}}">
+                            <input type="text" class="form-control salaryMin"  name="jobDetails[salaryMin]" value="{{this.salaryMin}}">
+                            <div class="error-salaryMin"></div>
+
                         </div>
                         <div class="form-group">
                             <label >Maximum Salary</label>
-                            <input type="text" class="form-control"  name="jobDetails[salaryMax]" value="{{this.salaryMax}}">
+                            <input type="text" class="form-control salaryMax"  name="jobDetails[salaryMax]" value="{{this.salaryMax}}">
+                            <div class="error-salaryMax"></div>
+
                         </div>
                         <div class="form-group">
                             <label >Qualifications</label>
-                            <input type="text" class="form-control"  name="jobDetails[qualifications]" value="{{this.qualifications}}">
+                            <input type="text" class="form-control qualifications"  name="jobDetails[qualifications]" value="{{this.qualifications}}">
+                            <div class="error-qualifications"></div>
+
                         </div>
                         <div class="col-md-12 d-flex justify-content-end p-2 px-3">
                             <button class="btn btn-primary px-5"  type="button" data-dismiss="modal" aria-label="Close">Cancel</button>
@@ -305,6 +318,103 @@
 
 <script src="/public/js/company.js"></script>
 <script>
+    (function($){
+
+        var jobForms = $('.jobForms')
+
+        jobForms.each( function(index, element){
+
+            var jobTitle = $(element).find('.jobTitle');
+            var jobLocation = $(element).find('.jobLocation')
+            var jobDescription = $(element).find('.jobDescription')
+            var yearsOfExperience = $(element).find('.yearsOfExperience')
+            var salaryMin = $(element).find('.salaryMin')
+            var salaryMax = $(element).find('.salaryMax')
+            var qualifications = $(element).find('.qualifications')
+            var skills = $(element).find('.skills')
+            var jobCategory = $(element).find('.jobCategory')
+            
+            $(element).submit( function(event){
+            
+                console.log('submitted')
+                
+                if(jobTitle.val().trim().length == 0 ){
+                    event.preventDefault();
+                    $(element).find(".error-jobTitle").empty();
+                    $(element).find(".error-jobTitle").append('<p class="error"> Error: Please enter jobtitle </p>')
+                    $(element).find(".jobTitle").focus()
+                    return
+                }
+
+                if(jobLocation.val().trim().length == 0 ){
+                    event.preventDefault();
+                    $(element).find(".error-jobLocation").empty();
+                    $(element).find(".error-jobLocation").append('<p class="error"> Error: Please enter jobLocation </p>')
+                    $(element).find(".jobLocation").focus()
+                    return
+                }
+                if(jobDescription.val().trim().length == 0 ){
+                    event.preventDefault();
+                    $(element).find(".error-jobDescription").empty();
+                    $(element).find(".error-jobDescription").append('<p class="error"> Error: Please enter jobDescription </p>')
+                    $(element).find(".jobDescription").focus()
+                    return
+                }
+
+                if( !$.isNumeric(yearsOfExperience.val()) || yearsOfExperience.val() < 0 ){
+                    event.preventDefault();
+                    $(element).find(".error-yearsOfExperience").empty();
+                    $(element).find(".error-yearsOfExperience").append('<p class="error"> Error: Please enter yearsOfExperience </p>')
+                    $(element).find(".yearsOfExperience").focus()
+                    return
+                }
+
+                if(skills.val().trim().length == 0 ){
+                    event.preventDefault();
+                    $(element).find(".error-skills").empty();
+                    $(element).find(".error-skills").append('<p class="error"> Error: Please enter skills </p>')
+                    $(element).find(".skills").focus()
+                    return
+                }
+
+                if(jobCategory.val().trim().length == 0 ){
+                    event.preventDefault();
+                    $(element).find(".error-jobCategory").empty();
+                    $(element).find(".error-jobCategory").append('<p class="error"> Error: Please enter jobCategory </p>')
+                    $(element).find(".jobCategory").focus()
+                    return
+                }
+
+                if( !$.isNumeric(salaryMin.val()) || salaryMin.val() < 0 ){
+                    event.preventDefault();
+                    $(element).find(".error-salaryMin").empty();
+                    $(element).find(".error-salaryMin").append('<p class="error"> Error: Please enter salaryMin </p>')
+                    $(element).find(".salaryMin").focus()
+                    return
+                }
+                if( !$.isNumeric(salaryMax.val()) || salaryMax.val() < 0 ){
+                    event.preventDefault();
+                    $(element).find(".error-salaryMax").empty();
+                    $(element).find(".error-salaryMax").append('<p class="error"> Error: Please enter salaryMax </p>')
+                    $(element).find(".salaryMax").focus()
+                    return
+                }
+
+                 if(qualifications.val().trim().length == 0 ){
+                    event.preventDefault();
+                    $(element).find(".error-qualifications").empty();
+                    $(element).find(".error-qualifications").append('<p class="error"> Error: Please enter qualifications </p>')
+                    $(element).find(".qualifications").focus()
+                    return
+                }
+
+
+
+            } )
+        } )
+        
+    })(window.jQuery)
+
     function addMoreJobs() {
        let wrapper = $('#jobs-wrapper');
         let html = `<h2>{{this.description}}</h2>

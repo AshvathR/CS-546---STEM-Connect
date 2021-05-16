@@ -10,14 +10,14 @@
     {{/if}}
         <div class="min-max-slider" data-legendnum="2">
             <div class="form-group">
-            <label for="yearExp">Years Experience</label>
-                <input id="yearsExpSlider" class="min" name="yearsExp" type="range" step="1" min="0" max="30" value="" class="form-control"/>
-                <input id="yearsExpInput" name="yearsExp" type="number" min="0" max="30"/ class="form-control">
+            <label >Years Experience</label>
+                <input id="yearsExpSlider" class="min" name="yearsExp" type="range" step="1" min="0" max="30"  />
+                <input id="yearsExpInput" name="yearsExp" type="number" min="0" max="30" >
             
                 </div>
         </div>  
     <div class="form-group">
-        <label for="skillsLookUp">Skills</label>
+        <label >Skills</label>
         <input  class="form-control" id="skillsLookUp" name="skillsLookup" type="text" placeholder="Skills"/>
         </div>
         <div id="skillsList">
@@ -26,8 +26,8 @@
         </div>
     <br/>
     <br/>
-        <p>Optional Filter Categories</p>
         {{#if isUser}}
+         <p>Optional Filter Categories</p>
         <div id="jobCategory">
             <button type="button" id="revealCategory">Filter by Job Category</button>
             <div id="categoryInputFilter">
@@ -40,7 +40,7 @@
             <button type="button" id="revealMinSalary">Filter by Minimum Salary</button>
             <div id="minimumSalaryFilter" class="min-max-slider" data-legendnum="2">
                 <label for="minSalary">Years Experience
-                    <input id="minSalarySlider" class="min" name="minSalary" type="range" step="1000" min="20000" max="500000" value="" />
+                    <input id="minSalarySlider" class="min" name="minSalary" type="range" step="1000" min="20000" max="500000"  />
                     <input id="minSalaryInput" name="minSalary" type="number" min="20000" max="500000"/>
                 </label>
                 <button type="button" id="removeMinSalary">Remove Salary Filter</button>
@@ -58,8 +58,8 @@
             <br/>
             <div id="projectNumberFilter" class="my-3 min-max-slider" data-legendnum="2">
                 <div class="form-group">
-                <label for="projectNumber">Number of Personal Projects on Resume</label>
-                    <input id="projectNumberSlider" class="min" name="projectNumber" type="range" step="1" min="0" max="20" value=""  class="form-control"/>
+                <label >Number of Personal Projects on Resume</label>
+                    <input id="projectNumberSlider" class="min" name="projectNumber" type="range" step="1" min="0" max="20" />
                     <input id="projectNumberInput" name="projectNumber" type="number" min="1" max="20" class="form-control"/>
                 
                     </div>

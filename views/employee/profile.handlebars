@@ -21,7 +21,7 @@
                         
                         <h5 class="card-title d-flex justify-content-center" style="color: rgb(155, 155, 155); font-size:medium">{{user.address}}</h5>
                         <p class="card-text d-flex justify-content-center">{{user.aboutMe}}</p>
-                        <a target="_blank" href="https://{{user.websiteUrl}}"><h5 class="card-title d-flex justify-content-center" style="  color: rgb(0, 132, 255); font-family: helvetica;  text-decoration: none; text-transform: uppercase;">Visit Website</h5></a>
+                        <a target="_blank" href="{{user.websiteUrl}}"><h5 class="card-title d-flex justify-content-center" style="  color: rgb(0, 132, 255); font-family: helvetica;  text-decoration: none; text-transform: uppercase;">Visit Website</h5></a>
                     </div>
             </div>
             <br>
@@ -240,9 +240,9 @@
                 <div class="dropdown form-group d-flex flex-column">
                                 <label for="gender">Gender</label>
                                 <select style="width: 200px;" class="text-right btn btn-secondary dropdown-toggle"
-                                    type="button" id="gender" name="dropdownMenuButton"
+                                    type="button" id="gender" name="dropdownMenuButton" value="{{user.gender}}"
                                     data-toggle="dropdown">
-                                    <option disabled selected value> -- select an option -- </option>
+
                                     <option value="male">Male</option>
                                     <option value="female">Female</option>
                                      <option value="other">Other</option>

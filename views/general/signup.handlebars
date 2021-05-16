@@ -15,7 +15,7 @@
             <div class="col-md-5">
                         <div class = "divForm">
             <form action="/signup" method="POST" class="signup-form" id="signup-form">
-            <label id = "form">
+            <div id = "form"> 
             <h4 class = "first">Sign Up</h4>            
             <div class="form-group">
                 <label>Username</label>
@@ -42,12 +42,12 @@
                 
                 <div>
                     <input type="radio" id="usertype" checked="checked" value="employee" name="usertype"> 
-                    <label for="employee"> Employee </label>
+                    <label for="usertype"> Employee </label>
                     
                 </div>
  
                 <div>
-                    <input type="radio"  value="company" name="usertype"> 
+                    <input id="company" type="radio"  value="company" name="usertype"> 
                     <label for="company"> Company</label>
                 </div>
             </div>
@@ -56,7 +56,7 @@
             <div class="error-form error" id="error-validationform">Username or Email already exists. Try with different username and email</div>
             {{/if}}
                 <button class="btnSignUp" type="submit">Sign Up</button>
-            </label>
+            </div>
             </form>
         </div>
             </div>
