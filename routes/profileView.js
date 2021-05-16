@@ -2,12 +2,14 @@ const express = require('express');
 const router = express.Router();
 const data = require('../data/');
 const { updateUser } = require('../data/users');
+const ObjectID = require("mongodb").ObjectID;
 const user = data.users
 const resume = data.userResume
 const companyFunc = data.company
 const jobs = data.jobDetails;
 const projectFunc = data.projects;
 const multer = require('multer');
+const { route } = require('./searchApi');
 
 let profilePictureUrl;
 let resumeUrl;
@@ -84,8 +86,8 @@ router.get('/company/:id', async(req,res)=> {
     // console.log(x);
     
     companyInfo.lowercaseUsername = companyInfo.username.toLowerCase();
-    
-    res.render('company/profileView', { title: "Company Details" , company : companyInfo,  auth: req.session.authenticated, notLoginPage: true, username: req.session.username}); 
+    console.log(req.session._id);
+    res.render('company/profileView', { title: "Company Details" , company : companyInfo, sessionId: req.session._id, isUser: req.session.currentUser == "employee", auth: req.session.authenticated, notLoginPage: true, username: req.session.username}); 
 });
 
 router.post("/addJob", async (req, res) =>
@@ -426,5 +428,7 @@ try{
   
   res.redirect('/profile')
 })
+
+
 
 module.exports = router;

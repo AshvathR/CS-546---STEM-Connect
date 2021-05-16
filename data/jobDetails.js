@@ -1,5 +1,6 @@
 const mongoCollections = require('../config/mongoCollections');
 const jobDetails = mongoCollections.jobDetails;
+const user = mongoCollections.users;
 const users = require('./users');
 const objectId = require('mongodb').ObjectID;
 const company = mongoCollections.company;
@@ -104,8 +105,35 @@ let exportedMethods = {
 
     },
 
-    async addUserToAppliedUsers(userId){
-      checkUndef(userId, "")
+    async addUserToAppliedUsers(jobId, userId){
+      checkUndef(jobId, "jobId");
+      checkUndef(userId, "userId");
+      
+      const jobCollection = await jobDetails();
+      const userCollection = await user();
+      try {
+        jobCollection.updateOne(
+          {
+            _id: objectId(jobId)
+          },
+          {
+            $addToSet: {appliedUsers: [objectId(userId)]}
+          }
+        );
+
+        userCollection.updateOne(
+          {
+            _id: objectId(userId)
+          },
+          {
+            $addToSet: {appliedJobs: [objectId(jobId)]}
+          }
+        );
+      } catch{
+        return false;
+      }
+
+      return true;
     },
 
     async searchJobByYearCategorySalarySkills(years, category, minSalary, skillsArray)
