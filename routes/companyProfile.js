@@ -50,13 +50,13 @@ router.post('/createNewCompany', upload.single('profilePicture'), async(req,res)
             const tempCompany = await jobData.addJob(htmlValue.jobTitle[i],
                 htmlValue.jobLocation[i],
                 htmlValue.jobDescription[i], 
+                parseInt(htmlValue.yearsOfExperience[i]), 
+                tempskillArray,
                 htmlValue.jobCategory[i], 
                 htmlValue.salaryMin[i], 
                 htmlValue.salaryMax[i], 
                 htmlValue.jobQualification[i], 
-                htmlValue.yearsOfExperience[i], 
-                tempskillArray,
-                true  
+                true
             )
             const addJobToCompany = await companyData.addJobToCompany(newCompany._id, tempCompany);
         }
@@ -65,8 +65,8 @@ router.post('/createNewCompany', upload.single('profilePicture'), async(req,res)
         let skillArray = htmlValue.skills;
         const newJob = await jobData.addJob(htmlValue.jobTitle,
             htmlValue.jobLocation,
-            htmlValue.jobDescription,
-            htmlValue.yearsOfExperience,
+            htmlValue.jobDescription, 
+            parseInt(htmlValue.yearsOfExperience),
             skillArray,
             htmlValue.jobCategory, 
             htmlValue.salaryMin, 

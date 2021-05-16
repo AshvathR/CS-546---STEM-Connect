@@ -24,8 +24,10 @@ async function main()
     const extraCompany = await companyFunc.addCompany('Analysis Solutions', 'New York','Software','hrMail@mail.com', 'test1234', '$2b$16$XoxM9a/lLskO6Fx5wSpvauSwvGip7XexMvliIQiDSHHtElYEP3n3O');
     //Add job
     const newJob = await job.addJob('Front End Dev', 'Mumbai','working on the ui',4,['Mongob', 'Nodejs'],'IT','100000','120000','Text on Qualifications',true)
+
     const newJob1 = await job.addJob('Back End Dev', 'Banglore','Working on the Data Functions',2,["Java",'Mongob', 'Nodejs'],'IT','80000','90000','Text on Qualifications',true)
     const extraJob = await job.addJob("Front End Dev", "New York", 'Developing Innovative Platform Solutions',3,['Mongob', 'Nodejs'], "Software Developer", '80000', '100000', "Must be experience and willing to learn", true );
+
     const newJob2 = await job.addJob('Front End Dev', 'Mumbai','working on the ui',3,['Mongob', 'Nodejs'],'IT','100000','120000','Text on Qualifications',true)
     const newJob3 = await job.addJob('Back End Dev', 'Banglore','Working on the Data Functions',1,["Java",'Mongob', 'Nodejs'],'IT','80000','90000','Text on Qualifications',true)
 
