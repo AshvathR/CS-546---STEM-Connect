@@ -4,7 +4,7 @@
             <div class="d-flex align-items-center flex-column">
                 <div id="file"
                     class="d-flex justify-content-start align-items-center flex-column form-group col-md-6">
-                    <h2 class="text-center py-2" for="profilePicture">Profile image</h2>
+                    <h2 class="text-center py-2">Profile image</h2>
                     <br />
                     <br /> 
                     {{!-- btn btn-outline-primary my-3 filePond --}}
@@ -16,54 +16,54 @@
                 <div class="col-md-5 mx-3 my-4">
                     <div class="form-group">
 
-                        <label for="userName">User Name</label>
+                        <label >User Name</label>
 
                         <input type="text" class="form-control" id="username" name="username" placeholder="" value="{{company.username}}" readonly>
                     </div>
                     <div class="error-username error" id="error-username"></div>
                     <div class="form-group">
 
-                        <label for="HrInputEmail1">HR Email</label>
+                        <label >HR Email</label>
 
                         <input type="email" class="form-control" id="hrEmail" name="hrEmail" placeholder="" value="{{company.email}}" readonly>
                     </div>
                     <div class="error-hrEmail error" id="error-hrEmail"></div>
                     <div class="form-group">
-                        <label for="password">Password</label>
+                        <label >Password</label>
                         <input type="password" class="form-control" id="password" name="password" placeholder="" value="{{company.password}}">
                     </div>
                     <div class="error-password error" id="error-password"></div>
                     <div class="form-group">
-                        <label for="confirmPassword">Repeat Password</label>
+                        <label >Repeat Password</label>
                         <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" value="{{company.confirmPassword}}"
                             placeholder="">
                     </div>
                     <div class="error-confirmPassword error" id="error-confirmPassword"></div>
                 </div>
                 <div class="col-md-5 mx-3">
-                    <div class="d-flex flex-column" id="workInformation">
-                        <h4 class="text-left pb-4 mt-0" for="profile">Company Information</h4>
+                    <div class="d-flex flex-column" >
+                        <h4 class="text-left pb-4 mt-0" >Company Information</h4>
                         <div class="d-flex justify-content-between">
                             <div class="form-group">
-                                <label for="companyName">Company Name</label>
+                                <label >Company Name</label>
                                 <input type="text" class="form-control" id="companyName" name="companyName"
                                     placeholder="">
                             </div>
                         </div>
                         <div class="error-companyName error" id="error-companyName"></div>
                         <div class="form-group">
-                            <label for="ConfirmPassword">Phone Number</label>
+                            <label >Phone Number</label>
                             <input type="number" class="form-control" id="phoneNumber" name="phoneNumber"
                                 placeholder="">
                         </div>
                         <div class="error-phoneNumber error" id="error-phoneNumber"></div>
                         <div class="form-group">
-                            <label for="category">Category</label>
+                            <label >Category</label>
                             <input type="text" class="form-control" id="category" name="category" placeholder="">
                         </div>
                         <div class="error-category error" id="error-category"></div>
                         <div class="form-group">
-                            <label for="address">Address</label>
+                            <label >Address</label>
                             <input type="text" class="form-control" id="address" name="address" placeholder="">
                         </div>
                         <div class="error-address error" id="error-address"></div>
@@ -75,20 +75,20 @@
                     
                     <div class="col-md-12 d-flex justify-content-between mt-5 align-items-center">
                         <div class="col-md-5 mx-3">
-                            <div class="d-flex flex-column" id="workInformation">
+                            <div class="d-flex flex-column" >
                                 <div class="form-group">
-                                    <label for="JobTitle">Job Title</label>
+                                    <label >Job Title</label>
                                     <input type="text" class="form-control 10000" id="jobTitle10000" name="jobTitle" placeholder="">
                                 </div>
                                 <div class="error-jobTitle10000 error" id="error-jobTitle10000"></div>
                                 <div class="form-group">
-                                    <label for="jobLocation">Job Location</label>
+                                    <label >Job Location</label>
                                     <input type="text" class="form-control 10000" id="jobLocation10000" name="jobLocation"
                                         placeholder="">
                                 </div>
                                 <div class="error-jobLocation10000 error" id="error-jobLocation10000"></div>
                                     <div class="form-group">
-                                        <label for="categoryLookUp">Job Category</label>
+                                        <label >Job Category</label>
                                         <input class="form-control 10000" id="jobCategory10000" name="jobCategory10000" type="text" placeholder=""/>
                                     </div>
                                     <div class="error-jobCategory10000 error" id="error-jobCategory10000"></div>
@@ -99,7 +99,7 @@
                                         placeholder="">
                                 </div> --}}
                                 <div class="form-group">
-                                    <label for="yearsOfExperience">Years of Experience</label>
+                                    <label >Years of Experience</label>
                                     <input type="number" class="form-control 10000" id="yearsOfExperience10000" name="yearsOfExperience"
                                         placeholder="">
                                 </div>
@@ -107,14 +107,14 @@
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label for="SalaryMin">Salary Min</label>
+                                            <label >Salary Min</label>
                                             <input type="text" class="form-control 10000" id="salaryMin10000" name="salaryMin"
                                                 placeholder="">
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label for="SalaryMax">Salary Max</label>
+                                            <label >Salary Max</label>
                                             <input type="text" class="form-control 10000" id="salaryMax10000" name="salaryMax"
                                                 placeholder="">
                                         </div>
@@ -125,19 +125,19 @@
                         </div>
                         <div class="col-md-5 mx-3">
                             <div class="form-group">
-                                <label for="jobDescription">Job Description</label>
+                                <label >Job Description</label>
                                 <textarea class="form-control 10000" rows="5" id="jobDescription10000" name="jobDescription"
                                     placeholder=""></textarea>
                             </div>
                             <div class="error-jobDescription10000 error" id="error-jobDescription10000"></div>
                             <div class="form-group">
-                                <label for="jobQualification">Qualification</label>
+                                <label >Qualification</label>
                                 <textarea class="form-control 10000"  id="jobQualification10000" name="jobQualification"
                                     placeholder=""></textarea>
                             </div>
                             <div class="error-jobQualification10000 error" id="error-jobQualification10000"></div>
                             <div class="form-group">
-                                <label for="skillsLookUp">Skills</label>
+                                <label >Skills</label>
                                 <input  class="form-control 10000" id="skillsLookUp10000" name="skillsLookup" type="text" placeholder="Skills"/>
                             </div>
                             <div class="error-skillsLookUp10000 error" id="error-skillsLookUp10000"></div>
@@ -154,8 +154,8 @@
                 
         </div>
         <div class="col-md-12 d-flex justify-content-end p-2 px-3">
-            <a class="btn btn-primary px-5"  type="button" href ="/signUp">Cancel</a>
-            &nbsp &nbsp
+            <a class="btn btn-primary px-5"  href ="/signUp">Cancel</a>
+
             <button class="btn btn-primary px-5" type="submit">Save</button>
         </div>
     </div>
