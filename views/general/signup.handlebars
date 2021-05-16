@@ -52,6 +52,9 @@
                 </div>
             </div>
             <div class="error-form" id="error-form"></div>
+            {{#if hasError}}
+            <div class="error-form error" id="error-validationform">Username or Email already exists. Try with different username and email</div>
+            {{/if}}
                 <button class="btnSignUp" type="submit">Sign Up</button>
             </label>
             </form>

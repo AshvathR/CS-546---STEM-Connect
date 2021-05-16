@@ -31,6 +31,9 @@
                         <div class="error-password" id="error-password" ></div>
                         <br>
                         <div class="error-form" id="error-form" ></div>
+                        {{#if hasError}}
+                        <div class="error-form error" id="error-validationform">Username or password is wrong. Please try again!</div>
+                        {{/if}}
                     </label>
                     <br>
                     <button type="submit" class="btnLogin" >Log in</button>
