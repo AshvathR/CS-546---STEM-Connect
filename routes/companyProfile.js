@@ -99,7 +99,7 @@ router.post('/createNewCompany', upload.single('profilePicture'), async(req,res)
     req.session.currentUser ='company';
     if(Array.isArray(htmlValue.jobLocation)){
         for(let i=0; i<htmlValue.jobLocation.length; i++){
-            let tempskillArray = htmlValue.skillsLookup[i];
+            let tempskillArray = htmlValue.skillsLookup[i].split(',');
             const tempCompany = await jobData.addJob(htmlValue.jobTitle[i],
                 htmlValue.jobLocation[i],
                 htmlValue.jobDescription[i], 
@@ -115,7 +115,7 @@ router.post('/createNewCompany', upload.single('profilePicture'), async(req,res)
         }
     }
     else{
-        let skillArray = htmlValue.skills;
+        let skillArray = htmlValue.skillsLookup.split(',');
         const newJob = await jobData.addJob(htmlValue.jobTitle,
             htmlValue.jobLocation,
             htmlValue.jobDescription, 
