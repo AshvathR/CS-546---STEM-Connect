@@ -11,16 +11,13 @@
     let upperCaseLetters = /[A-Z]/g;
     let numbers = /[0-9]/g;
     let urlFormat = /^(?:(?:https?|ftp):\/\/)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,})))(?::\d{2,5})?(?:\/\S*)?$/
-    let creationForm = $("#employee-creation-form")
-    let companycreationForm = $("#company-creation-form")
+    let creationForm = $("#company-creation-form")
     let websiteUrl = $('#websiteUrl') 
     let addEducation =$('#addEducation')
     let skillsInput = $('#skillsLookUp');
     let skillsList = $('#skillsLookUp');
     let selectedSkills = $('#insertedSkills');
     let skillsDiv = $('#skillsList');
-    let category =  $('#category')
-    
 
     function skillsAddition(){
         var skills = getSkills();
@@ -480,244 +477,77 @@
             }
         })
 
-        companycreationForm.submit(function(event){
+        creationForm.submit(function(event){
             let uploadResume = $('#uploadResume');
             let profilePicture = $('#profilePicture');
             let errorDiv = $("#error-form")
             let allSpecialCharacter = /[ `!@#$%^&*()+_\-=\[\]{};':"\\|,.<>\/?~]/;
             let split_picture = profilePicture.val().split('.');
             let extension = split_picture[split_picture.length-1];
-            // if(!profilePicture.val().toLowerCase().includes('.jpeg') ){
-            //     event.preventDefault();
-            //     $(`#error-profilePicture`).empty();
-            //     $(`#error-profilePicture`).append('<p class="error"> Error: Please upload photo in .jpeg format</p>')
-            //     profilePicture.focus()
-            //     return
-            // }
-            // else{
-            //     $(`#error-profilePicture`).empty();
-            // }
 
-            // if(password.val().trim().length==0){
-            //     event.preventDefault();
-            //     $("#error-password").empty();
-            //     $("#error-password").append('<p class="error"> Error: Please enter the password! <p>')
-            //     $("#password").focus()
-            //     return
-            // }
-            // else if(password.val().trim().length < 8 || password.val().trim().length > 15){
-            //     event.preventDefault();
-            //     $("#error-password").empty();
-            //     $("#error-password").append('<p class="error"> Error: Password must be minimum of 8 characters and maximum of 15 characters </p>')
-            //     $("#password").focus()
-            //     return
-            // }
-            // else if(!password.val().match(upperCaseLetters) || !password.val().match(lowerCaseLetters) || !password.val().match(numbers) || !allSpecialCharacter.test(password.val())){
-            //     event.preventDefault();
-            //     $("#error-password").empty();
-            //     $("#error-password").append('<p class="error"> Error: Password must be a combination of uppercase, lowercase, special character and a number!! </p>')
-            //     $("#password").focus()
-            //     return
-            // }
-            // else{
-            //     $("#error-password").empty();
-            // } 
-            
-            // if(confirmPassword.val() !== password.val()){
-            //     event.preventDefault();
-            //     $("#error-confirmPassword").empty();
-            //     $("#error-confirmPassword").append('<p class="error"> Error: Password and confirm password should match </p>')
-            //     confirmPassword.focus()
-            //     return
-            // }
-            // else{
-            //     $("#error-confirmPassword").empty();
-            // }
-            // let companyName = $('#companyName')
-            // if(companyName.val().trim().length==0){
-            //     event.preventDefault();
-            //     $("#error-companyName").empty();
-            //     $("#error-companyName").append('<p class="error"> Error: Please enter the Comapny Name! <p>')
-            //     $("#companyName").focus()
-            //     return
-            // }
-            // else{
-            //     $("#error-companyName").empty();
-            // }
-           
-            // if(phoneNumber.val().trim() == 0){
-            //     event.preventDefault();
-            //     $("#error-phoneNumber").empty();
-            //     $("#error-phoneNumber").append('<p class="error"> Error: Please enter the phone number</p>')
-            //     $("#phoneNumber").focus()
-            //     return
-            // }
-            // else if(phoneNumber.val().length != 10){
-            //     event.preventDefault();
-            //     $("#error-phoneNumber").empty();
-            //     $("#error-phoneNumber").append(`<p class="error"> Error: Please enter a valid phone number</p>`)
-            //     $("#phoneNumber").focus()
-            //     return
-            // }
-            // else if(!phoneNumber.val().match("[0-9]+")){
-            //     event.preventDefault();
-            //     $("#error-phoneNumber").empty();
-            //     $("#error-phoneNumber").append(`<p class="error"> Error: Please enter a valid phone number</p>`)
-            //     $("#phoneNumber").focus()
-            //     return
-            // }
-            // else{
-            //     $("#error-phoneNumber").empty();
-            // }
-            // if(category.val().trim().length==0){
-            //     event.preventDefault();
-            //     $("#error-category").empty();
-            //     $("#error-category").append('<p class="error"> Error: Please enter some Category! Example: IT, CS, HR... <p>')
-            //     $("#category").focus()
-            //     return
-            // }
-            // else{
-            //     $("#error-category").empty();
-            // }
-            // if(address.val().trim().length == 0){
-            //     event.preventDefault();
-            //     $("#error-address").empty();
-            //     $("#error-address").append('<p class="error"> Error: Please enter the address</p>')
-            //     $("#address").focus()
-            //     return
-            // }
-            // else{
-            //     $("#error-address").empty();
-            // }
-
-            for(let current=10000; current<=jobDetailsCount;current++){
-                if($("input").hasClass(`${current}`)){
-                    let jobTitle = $(`#jobTitle${current}`)
-                    let jobLocation = $(`#jobLocation${current}`)
-                    let jobCategory = $(`#jobCategory${current}`)
-                    let yearsOfExperience = $(`#yearsOfExperience${current}`)
-                    let salaryMin = $(`#salaryMin${current}`)
-                    let salaryMax = $(`#salaryMax${current}`)
-                    let jobDescription = $(`#jobDescription${current}`)
-                    let jobQualification = $(`#jobQualification${current}`) 
-                    let skillsLookUp = $(`#skillsLookUp${current}`)
-                    if(jobTitle.val().trim().length ==0){
-                        event.preventDefault();
-                        $(`#error-jobTitle${current}`).empty();
-                        $(`#error-jobTitle${current}`).append('<p class="error"> Error: Please enter the Job Title</p>')
-                        jobTitle.focus()
-                        return
-                    }
-                    else{
-                        $(`#error-jobTitle${current}`).empty();
-                    }
-
-                    if(jobLocation.val().trim().length ==0){
-                        event.preventDefault();
-                        $(`#error-jobLocation${current}`).empty();
-                        $(`#error-jobLocation${current}`).append('<p class="error"> Error: Please enter the Job Location</p>')
-                        jobLocation.focus()
-                        return
-                    }
-                    else{
-                        $(`#error-jobLocation${current}`).empty();
-                    }
-
-                    if(jobCategory.val().trim().length ==0){
-                        event.preventDefault();
-                        $(`#error-jobCategory${current}`).empty();
-                        $(`#error-jobCategory${current}`).append('<p class="error"> Error: Please enter some job category</p>')
-                        jobCategory.focus()
-                        return
-                    }
-                    else{
-                        $(`#error-jobCategory${current}`).empty();
-                    }
-                    if(yearsOfExperience.val().trim().length ==0 ){
-                        event.preventDefault();
-                        $(`#error-yearsOfExperience${current}`).empty();
-                        $(`#error-yearsOfExperience${current}`).append('<p class="error"> Error: Please enter a years of Experience. If not needed, enter N/A <p>')
-                        yearsOfExperience.focus()
-                        return
-                    }
-                    else{
-                        $(`#error-yearsOfExperience${current}`).empty();
-                    }
-                    
-                    if(salaryMin.val().trim().length ==0){
-                        event.preventDefault();
-                        $(`#error-salary${current}`).empty();
-                        $(`#error-salary${current}`).append('<p class="error"> Error: Please enter minimum and maximum salary</p>')
-                        salaryMin.focus()
-                        return
-                    }
-                    else if(salaryMax.val().trim().length ==0 ){
-                        event.preventDefault();
-                        $(`#error-salary${current}`).empty();
-                        $(`#error-salary${current}`).append('<p class="error"> Error: Please enter minimum and maximum salary</p>')
-                        salaryMax.focus()
-                        return
-                    }
-                    else if(parseInt(salaryMin.val(),10) > parseInt(salaryMax.val(),10)){
-                        event.preventDefault();
-                        $(`#error-salary${current}`).empty();
-                        $(`#error-salary${current}`).append('<p class="error"> Error: Please enter a valid minimum and maximum salary</p>')
-                        salaryMax.focus()
-                        return
-                    }
-                    else{
-                        $(`#error-salary${current}`).empty();
-                    }  
-
-                    if(jobDescription.val().trim().length ==0){
-                        event.preventDefault();
-                        $(`#error-jobDescription${current}`).empty();
-                        $(`#error-jobDescription${current}`).append('<p class="error"> Error: Please enter some job Description</p>')
-                        jobDescription.focus()
-                        return
-                    }
-                    else{
-                        $(`#error-jobDescription${current}`).empty();
-                    }
-                    if(jobQualification.val().trim().length ==0){
-                        event.preventDefault();
-                        $(`#error-jobQualification${current}`).empty();
-                        $(`#error-jobQualification${current}`).append('<p class="error"> Error: Please enter some job qualification</p>')
-                        jobQualification.focus()
-                        return
-                    }
-                    else{
-                        $(`#error-jobQualification${current}`).empty();
-                    }
-                    if(skillsLookUp.val().trim().length ==0){
-                        event.preventDefault();
-                        $(`#error-skillsLookUp${current}`).empty();
-                        $(`#error-skillsLookUp${current}`).append('<p class="error"> Error: Please enter some job qualification</p>')
-                        skillsLookUp.focus()
-                        return
-                    }
-                    else{
-                        $(`#error-skillsLookUp${current}`).empty();
-                    }
-                }else{
-                    $(`#error-skillsLookUp${current}`).empty();
-                    continue;
-                }
+            if(!profilePicture.val().toLowerCase().includes('.jpeg') ){
+                event.preventDefault();
+                $(`#error-profilePicture`).empty();
+                $(`#error-profilePicture`).append('<p class="error"> Error: Please upload photo in .jpeg format</p>')
+                profilePicture.focus()
+                return
+            }
+            else{
+                $(`#error-profilePicture`).empty();
             }
         });
 
     }
     checkForm()
     
+
+    let skillsInput = $('#skillsLookUp');
+    let skillsList = $('#skillsLookUp');
+    let selectedSkills = $('#insertedSkills');
+    let skillsDiv = $('#skillsList');
+
+    function skillsAddition(){
+        var skills = getSkills();
+        skillsList.autocomplete({
+            source: skills,
+            minLength: 1,
+            select: function(event, ui){
+                if(selectedSkills.children().length == 0 ) $('#skillsHeading').html('Skills List');
+                skillsInput.val("");
+                $('#filteredSearchBarErrorState').empty();
+                selectedSkills.append("<li id='" + ui.item.value + "'>"
+                + ui.item.value + " <input type='hidden' name='skills[]' value='" + ui.item.value + "'/>"
+                //+ "<button onclick='document.getElementById(\"" + ui.item.value + "\".remove())>Remove</button>"
+                + "<button onclick='document.getElementById(\"" + ui.item.value + "\").remove()'>Remove</button>"
+                + "</li>");
+                return false;
+            }
+        });
+    }
+    skillsAddition();
+
+
+  
 })(window.jQuery);
 
+
+function readURL(input) {
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+
+        reader.onload = function (e) {
+            $('#blah').attr('src', e.target.result);
+        };
+
+        reader.readAsDataURL(input.files[0]);
+    }
+}
 
 $(document).on("click", ".clone .remove-Work", function (e) {
     $(e.target).parent().parent().remove();
 });
 
 function addMoreDetails() {
-    jobDetailsCount+=1
     let wrapper = $('#job-wrapper');
     let html = `<div class="col-md-12 d-flex justify-content-between mt-5 align-items-center clone">
                 <div class="col-md-5 mx-3">
@@ -725,244 +555,109 @@ function addMoreDetails() {
                     <div class="d-flex flex-column" id="workInformation">
                         <div class="form-group">
                             <label for="JobTitle">Job Title</label>
-                            <input type="text" class="form-control ${jobDetailsCount}" id="jobTitle${jobDetailsCount}" name="jobTitle" placeholder="">
+                            <input type="text" class="form-control" id="JobTitle" name="jobTitle" placeholder="">
                         </div>
-                        <div class="error-jobTitle${jobDetailsCount} error" id="error-jobTitle${jobDetailsCount}"></div>
                         <div class="form-group">
                             <label for="JobLocation">Job Location</label>
-                            <input type="text" class="form-control ${jobDetailsCount}" id="jobLocation${jobDetailsCount}" name="jobLocation"
+                            <input type="text" class="form-control" id="JobLocation" name="jobLocation"
                                 placeholder="">
                         </div>
-                        <div class="error-jobLocation${jobDetailsCount} error" id="error-jobLocation${jobDetailsCount}"></div>
+
                         <div class="form-group">
                             <label for="JobCategory">Job Category</label>
-                            <input type="text" class="form-control ${jobDetailsCount}" id="jobCategory${jobDetailsCount}" name="jobCategory"
+                            <input type="text" class="form-control" id="JobCategory" name="jobCategory"
                                 placeholder="">
                         </div>
-                        <div class="error-jobCategory${jobDetailsCount} error" id="error-jobCategory${jobDetailsCount}"></div>
                         <div class="form-group">
                             <label for="yearsOfExperience">Years of Experience</label>
-                            <input type="number" class="form-control ${jobDetailsCount}" id="yearsOfExperience${jobDetailsCount}" name="yearsOfExperience"
+                            <input type="number" class="form-control" id="yearsOfExperience" name="yearsOfExperience"
                                 placeholder="">
                         </div>
-                        <div class="error-yearsOfExperience${jobDetailsCount} error" id="error-yearsOfExperience${jobDetailsCount}"></div>
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="SalaryMin">Salary Min</label>
-                                    <input type="text" class="form-control ${jobDetailsCount}" id="salaryMin${jobDetailsCount}" name="salaryMin"
+                                    <input type="text" class="form-control" id="salaryMin" name="salaryMin"
                                         placeholder="">
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="SalaryMax">Salary Max</label>
-                                    <input type="text" class="form-control ${jobDetailsCount}" id="salaryMax${jobDetailsCount}" name="salaryMax"
+                                    <input type="text" class="form-control" id="salaryMax" name="salaryMax"
                                         placeholder="">
                                 </div>
                             </div>
                         </div>
-                        <div class="error-salary${jobDetailsCount} error" id="error-salary${jobDetailsCount}"></div>
                     </div>
                 </div>
                 <div class="col-md-5 mx-3">
                     <div class="form-group">
                         <label for="jobDescription">Job Description</label>
-                        <textarea class="form-control ${jobDetailsCount}" rows="5" id="jobDescription${jobDetailsCount}" name="jobDescription"
+                        <textarea class="form-control" rows="5" id="jobDescription" name="jobDescription"
                             placeholder=""></textarea>
                     </div>
-                    <div class="error-jobDescription${jobDetailsCount} error" id="error-jobDescription${jobDetailsCount}"></div>
                     <div class="form-group">
                         <label for="jobQualification">Qualification</label>
-                        <textarea class="form-control ${jobDetailsCount}"  id="jobQualification${jobDetailsCount}" name="jobQualification"
+                        <textarea class="form-control"  id="jobQualification" name="jobQualification"
                             placeholder=""></textarea>
                     </div>
-                    <div class="error-jobQualification${jobDetailsCount} error" id="error-jobQualification${jobDetailsCount}"></div>
                     <div class="form-group">
                         <label for="skillsLookUp">Skills</label>
-                        <input  class="form-control ${jobDetailsCount}" id="skillsLookUp${jobDetailsCount}" name="skillsLookup" type="text" placeholder="Skills"/>
+                        <input  class="form-control" id="skillsLookUp" name="skillsLookup" type="text" placeholder="Skills"/>
                         </div>
-                        <div class="error-skillsLookUp${jobDetailsCount} error" id="error-skillsLookUp${jobDetailsCount}}"></div>
                     <div id="skillsList">
                         <h4 id="skillsHeading"></h4>
                         <ul id="insertedSkills"></ul>
                     </div>
                 </div>
-            </div>
-            <div class="error-jobDetails${projectCount} error" id="error-jobDetails${projectCount}" ><div> `;
+            </div>`;
     wrapper.append(html);
 }
 
 
 
+function readURL(input) {
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
 
+        reader.onload = function (e) {
+            $('#blah').attr('src', e.target.result);
+        };
 
-
-function addMoreProject() {
-    projectCount+=1
-    let wrapper = $('#project-wrapper');
-    let html = `<div class="col-md-12 py-2 d-flex justify-content-between align-items-center clone">
-                <div class="col-md-5">
-                   <span class="remove-project">remove</span>
-                    <div class="d-flex" id="project">
-                        <div class="d-flex flex-column">
-                            <div class="form-group">
-                                <label for="ConfirmPassword">Project Title</label>
-                                <input type="text" class="form-control ${projectCount}" id="projectTitle${projectCount}" name="project[projectTitle]"
-                                    placeholder="" >
-                            </div>
-                            <div class="form-group">
-                    <label for="projectDesc">Project Description</label>
-                    <input type="text" class="form-control ${projectCount}" id="projectDesc${projectCount}" name="project[projectDesc]" placeholder="" >
-                </div>
-                            <div class="d-flex">
-                                <div class="fd-flex flex-column">
-                                    <label for="ConfirmPassword">Start Date</label>
-                                    <div>
-                                        <input type='date' id="projectStartDate${projectCount}" name="project[startDate]"
-                                            class="btn btn-outline-primary my-3" ${projectCount} onchange="readURL(this);"  />
-                                    </div>
-                                </div>
-                                <div class="fd-flex pl-2 flex-column">
-                                    <label for="ConfirmPassword">End Date</label>
-                                    <div>
-                                        <input type='date' id="projectEndDate${projectCount}" name="project[endDate]"
-                                            class="btn btn-outline-primary my-3" ${projectCount} onchange="readURL(this);"  />
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="error-project${projectCount} error" id="error-project${projectCount}" ><div>`
-    wrapper.append(html);
+        reader.readAsDataURL(input.files[0]);
+    }
 }
-$(document).on("click", ".clone .remove-project", function (e) {
-    $(e.target).parent().parent().remove();
-});
-
-function addMoreWorkInformation() {
-    workCount +=1
-    let wrapper = $('#work-information-wrapper');
-     let html = `<div class="col-md-12 py-2 d-flex justify-content-between align-items-center clone" >
-                 <div class="col-md-5">
-                  <span class="remove-Work">remove</span>
-                     <div class="d-flex flex-column" id="workInformation">
-                         <div class="form-group">
-                             <label for="companyName">Company Name</label>
-                             <input type="text" class="form-control ${workCount}" id="companyName${workCount}" name="workDes[companyName]"
-                                 placeholder="" >
-                         </div>
-                         <div class="form-group">
-                             <label for="jobTitle">Job Title</label>
-                             <input type="text" class="form-control ${workCount}" id="jobTitle${workCount}" name="workDes[jobTitle]" placeholder="" >
-                         </div>
-                     </div>
-                 </div>
-                 <div class="col-md-5 d-flex flex-column mx-3">
-                     <div class="d-flex flex-row">
-                         <div class="d-flex flex-column">
-                             <label for="workStartDate">Start Date</label>
-                             <div>
-                                 <input type='date' id="workStartDate${workCount}" name="workDes[workStartDate]"
-                                     class="btn btn-outline-primary ${workCount} my-3" onchange="readURL(this);" />
-                             </div>
-                         </div>
-                         <div class="fd-flex pl-2 flex-column">
-                             <label for="workEndDate">End Date</label>
-                             <div>
-                                 <input type='date' id="workEndDate${workCount}" name="workDes[workEndDate]" class="btn btn-outline-primary ${workCount} my-3"
-                                     onchange="readURL(this);" />
-                             </div>
-                         </div>
-                     </div>
-                     <div class="form-group">
-                         <label for="description">Job Description</label>
-                         <textarea class="form-control ${workCount}" columns="5" id="description${workCount}" name="workDes[WorkDescription]"
-                             placeholder=""></textarea>
-                     </div>
-                 </div>
-             </div>
-             <div class="error-work${workCount} error" id="error-work${workCount}" ><div>`;
-     wrapper.append(html);
- }
- $(document).on("click", ".clone .remove-Work", function (e) {
-     $(e.target).parent().parent().remove();
- });
 
 
-function addMoreEducation() {
-    let wrapper = $('#education-wrapper');
-    i+=1;
-    let html = `<div class="col-md-12 py-2 d-flex justify-content-between align-items-center clone" id="education${i}">
-                <div class="col-md-5">
-                   <span class="remove-education">remove</span>
-                    <div class="d-flex" id="project">
-                        <div class="d-flex flex-column">
-                            <div class="form-group">
-                                    <label for="schoolName">School Name</label>
-                                    <input type="text" class="form-control ${i}" id="schoolName${i}" name="School[schoolName]"  >
-                                </div>
-                                <div class="form-group">
-                                    <label for="gpa">G.P.A</label>
-                                    <input type="number" class="form-control ${i}" step="0.01" min="0.00" max="4.00" id="gpa${i}" name="School[gpa]"  >
-                                </div>
-                        </div>
-                    </div>
-                </div>
-                                            <div class="col-md-6">
-                            <div class="form-group">
-                                    <div class="fd-flex flex-column ml-3">
-                                        <label for="startDate">Start Date</label>
-                                        <input type='date' id="educationStartDate${i}" name="School[startDate]" class="form-control ${i} btn btn-outline-primary" 
-                                            onchange="readURL(this);"  />
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="fd-flex flex-column ml-3">
-                                        <label for="endDate">End Date</label>
-                                        <input type='date' id="educationEndDate${i}" name="School[endDate]" class="form-control ${i} btn btn-outline-primary" 
-                                            onchange="readURL(this);"  />
-                                    </div>
-                                </div>
-                        </div>
-                    
-            </div>
-            <div class="error-resume${i} error" id="error-resume${i}" ><div>`;
-    wrapper.append(html);
 
-}
-$(document).on("click", ".clone .remove-education", function (e) {
-    $(e.target).parent().parent().remove();
-});
 
 function getSkills(){
-    return [
-        "Mongodb",
-        "Nodejs",
-        "Express",
-        "React",
-        "Software Architecture",
-        "Front-End Development",
-        "Back-End Development",
-        "Full-Stack Development",
-        "C",
-        "C++",
-        "C#",
-        "Java",
-        "Javascript",
-        "Python",
-        "Database Management",
-        "SQL",
-        "MySQL",
-        "SQLite",
-        "CAD",
-        "Machine Shop",
-        "Cybersecurity Analysis",
-        "Data Analytics",
-        "Project Management",
-        "Scrum",
-        "Agile Development"       
-    ];
+return [
+    "Mongodb",
+    "Nodejs",
+    "Express",
+    "React",
+    "Software Architecture",
+    "Front-End Development",
+    "Back-End Development",
+    "Full-Stack Development",
+    "C",
+    "C++",
+    "C#",
+    "Java",
+    "Javascript",
+    "Python",
+    "Database Management",
+    "SQL",
+    "MySQL",
+    "SQLite",
+    "CAD",
+    "Machine Shop",
+    "Cybersecurity Analysis",
+    "Data Analytics",
+    "Project Management",
+    "Scrum",
+    "Agile Development"       
+];
 };
