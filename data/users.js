@@ -67,7 +67,8 @@ let exportedMethods = {
       gender: updatedUser.gender,
       dob: updatedUser.dob,
       resumeUrl: updatedUser.resumeUrl,
-      websiteUrl: updatedUser.websiteUrl
+      websiteUrl: updatedUser.websiteUrl,
+      appliedJobs: []
     };
 
     const userCollection = await users();
