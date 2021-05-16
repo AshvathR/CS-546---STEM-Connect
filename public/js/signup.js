@@ -49,18 +49,21 @@
                 errorDiv.empty();
                 errorDiv.append('<p class="error"> Error: Please Enter Username and Email <p>')
                 username.focus();
+                return
             }
-            else if(specialCharacter.test(username.val)){
+            else if(specialCharacter.test(username.val())){
                 event.preventDefault();
                 errorDiv.empty();
                 errorDiv.append('<p class="error"> Error: Username should contain only \'_\' as a special character </p>')
                 username.focus();
+                return
             }
             else if(!validformat.test(email.val())){
                 event.preventDefault();
                 errorDiv.empty();
                 errorDiv.append('<p class="error"> Error: Please enter a valid Email </p>')
                 email.focus();
+                return
             }else{
                 errorDiv.empty();
             }
