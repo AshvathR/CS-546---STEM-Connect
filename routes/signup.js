@@ -28,7 +28,6 @@ router.post('/', async (req,res) => {
         //   res.status(401);
         //   res.render("general/signup",{currentTitle : "Login", currentHeader : "Login Form", hasErrors : true});
         // }
-
         let checkUsernameExists = await companyData.checkExistingUsername(username);
         let checkEmail = await companyData.checkExistingEmail(email)
         let checkUsernameExistsEmployee = await usersData.checkExistingUsername(username);
@@ -42,7 +41,7 @@ router.post('/', async (req,res) => {
         }
         else{
           res.status(401);
-          res.render("general/signup",{currentTitle : "Login", currentHeader : "Login Form", hasErrors : true});
+          res.render("general/signup",{currentTitle : "Signup", hasError : true});
         }
       }
       else{
@@ -68,7 +67,7 @@ router.post('/', async (req,res) => {
         }
         else{
           res.status(401);
-          res.render("general/signup",{currentTitle : "Login", currentHeader : "Login Form", hasErrors : true});
+          res.render("general/signup",{currentTitle : "Signup", hasError : true});
         }
       }
     }

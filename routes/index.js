@@ -5,7 +5,6 @@ const landing = require('./landing');
 const loginRoutes = require('./login');
 const signupRoutes = require('./signup');
 const userProfile = require('./userProfile');
-const notFoundError = require('./404page.js');
 const successCreation = require('./successCreation.js');
 const searchApi = require('./searchApi');
 const logout = require('./logout') 
@@ -22,7 +21,8 @@ const constructorMethod = (app) => {
     app.use('/login', loginRoutes);
     app.use('/signup', signupRoutes);
     app.use('*', (req, res) => {
-        res.redirect('/');
+        res.redirect(404, '/');
+
     });
 };
 

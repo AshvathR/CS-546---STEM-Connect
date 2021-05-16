@@ -11,29 +11,6 @@ const multer = require('multer');
 const bcrypt = require('bcryptjs');
 const saltRounds = 16;
 
-// const extractValue = (body, fields) =>
-//   fields.reduce((acc, { propKey, elementKey }) => {
-//     const value = body[elementKey];
-//     return { ...acc, [propKey]: value || null };
-//   }, {});
-
-// const extractJobValue = (body, fields, key="jobTitle") => {
-//   if (Array.isArray(body[key])) {
-//     const values = [];
-//     for(const count in body[key]) {
-//       const value = fields.reduce((acc, value )=> {
-//         acc[value.propKey] = body[value.elementKey][count] || null
-//         return acc;
-//       }, {})
-//       values.push(value);
-//     }
-//     return values;
-//   } else {
-//     return [extractValue(body, fields)]
-//   }
-
-// }
-
 
 let profilePictureUrl;
 let resumeUrl;
@@ -71,27 +48,6 @@ const storage = multer.diskStorage({
 
 
 
-  // const resumeStorage = multer.diskStorage({
-  //   //destination for files
-  //   destination: function (request, file, callback) {
-  //     callback(null, './public/uploads/employeeImages/resume');
-  //   },
-  
-  //   //add back the extension
-  //   filename: function (request, file, callback) { 
-  //       resumeUrl =  request.session.username + "_resume_.pdf" 
-  //     callback(null, resumeUrl);
-  //   },
-  // });
-  
-  // //upload parameters for multer
-  // const uploadResume = multer({
-  //   storage: resumeStorage,
-  //   limits: {
-  //     fieldSize: 1024 * 1024 * 3,
-  //   },
-  // });
-
 router.get("/:type/form", async (req, res) => {
   res.render("employee/employeeInfo", {
     title: "STEMConnect",
@@ -104,29 +60,14 @@ router.get("/:type/form", async (req, res) => {
 let multipleUpload = upload.fields([{ name: 'profilePicture' }, {name:'uploadResume'}]) 
 
 router.post("/createNewUser", multipleUpload, async (req, res) => {
-  // const companyInfo = extractValue(req.body, companyFields);
-  // const resumeInfo = extractValue(req.body, resumeFields);
-  // const projectInfo = extractValue(req.body, projectFields);
-  // const jobDetailInfo = extractValue(req.body, projectFields);
-  // console.log(companyInfo)
-  // await data.company.addCompany(companyInfo)
-  // await data.userResume.addResume(resumeInfo)
-  // await data.projects.addProject(projectInfo)
-  // await data.jobDetails.addJob(jobDetailInfo)
+
   console.log(req.body)
   const workDes = req.body.workDes
   const school = req.body.School
   const project = req.body.project
 
   personalInfo = req.body;
-  // if((/^(?:(?:https?|ftp):\/\/)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,})))(?::\d{2,5})?(?:\/\S*)?$/).test(personalInfo.websiteUrl) === true){
-  //   personalInfo.websiteUrl = "you are shit"
-  // }
-  // else{
-  //   personalInfo.websiteUrl = "you are shittttttttt"
-  // }
- // personalInfo.websiteUrl = (personalInfo.websiteUrl).test(/^https?\:\/\/(www.)?/, "");
-  // console.log(personalInfo.websiteUrl);
+
   const hashedPassword = await bcrypt.hash(req.body.password, saltRounds);
   // Add User
   const newUser = await user.addUser(`/public/uploads/employeeFiles/profilePictures/${profilePictureUrl}`,
@@ -174,7 +115,7 @@ if(req.body.School) {
       education.push(tempSchool)
     }
   }
-  const skills = (req.body.resume.skills).split(',')
+  const skills = (req.body.resume.skills)
 
 //Add Resume
   const newResume = await resume.addResume(education,skills,'',`CS_546_group23_final_project/public/uploads/employeeImages/resume/${resumeUrl}`,req.body.resume.workStatus,req.body.resume.year,true)
@@ -235,14 +176,7 @@ try{
 
       }
   }
-  // console.log(newUser)
   
-  // res.render("company/successScreen", {
-  //   title: "STEMConnect",
-  //   auth: false,
-  //   listingType: "Resume",
-  //   notLoginPage: true,
-  // });
   res.redirect('/profile');
 });
 

@@ -53,9 +53,8 @@ router.post('/', async (req, res) => {
             res.redirect(`/profile`); //res.redirect(`/company/${currentID}`);
         }
         else{
-          console.log("else POST LOGIN")
           res.status(401);
-          res.render('general/login', { title: "Log In" ,  auth: false, notLoginPage: false});
+          res.render('general/login', { title: "Log In" ,  auth: false, hasError:true, notLoginPage: false});
         }
       }
       else{
